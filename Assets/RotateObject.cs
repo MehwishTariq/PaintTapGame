@@ -15,7 +15,7 @@ public class RotateObject : MonoBehaviour
 
     private void Update()
     {
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
