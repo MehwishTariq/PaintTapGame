@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class RotateObject : MonoBehaviour
 {
-    Camera cam;
-    public float speed = 3f;
-    Vector2 touchStartPos;
+    public float speed= 0;
+    Vector2 touchStartPos, rotationEuler;
 
-    private void Start()
+    private void OnEnable()
     {
-        cam = Camera.main;
+#if !UNITY_EDITOR
+        speed = 0.01f;
+#else
+        speed = 10f;
+#endif
     }
 
     private void Update()
     {
 #if !UNITY_EDITOR
+        
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -27,17 +31,24 @@ public class RotateObject : MonoBehaviour
                     break;
 
                 case TouchPhase.Moved:
-                    Vector2 touchDelta = touch.position - touchStartPos;
-                    transform.eulerAngles += new Vector3(touchDelta.y, touchDelta.x, 0) * speed * Time.deltaTime;
+                   Vector2 touchDelta = touch.position - touchStartPos;
+                rotationEuler.x -= -touchDelta.y;
+                rotationEuler.y -= touchDelta.x;
+
+                transform.localRotation = Quaternion.Euler(rotationEuler * speed);
                     // Move the cube if the screen has the finger moving.
                     break;
             }
         }
-        
+
 #else
+        
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-        transform.eulerAngles += new Vector3(vertical,horizontal, 0) * speed * Time.deltaTime;
+        rotationEuler.x += -vertical;
+        rotationEuler.y -= horizontal;
+
+        transform.localRotation = Quaternion.Euler(rotationEuler * speed);
 #endif
     }
 }
