@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     public void SetColor(Image img)
     {
         chosenClr = img.color;
+        ObjectColor.onColorSelected?.Invoke(chosenClr);
     }
 
     public void FillColors()

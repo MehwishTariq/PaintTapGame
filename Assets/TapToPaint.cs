@@ -29,6 +29,7 @@ public class TapToPaint : MonoBehaviour
                 {
                     info.collider.gameObject.GetComponent<ObjectColor>().colored = true;
                     info.collider.GetComponent<Renderer>().material.SetColor("_Color", UIManager.chosenClr);
+                    info.collider.GetComponent<Outline>().enabled = false;
                 }
             }
         }

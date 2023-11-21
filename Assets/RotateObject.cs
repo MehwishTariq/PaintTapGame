@@ -9,7 +9,7 @@ public class RotateObject : MonoBehaviour
 
     private void OnEnable()
     {
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
         speed = 0.01f;
 #else
         speed = 10f;
@@ -18,7 +18,7 @@ public class RotateObject : MonoBehaviour
 
     private void Update()
     {
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
         
         if (Input.touchCount > 0)
         {
