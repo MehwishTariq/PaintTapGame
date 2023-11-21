@@ -34,8 +34,8 @@ public class RotateObject : MonoBehaviour
                    Vector2 touchDelta = touch.position - touchStartPos;
                 rotationEuler.x -= -touchDelta.y;
                 rotationEuler.y -= touchDelta.x;
-
-                transform.localRotation = Quaternion.Euler(rotationEuler * speed);
+                    Debug.Log("this1111");
+                    transform.localRotation = Quaternion.Euler(rotationEuler * speed);
                     // Move the cube if the screen has the finger moving.
                     break;
             }
@@ -47,7 +47,7 @@ public class RotateObject : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
         rotationEuler.x += -vertical;
         rotationEuler.y -= horizontal;
-
+        Debug.Log("this2222");
         transform.localRotation = Quaternion.Euler(rotationEuler * speed);
 #endif
     }
