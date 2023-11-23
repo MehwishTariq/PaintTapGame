@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -9,12 +10,19 @@ public class UIManager : MonoBehaviour
     public Transform content;
     public GameObject paintImg;
     public static Color chosenClr;
+    public RectTransform area;
+    public GameObject completePanel;
     public List<Color> colorsSet { get; set; }
 
     private void Awake()
     {
         instance = this;
         colorsSet = new List<Color>();
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(0);
     }
 
     public void SetColor(Image img)

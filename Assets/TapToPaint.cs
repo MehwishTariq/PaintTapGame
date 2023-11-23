@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,6 @@ public class TapToPaint : MonoBehaviour
 {
     Camera cam;
     RaycastHit info;
-   
 
     private void Start()
     {
@@ -25,11 +25,15 @@ public class TapToPaint : MonoBehaviour
                     return;
                 string clr1 = ColorUtility.ToHtmlStringRGBA(info.collider.gameObject.GetComponent<ObjectColor>().objClr);
                 string clr2 = ColorUtility.ToHtmlStringRGBA(UIManager.chosenClr);
-                if (clr1.Equals(clr2))
+                if (!info.collider.gameObject.GetComponent<ObjectColor>().colored)
                 {
-                    info.collider.gameObject.GetComponent<ObjectColor>().colored = true;
-                    info.collider.GetComponent<Renderer>().material.SetColor("_Color", UIManager.chosenClr);
-                    info.collider.GetComponent<Outline>().enabled = false;
+                    if (clr1.Equals(clr2))
+                    {
+                        info.collider.gameObject.GetComponent<ObjectColor>().colored = true;
+                        info.collider.GetComponent<Renderer>().material.SetColor("_Color", UIManager.chosenClr);
+                        info.collider.GetComponent<Outline>().enabled = false;
+                        LevelManager.checkLevel?.Invoke();
+                    }
                 }
             }
         }
