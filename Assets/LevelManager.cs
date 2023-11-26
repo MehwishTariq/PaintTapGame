@@ -6,12 +6,14 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     public List<GameObject> objsInlevel;
-    static int objsColored = 0;
-    public static Action checkLevel;
+    public int objsColored = 0;
+    public static Action<bool> checkLevel;
 
-    void CheckLevel()
+    void CheckLevel(bool colored)
     {
-        objsColored++;
+        if(colored)
+            objsColored++;
+
         if (objsColored >= objsInlevel.Count)
         {
             UIManager.instance.completePanel.SetActive(true);

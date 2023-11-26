@@ -47,7 +47,9 @@ public class RotateObject : MonoBehaviour
             if (RectTransformUtility.RectangleContainsScreenPoint(UIManager.instance.area, touch0.position))
             {
                 // Apply zoom to the object, clamped between minZoom and maxZoom
-                transform.localScale = Vector3.ClampMagnitude(transform.localScale + new Vector3(zoomAmount, zoomAmount, zoomAmount), maxZoom);
+                Vector3 newScale = Vector3.ClampMagnitude(transform.localScale + new Vector3(zoomAmount, zoomAmount, zoomAmount), maxZoom);
+                newScale = Vector3.Max(newScale, Vector3.one * minZoom);
+                transform.localScale = newScale;
 
                 initialPinchDistance = currentPinchDistance;
             }
@@ -81,7 +83,7 @@ public class RotateObject : MonoBehaviour
             }
         }
 #else
-       
+
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
