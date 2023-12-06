@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotateObject : MonoBehaviour
+public class RotateCamera : MonoBehaviour
 {
     public float rotationSpeed = 10f;
     public float zoomSpeed = 0.5f;
@@ -12,12 +12,13 @@ public class RotateObject : MonoBehaviour
     private Vector2 touchStartPos;
     private Vector3 rotationEuler;
     private float initialPinchDistance;
-
-    public float minX, maxX;
+    public Transform target;
+    public float minRotation;
+    public float maxRotation;
 
     private void OnEnable()
     {
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
         rotationSpeed = 10f;
         zoomSpeed = 15f;
 #else
@@ -75,9 +76,11 @@ public class RotateObject : MonoBehaviour
                     if (RectTransformUtility.RectangleContainsScreenPoint(UIManager.instance.area, touch.position))
                     {
                         // Rotate the object locally
-                        transform.Rotate(Vector3.up, horizontalRotation, Space.World);
-                        transform.Rotate(Vector3.forward, verticalRotation, Space.World);
+                        transform.RotateAround(target.position, Vector3.forward, verticalRotation);
 
+                        // Rotate the object locally
+                        transform.RotateAround(target.position, -Vector3.up, horizontalRotation);
+                       
                         touchStartPos = touch.position; // Update the touch start position
                     }
                     break;
@@ -91,19 +94,29 @@ public class RotateObject : MonoBehaviour
         // Calculate the rotation angles based on input
         float horizontalRotation = horizontalInput * rotationSpeed * Time.deltaTime;
         float verticalRotation = verticalInput * rotationSpeed * Time.deltaTime;
-        
-        transform.Rotate(Vector3.forward, verticalRotation, Space.World);
-        Vector3 currentRotation = transform.localRotation.eulerAngles;
-        currentRotation.z = Mathf.Clamp(currentRotation.z, minX, maxX);
-        transform.localRotation = Quaternion.Euler(currentRotation);
-        // Rotate the object locally
-        transform.Rotate(Vector3.up, horizontalRotation, Space.World);
 
+        transform.RotateAround(target.position,Vector3.forward, verticalRotation);
+        
+        // Rotate the object locally
+        transform.RotateAround(target.position, -Vector3.up, horizontalRotation);
+        
         float scrollWheel = Input.GetAxis("Mouse ScrollWheel");
         float zoomAmount = scrollWheel * zoomSpeed * Time.deltaTime;
         Vector3 newScale = Vector3.ClampMagnitude(transform.localScale + new Vector3(zoomAmount, zoomAmount, zoomAmount), maxZoom);
         newScale = Vector3.Max(newScale, Vector3.one * minZoom);
         transform.localScale = newScale;
 #endif
+    }
+
+    // Helper function to handle wrap-around for angles
+    float WrapAngle(float angle)
+    {
+        while (angle < 0f)
+            angle += 360f;
+
+        while (angle >= 360f)
+            angle -= 360f;
+
+        return angle;
     }
 }
