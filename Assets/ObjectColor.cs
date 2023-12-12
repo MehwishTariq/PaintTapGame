@@ -7,7 +7,7 @@ public class ObjectColor : MonoBehaviour
 {
     public Color objClr;
     public bool colored;
-    public static Action<Color> onColorSelected;
+    public static Action<Color> onColorSelected, onColored;
     
 
     private void OnEnable()
@@ -23,10 +23,11 @@ public class ObjectColor : MonoBehaviour
     void HighlightObject(Color clr)
     {
         GetComponent<Outline>().enabled = false;
+        GetComponent<Collider>().enabled = false;
         if (clr.Equals(objClr) && !colored)
         {
             GetComponent<Outline>().enabled = true;
-           
+            GetComponent<Collider>().enabled = true;
         }
     }
 

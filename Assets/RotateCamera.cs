@@ -15,15 +15,22 @@ public class RotateCamera : MonoBehaviour
     public Transform target;
     public float minRotation;
     public float maxRotation;
+    Camera cam;
+
+    private void Start()
+    {
+        cam = GetComponent<Camera>();
+        orignalPos = transform.position;
+    }
 
     private void OnEnable()
     {
 #if UNITY_EDITOR
-        rotationSpeed = 10f;
-        zoomSpeed = 15f;
-#else
         rotationSpeed = 100f;
-        zoomSpeed = 10f;
+        zoomSpeed = 150f;
+#else
+        rotationSpeed = 10f;
+        zoomSpeed = 0.5f;
 #endif
     }
 
@@ -48,10 +55,16 @@ public class RotateCamera : MonoBehaviour
 
             if (RectTransformUtility.RectangleContainsScreenPoint(UIManager.instance.area, touch0.position))
             {
-                // Apply zoom to the object, clamped between minZoom and maxZoom
-                Vector3 newScale = Vector3.ClampMagnitude(transform.localScale + new Vector3(zoomAmount, zoomAmount, zoomAmount), maxZoom);
-                newScale = Vector3.Max(newScale, Vector3.one * minZoom);
-                transform.localScale = newScale;
+                
+                if (zoomAmount > 0)
+                {
+                    Ray pos = cam.ScreenPointToRay(touch0.position);
+                    TargetZoom(Mathf.Abs(zoomAmount), pos);
+                }
+                else
+                {
+                    ZoomOut(Mathf.Abs(zoomAmount));
+                }
 
                 initialPinchDistance = currentPinchDistance;
             }
@@ -76,11 +89,13 @@ public class RotateCamera : MonoBehaviour
                     if (RectTransformUtility.RectangleContainsScreenPoint(UIManager.instance.area, touch.position))
                     {
                         // Rotate the object locally
-                        transform.RotateAround(target.position, Vector3.forward, verticalRotation);
+                        //transform.RotateAround(target.position, Vector3.forward, verticalRotation);
 
                         // Rotate the object locally
-                        transform.RotateAround(target.position, -Vector3.up, horizontalRotation);
-                       
+                        //transform.RotateAround(target.position, -Vector3.up, horizontalRotation);
+                        
+                        target.Rotate(-Vector3.forward, verticalRotation, Space.World);
+                        target.Rotate(Vector3.up, horizontalRotation, Space.World);
                         touchStartPos = touch.position; // Update the touch start position
                     }
                     break;
@@ -95,28 +110,50 @@ public class RotateCamera : MonoBehaviour
         float horizontalRotation = horizontalInput * rotationSpeed * Time.deltaTime;
         float verticalRotation = verticalInput * rotationSpeed * Time.deltaTime;
 
-        transform.RotateAround(target.position,Vector3.forward, verticalRotation);
         
-        // Rotate the object locally
-        transform.RotateAround(target.position, -Vector3.up, horizontalRotation);
+        target.Rotate(-Vector3.forward, verticalRotation, Space.World);
+        target.Rotate(Vector3.up, horizontalRotation, Space.World);
+
+       // transform.RotateAround(target.position,Vector3.forward, verticalRotation);
+       // transform.RotateAround(target.position, -Vector3.up, horizontalRotation);
         
         float scrollWheel = Input.GetAxis("Mouse ScrollWheel");
         float zoomAmount = scrollWheel * zoomSpeed * Time.deltaTime;
-        Vector3 newScale = Vector3.ClampMagnitude(transform.localScale + new Vector3(zoomAmount, zoomAmount, zoomAmount), maxZoom);
-        newScale = Vector3.Max(newScale, Vector3.one * minZoom);
-        transform.localScale = newScale;
+
+
+        if (zoomAmount > 0)
+        {
+            Ray pos = cam.ScreenPointToRay(Input.mousePosition);
+            TargetZoom(Mathf.Abs(zoomAmount), pos);
+        }
+        else
+        {
+            ZoomOut(Mathf.Abs(zoomAmount));
+        }
 #endif
     }
 
-    // Helper function to handle wrap-around for angles
-    float WrapAngle(float angle)
+    public Vector3 orignalPos, offset;
+    bool zoomed;
+
+    void ZoomOut(float scrollVal)
     {
-        while (angle < 0f)
-            angle += 360f;
-
-        while (angle >= 360f)
-            angle -= 360f;
-
-        return angle;
+        transform.position = Vector3.MoveTowards(transform.position, orignalPos, scrollVal);
     }
+
+    void TargetZoom(float scrollVal, Ray ray)
+    {
+        RaycastHit hit;
+        // Bit shift the index of the layer (8) to get a bit mask
+        int layerMask = 1 << 2;
+
+        // This would cast rays only against colliders in layer 8.
+        // But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
+        //layerMask = ~layerMask;
+        if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, layerMask))
+        {
+            transform.position = Vector3.MoveTowards(transform.position, hit.point, scrollVal);
+        }
+    }
+
 }

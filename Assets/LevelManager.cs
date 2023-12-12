@@ -34,8 +34,15 @@ public class LevelManager : MonoBehaviour
     {
         foreach(GameObject x in objsInlevel)
         {
-            if(!UIManager.instance.colorsSet.Contains(x.GetComponent<ObjectColor>().objClr))
-                UIManager.instance.colorsSet.Add(x.GetComponent<ObjectColor>().objClr);
+            if (!UIManager.instance.colorsCount.ContainsKey(x.GetComponent<ObjectColor>().objClr))
+            {
+                UIManager.instance.colorsCount.Add(x.GetComponent<ObjectColor>().objClr, 1);
+                //UIManager.instance.colorsSet.Add(x.GetComponent<ObjectColor>().objClr);
+            }
+            else
+            {
+                UIManager.instance.colorsCount[x.GetComponent<ObjectColor>().objClr]++;
+            }
         }
 
         UIManager.instance.FillColors();

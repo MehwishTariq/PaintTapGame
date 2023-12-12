@@ -13,12 +13,15 @@ public class UIManager : MonoBehaviour
     public RectTransform area;
     public GameObject completePanel;
     public List<Color> colorsSet { get; set; }
+    public Dictionary<Color, int> colorsCount;
 
     private void Awake()
     {
         instance = this;
         colorsSet = new List<Color>();
+        colorsCount = new Dictionary<Color, int>();
     }
+
 
     public void Restart()
     {
@@ -33,10 +36,11 @@ public class UIManager : MonoBehaviour
 
     public void FillColors()
     {
-        foreach(Color x in colorsSet)
+        foreach(Color x in colorsCount.Keys)
         {
             GameObject y = Instantiate(paintImg, content);
             y.GetComponent<Image>().color = x;
+            y.GetComponentInChildren<Text>().text = colorsCount[x].ToString();
 
             y.GetComponent<Button>().onClick.RemoveAllListeners();
             y.GetComponent<Button>().onClick.AddListener(() =>
