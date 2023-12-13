@@ -37,7 +37,6 @@ public class LevelManager : MonoBehaviour
             if (!UIManager.instance.colorsCount.ContainsKey(x.GetComponent<ObjectColor>().objClr))
             {
                 UIManager.instance.colorsCount.Add(x.GetComponent<ObjectColor>().objClr, 1);
-                //UIManager.instance.colorsSet.Add(x.GetComponent<ObjectColor>().objClr);
             }
             else
             {
