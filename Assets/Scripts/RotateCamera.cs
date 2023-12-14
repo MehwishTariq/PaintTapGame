@@ -16,11 +16,12 @@ public class RotateCamera : MonoBehaviour
     public float minRotation;
     public float maxRotation;
     Camera cam;
-
+    public Vector3 orignalPos, originalRot;
     private void Start()
     {
         cam = GetComponent<Camera>();
         orignalPos = transform.position;
+        originalRot = target.eulerAngles;
     }
 
     private void OnEnable()
@@ -133,8 +134,12 @@ public class RotateCamera : MonoBehaviour
 #endif
     }
 
-    public Vector3 orignalPos, offset;
-    bool zoomed;
+
+    public void ResetTransform()
+    {
+        transform.position = orignalPos;
+        target.eulerAngles = originalRot;
+    }
 
     void ZoomOut(float scrollVal)
     {
