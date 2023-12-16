@@ -8,7 +8,6 @@ public class ObjectColor : MonoBehaviour
     public Color objClr;
     public bool colored;
     public static Action<Color> onColorSelected, onColored;
-    
 
     private void OnEnable()
     {

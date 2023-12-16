@@ -6,7 +6,8 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     public List<GameObject> objsInlevel;
-    public int objsColored = 0;
+    [SerializeField]
+    int objsColored = 0;
     public static Action<bool> checkLevel;
 
     void CheckLevel(bool colored)

@@ -17,6 +17,7 @@ public class RotateCamera : MonoBehaviour
     public float maxRotation;
     Camera cam;
     public Vector3 orignalPos, originalRot;
+
     private void Start()
     {
         cam = GetComponent<Camera>();
@@ -30,13 +31,14 @@ public class RotateCamera : MonoBehaviour
         rotationSpeed = 100f;
         zoomSpeed = 150f;
 #else
-        rotationSpeed = 10f;
+        rotationSpeed = 2f;
         zoomSpeed = 0.5f;
 #endif
     }
 
     private void Update()
     {
+
 #if !UNITY_EDITOR
         
         if (Input.touchCount == 2)
@@ -97,7 +99,7 @@ public class RotateCamera : MonoBehaviour
                         
                         target.Rotate(-Vector3.forward, verticalRotation, Space.World);
                         target.Rotate(Vector3.up, horizontalRotation, Space.World);
-                        touchStartPos = touch.position; // Update the touch start position
+                        //touchStartPos = touch.position; // Update the touch start position
                     }
                     break;
             }

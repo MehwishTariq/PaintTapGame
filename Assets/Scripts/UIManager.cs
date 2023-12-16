@@ -11,22 +11,41 @@ public class UIManager : MonoBehaviour
     public GameObject paintImg;
     public static Color chosenClr;
     public RectTransform area;
-    public GameObject completePanel;
+    public GameObject completePanel, mainMenuPanel, InGamePanel, levelSelectionPanel;
     public List<Color> colorsSet { get; set; }
     public Dictionary<Color, int> colorsCount;
 
     private void Awake()
     {
         instance = this;
-        colorsSet = new List<Color>();
         colorsCount = new Dictionary<Color, int>();
     }
 
-
-    public void Restart()
+    public void GotoMM()
     {
-        SceneManager.LoadScene(0);
+        InGamePanel.SetActive(false);
+        mainMenuPanel.SetActive(true);
     }
+    public void Play()
+    {
+        levelSelectionPanel.SetActive(true);
+        mainMenuPanel.SetActive(false);
+    }
+
+    public IEnumerator OpenLevel()
+    {
+        yield return new WaitForSeconds(1f);
+        InGamePanel.SetActive(true);
+        levelSelectionPanel.SetActive(false);
+    }
+
+    public void NextLevel()
+    {
+        InGamePanel.SetActive(false);
+        completePanel.SetActive(false);
+        levelSelectionPanel.SetActive(true);
+    }
+
 
     public void SetColor(Image img)
     {
