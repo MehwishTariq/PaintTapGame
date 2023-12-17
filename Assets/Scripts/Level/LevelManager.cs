@@ -106,9 +106,15 @@ public class LevelManager : MonoBehaviour
             Debug.Log(e.Message);
         }
     }
-
-    private void OnApplicationQuit()
+    private void OnApplicationFocus(bool focus)
     {
-        SaveGame(GameManager.Level_No);
+        if (!focus)
+        {
+            SaveGame(GameManager.Level_No);
+        }
     }
+    //private void OnApplicationQuit()
+    //{
+    //    SaveGame(GameManager.Level_No);
+    //}
 }

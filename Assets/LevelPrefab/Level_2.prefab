@@ -9613,6 +9613,7 @@ MonoBehaviour:
   - {fileID: 3198065323430154331}
   - {fileID: 3840199507057757562}
   objsColored: 0
+  isColored: 
 --- !u!1 &6719364950124142398
 GameObject:
   m_ObjectHideFlags: 0

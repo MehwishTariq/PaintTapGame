@@ -4274,7 +4274,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8543655704733842700
 Transform:
   m_ObjectHideFlags: 0
@@ -4887,6 +4887,7 @@ MonoBehaviour:
   - {fileID: 8543655703627107508}
   - {fileID: 8543655704854174117}
   objsColored: 0
+  isColored: 
 --- !u!1 &8543655704854174117
 GameObject:
   m_ObjectHideFlags: 0
