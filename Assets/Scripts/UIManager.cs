@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
-    public Transform content;
-    public GameObject paintImg;
+    public ScrollRect scrollView;
+    public GameObject paintImg,content;
     public static Color chosenClr;
     public RectTransform area;
     public GameObject completePanel, mainMenuPanel, InGamePanel, levelSelectionPanel;
@@ -25,7 +25,9 @@ public class UIManager : MonoBehaviour
     {
         InGamePanel.SetActive(false);
         mainMenuPanel.SetActive(true);
+        LevelManager.save?.Invoke(GameManager.Level_No);
     }
+
     public void Play()
     {
         levelSelectionPanel.SetActive(true);
@@ -46,6 +48,11 @@ public class UIManager : MonoBehaviour
         levelSelectionPanel.SetActive(true);
     }
 
+    public void Quit()
+    {
+        LevelManager.save?.Invoke(GameManager.Level_No);
+        Application.Quit();
+    }
 
     public void SetColor(Image img)
     {
@@ -53,11 +60,16 @@ public class UIManager : MonoBehaviour
         ObjectColor.onColorSelected?.Invoke(chosenClr);
     }
 
+    GameObject tempContent;
     public void FillColors()
     {
-        foreach(Color x in colorsCount.Keys)
+        if(tempContent !=null)
+            Destroy(tempContent);
+        tempContent = Instantiate(content, scrollView.viewport);
+        scrollView.content = tempContent.GetComponent<RectTransform>();
+        foreach (Color x in colorsCount.Keys)
         {
-            GameObject y = Instantiate(paintImg, content);
+            GameObject y = Instantiate(paintImg, tempContent.transform);
             y.GetComponent<Image>().color = x;
             y.GetComponentInChildren<Text>().text = colorsCount[x].ToString();
 

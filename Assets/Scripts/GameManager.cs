@@ -7,8 +7,8 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] RotateCamera cameraRef;
     [SerializeField] List<GameObject> levels = new List<GameObject>();
-    
-    public static Action onGameStart;
+    public static int Level_No;
+    public static Action<int> onGameStart;
     GameObject levelObj;
 
     public void CreateLevel(int levelNo)
@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
         if (levelObj != null)
             Destroy(levelObj);
 
+        Level_No = levelNo;
         levelObj = Instantiate(levels[levelNo - 1],  Vector3.zero,Quaternion.identity);
         levelObj.gameObject.SetActive(true);
         cameraRef.gameObject.SetActive(true);
