@@ -4887,7 +4887,6 @@ MonoBehaviour:
   - {fileID: 8543655703627107508}
   - {fileID: 8543655704854174117}
   objsColored: 0
-  isColored: 
 --- !u!1 &8543655704854174117
 GameObject:
   m_ObjectHideFlags: 0

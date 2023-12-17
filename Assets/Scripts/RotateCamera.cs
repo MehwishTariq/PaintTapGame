@@ -31,7 +31,7 @@ public class RotateCamera : MonoBehaviour
         rotationSpeed = 100f;
         zoomSpeed = 150f;
 #else
-        rotationSpeed = 2f;
+        rotationSpeed = 1.5f;
         zoomSpeed = 0.5f;
 #endif
     }

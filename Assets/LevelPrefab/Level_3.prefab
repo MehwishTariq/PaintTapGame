@@ -1,5 +1,221 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1302537083801763944
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2042304976125007481}
+  - component: {fileID: 3330631715304396297}
+  m_Layer: 2
+  m_Name: Level3Objects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2042304976125007481
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1302537083801763944}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 9183139863474928349}
+  - {fileID: 9183139864014400273}
+  - {fileID: 9183139864858512541}
+  - {fileID: 9183139864151415163}
+  - {fileID: 9183139863716088162}
+  - {fileID: 9183139862981252002}
+  - {fileID: 9183139864644070364}
+  - {fileID: 9183139864020373432}
+  - {fileID: 9183139863788835363}
+  m_Father: {fileID: 8717746704036955019}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3330631715304396297
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1302537083801763944}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 12.604867, y: 1, z: 14.618145}
+  m_Center: {x: -0.2298255, y: 1.26, z: 0.20517802}
+--- !u!1 &4160780454653295033
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8448337860215513607}
+  - component: {fileID: 371771695464865742}
+  m_Layer: 0
+  m_Name: LevelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8448337860215513607
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4160780454653295033}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8717746704036955019}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &371771695464865742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4160780454653295033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6956bdb6ebc835748b29885ff305147b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objsInlevel:
+  - {fileID: 8868417022661695969}
+  - {fileID: 1974371801773494302}
+  - {fileID: 6546644888024913362}
+  - {fileID: 1716602275377229820}
+  - {fileID: 953299089125604174}
+  - {fileID: 7200472391646666403}
+  - {fileID: 7791476529904520313}
+  - {fileID: 3137996016183758199}
+  - {fileID: 3467471854483855662}
+  - {fileID: 1820382146351249899}
+  - {fileID: 4939627719821694822}
+  - {fileID: 4835951715747225407}
+  - {fileID: 5078170003133279977}
+  - {fileID: 3707631822161059650}
+  - {fileID: 2403182882033413782}
+  - {fileID: 1969242574302530174}
+  - {fileID: 8018797113177014936}
+  - {fileID: 6271265052168915384}
+  - {fileID: 443016661028479980}
+  - {fileID: 509357089080945302}
+  - {fileID: 2906860694669862561}
+  - {fileID: 12908227699469158}
+  - {fileID: 7217542685371533063}
+  - {fileID: 7857902192269572884}
+  - {fileID: 1240722318329825161}
+  - {fileID: 107219723247093778}
+  - {fileID: 423694603885742309}
+  - {fileID: 5250863919410246339}
+  - {fileID: 3901817512989116380}
+  - {fileID: 2369297775780986380}
+  - {fileID: 1150135380142329265}
+  - {fileID: 7029082968209280097}
+  - {fileID: 8190292482810756273}
+  - {fileID: 8320343120558820596}
+  - {fileID: 880228039216529269}
+  - {fileID: 2724611971141360826}
+  - {fileID: 6095665712336855103}
+  - {fileID: 6677984091294738293}
+  - {fileID: 859408344956891310}
+  - {fileID: 8376507919491417433}
+  - {fileID: 6079274551702237410}
+  - {fileID: 5424059490930468621}
+  - {fileID: 1461263950867551614}
+  - {fileID: 9116299520040959235}
+  - {fileID: 3687845854496232301}
+  - {fileID: 7389055214633022451}
+  - {fileID: 4580140546424343966}
+  - {fileID: 2498123601423916428}
+  - {fileID: 8888262112723664941}
+  - {fileID: 4238622937205308730}
+  - {fileID: 703993361736228373}
+  - {fileID: 8669421778798303079}
+  - {fileID: 2216381213962803901}
+  - {fileID: 8512569071501541266}
+  - {fileID: 8372993676624118647}
+  - {fileID: 3613686900024722456}
+  - {fileID: 4689816458417069435}
+  - {fileID: 3819172893595189754}
+  - {fileID: 4197107744620950749}
+  - {fileID: 3603870943845894910}
+  - {fileID: 5688872715695159160}
+  - {fileID: 6202544932018038998}
+  - {fileID: 3241312353976747288}
+  - {fileID: 1973711847857502383}
+  - {fileID: 7859385889865923407}
+  - {fileID: 8306184193601449257}
+  - {fileID: 7400094727973717996}
+  - {fileID: 6194043778620938059}
+  - {fileID: 344753772436093987}
+  - {fileID: 2777494967108631550}
+  - {fileID: 9111676883733313250}
+  - {fileID: 2267808195912868803}
+  - {fileID: 6600392538313023162}
+  - {fileID: 1724065899603432398}
+  - {fileID: 3130401253992895013}
+  - {fileID: 1897777531925491009}
+  - {fileID: 1588845296446002753}
+  - {fileID: 624754260654035801}
+  - {fileID: 5016223873272053226}
+  - {fileID: 3142287123251941822}
+  - {fileID: 3091991368154640567}
+  - {fileID: 3436331285972125953}
+  - {fileID: 8619985080818578086}
+  - {fileID: 6069278670224949764}
+  - {fileID: 5486757644554267487}
+  - {fileID: 38373898010517498}
+  - {fileID: 5549133293071412492}
+  - {fileID: 182832085397783206}
+  - {fileID: 5458583753648519410}
+  - {fileID: 3505210534519836984}
+  - {fileID: 7898115295517406751}
+  - {fileID: 5931379276905558653}
+  - {fileID: 6103174013346622140}
+  - {fileID: 1622283340892094525}
+  - {fileID: 7121413884995023511}
+  - {fileID: 3820295921970423919}
+  - {fileID: 8525292312543989788}
+  - {fileID: 8131712486055958143}
+  - {fileID: 6336419897612579276}
+  - {fileID: 7892775647045993184}
+  - {fileID: 3196171783459548686}
+  - {fileID: 5131302650081458469}
+  - {fileID: 2619305082501681231}
+  - {fileID: 4374651466691491806}
+  - {fileID: 3799463109290215238}
+  - {fileID: 2865703401607528376}
+  - {fileID: 7068617814043016658}
+  - {fileID: 8023607266947727938}
+  - {fileID: 5966439101634421644}
+  - {fileID: 3761458927885144798}
+  - {fileID: 5798786320456784979}
+  - {fileID: 8121834949876217325}
+  - {fileID: 8074152723357315195}
+  - {fileID: 8731360521144443111}
+  - {fileID: 3556525490474873863}
+  - {fileID: 841705209139448437}
+  objsColored: 0
 --- !u!1 &8717746704036955016
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,6 +225,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8717746704036955019}
+  - component: {fileID: 2574960267517152443}
   m_Layer: 0
   m_Name: Level_3
   m_TagString: Untagged
@@ -24,28 +241,34 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8717746704036955016}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.79, y: 0.29, z: 1.62}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 9183139863474928349}
-  - {fileID: 9183139864014400273}
-  - {fileID: 9183139864858512541}
-  - {fileID: 9183139864151415163}
-  - {fileID: 9183139863716088162}
-  - {fileID: 9183139862981252002}
-  - {fileID: 9183139864644070364}
-  - {fileID: 9183139864020373432}
-  - {fileID: 9183139863788835363}
+  - {fileID: 8448337860215513607}
+  - {fileID: 2042304976125007481}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2574960267517152443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8717746704036955016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae6578991afe36547b8f130ae4b04fac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelObj: {fileID: 1302537083801763944}
 --- !u!1001 &8717746702714645366
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 8717746704036955019}
+    m_TransformParent: {fileID: 2042304976125007481}
     m_Modifications:
     - target: {fileID: -8867477870038081954, guid: 7a9ef7a191574b34e9631f8cdd5c626c, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -238,7 +461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d007b2419301c84a9f822ff008a421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objClr: {r: 1, g: 0.8862746, b: 0.23529413, a: 1}
+  objClr: {r: 1, g: 0.8862745, b: 0.23529412, a: 1}
   colored: 0
 --- !u!114 &8717746702714645345
 MonoBehaviour:
@@ -253,8 +476,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 1, g: 0.8862746, b: 0.23529413, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 1, g: 0.8862745, b: 0.23529412, a: 1}
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -291,7 +514,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 0.8862745, b: 0.23529412, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -314,7 +537,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.53333336, g: 0.33333334, b: 0.20000002, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -365,7 +588,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.53333336, g: 0.33333334, b: 0.20000002, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -402,7 +625,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 0.8862745, b: 0.23529412, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -439,7 +662,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.53333336, g: 0.33333334, b: 0.20000002, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -476,7 +699,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.53333336, g: 0.33333334, b: 0.20000002, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -499,7 +722,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.53333336, g: 0.33333334, b: 0.20000002, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -550,7 +773,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 0.8862745, b: 0.23529412, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -573,7 +796,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 0.8862745, b: 0.23529412, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -624,7 +847,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 0.8862745, b: 0.23529412, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -661,7 +884,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.53333336, g: 0.33333334, b: 0.20000002, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -675,7 +898,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 8717746704036955019}
+    m_TransformParent: {fileID: 2042304976125007481}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 16cf89a85602a074895031ff4c4ed5da, type: 3}
       propertyPath: m_RootOrder
@@ -683,7 +906,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 16cf89a85602a074895031ff4c4ed5da, type: 3}
       propertyPath: m_LocalScale.y
-      value: 100.000015
+      value: 100.00002
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 16cf89a85602a074895031ff4c4ed5da, type: 3}
       propertyPath: m_LocalPosition.x
@@ -856,7 +1079,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.9529412, g: 0.4509804, b: 0.18431373, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -877,7 +1100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d007b2419301c84a9f822ff008a421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objClr: {r: 0.9529412, g: 0.4509804, b: 0.18431373, a: 1}
+  objClr: {r: 0.9529412, g: 0.36078432, b: 0.18431373, a: 1}
   colored: 0
 --- !u!114 &8717746704225230293
 MonoBehaviour:
@@ -892,8 +1115,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 0.9529412, g: 0.4509804, b: 0.18431373, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0.9529412, g: 0.3593704, b: 0.18431373, a: 1}
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -915,8 +1138,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 1, g: 0.4144144, b: 0, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0.63529414, g: 0.3254902, b: 0.24313726, a: 1}
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -932,7 +1155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d007b2419301c84a9f822ff008a421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objClr: {r: 1, g: 0.4144144, b: 0, a: 1}
+  objClr: {r: 0.63529414, g: 0.3254902, b: 0.24313726, a: 1}
   colored: 0
 --- !u!1 &3241312353976747288 stripped
 GameObject:
@@ -951,7 +1174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d007b2419301c84a9f822ff008a421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objClr: {r: 0.95294124, g: 0.45098042, b: 0.18431373, a: 1}
+  objClr: {r: 0.9529412, g: 0.4509804, b: 0.18431373, a: 1}
   colored: 0
 --- !u!114 &8717746702903921706
 MonoBehaviour:
@@ -966,8 +1189,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 0.95294124, g: 0.45098042, b: 0.18431373, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0.9529412, g: 0.4509804, b: 0.18431373, a: 1}
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -990,7 +1213,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.9529412, g: 0.4509804, b: 0.18431373, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -1025,7 +1248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d007b2419301c84a9f822ff008a421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objClr: {r: 1, g: 0.8980393, b: 0.32941177, a: 1}
+  objClr: {r: 1, g: 0.8980392, b: 0.32941177, a: 1}
   colored: 0
 --- !u!114 &8717746702903921710
 MonoBehaviour:
@@ -1041,7 +1264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 0.8980393, b: 0.32941177, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -1063,8 +1286,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 0.9529412, g: 0.4509804, b: 0.18431373, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0.9529412, g: 0.3593704, b: 0.18431373, a: 1}
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -1080,7 +1303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d007b2419301c84a9f822ff008a421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objClr: {r: 0.9529412, g: 0.4509804, b: 0.18431373, a: 1}
+  objClr: {r: 0.9529412, g: 0.36078432, b: 0.18431373, a: 1}
   colored: 0
 --- !u!1 &8306184193601449257 stripped
 GameObject:
@@ -1100,8 +1323,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 0.9529412, g: 0.4509804, b: 0.18431373, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0.9529412, g: 0.3593704, b: 0.18431373, a: 1}
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -1117,7 +1340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d007b2419301c84a9f822ff008a421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objClr: {r: 0.9529412, g: 0.4509804, b: 0.18431373, a: 1}
+  objClr: {r: 0.9529412, g: 0.36078432, b: 0.18431373, a: 1}
   colored: 0
 --- !u!4 &9183139864644070364 stripped
 Transform:
@@ -1129,7 +1352,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 8717746704036955019}
+    m_TransformParent: {fileID: 2042304976125007481}
     m_Modifications:
     - target: {fileID: -8757194032395926637, guid: fa15c0d53d4e533459ef2c0bb2d60eb0, type: 3}
       propertyPath: m_IsActive
@@ -1326,7 +1549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d007b2419301c84a9f822ff008a421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objClr: {r: 0.31764707, g: 0.09411765, b: 0.48235294, a: 1}
+  objClr: {r: 0.4, g: 0.10980392, b: 0.49803922, a: 1}
   colored: 0
 --- !u!114 &8717746704069016558
 MonoBehaviour:
@@ -1341,8 +1564,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 0.31764707, g: 0.09411765, b: 0.48235294, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0.4, g: 0.10980392, b: 0.49803922, a: 1}
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -1365,7 +1588,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.69411767, g: 0.30980393, b: 0.121568635, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -1402,7 +1625,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.5058824, g: 0.15294118, b: 0.17254902, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -1437,7 +1660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d007b2419301c84a9f822ff008a421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objClr: {r: 0.40000004, g: 0.10980393, b: 0.49803925, a: 1}
+  objClr: {r: 0.4, g: 0.10980392, b: 0.49803922, a: 1}
   colored: 0
 --- !u!114 &8717746703429811841
 MonoBehaviour:
@@ -1452,8 +1675,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 0.40000004, g: 0.10980393, b: 0.49803925, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0.4, g: 0.10980392, b: 0.49803922, a: 1}
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -1490,7 +1713,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.5058824, g: 0.15294118, b: 0.17254902, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -1511,7 +1734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d007b2419301c84a9f822ff008a421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objClr: {r: 0.6745098, g: 0.1764706, b: 0.22352943, a: 1}
+  objClr: {r: 0.5058824, g: 0.15294118, b: 0.17254902, a: 1}
   colored: 0
 --- !u!114 &8717746704300781731
 MonoBehaviour:
@@ -1526,8 +1749,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 0.6745098, g: 0.1764706, b: 0.22352943, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0.5058824, g: 0.15294118, b: 0.17254902, a: 1}
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -1564,7 +1787,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.4, g: 0.10980392, b: 0.49803922, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -1601,7 +1824,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.5058824, g: 0.15294118, b: 0.17254902, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -1638,7 +1861,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.4, g: 0.10980392, b: 0.49803922, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -1675,7 +1898,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.69411767, g: 0.30980393, b: 0.121568635, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -1697,8 +1920,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 0.31764707, g: 0.09411766, b: 0.48235297, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0.4, g: 0.10980392, b: 0.49803922, a: 1}
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -1714,7 +1937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d007b2419301c84a9f822ff008a421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objClr: {r: 0.31764707, g: 0.09411766, b: 0.48235297, a: 1}
+  objClr: {r: 0.4, g: 0.10980392, b: 0.49803922, a: 1}
   colored: 0
 --- !u!1 &9116299520040959235 stripped
 GameObject:
@@ -1734,8 +1957,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 0.6745098, g: 0.1764706, b: 0.22352941, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0.5058824, g: 0.15294118, b: 0.17254902, a: 1}
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -1751,7 +1974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d007b2419301c84a9f822ff008a421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objClr: {r: 0.6745098, g: 0.1764706, b: 0.22352941, a: 1}
+  objClr: {r: 0.5058824, g: 0.15294118, b: 0.17254902, a: 1}
   colored: 0
 --- !u!4 &9183139864151415163 stripped
 Transform:
@@ -1763,7 +1986,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 8717746704036955019}
+    m_TransformParent: {fileID: 2042304976125007481}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 3632a33a605efc7428d67a2c00fbc676, type: 3}
       propertyPath: m_RootOrder
@@ -1909,8 +2132,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 0.10980393, g: 0.12941177, b: 0.15294118, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0.10980392, g: 0.12941177, b: 0.15294118, a: 1}
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -1926,7 +2149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d007b2419301c84a9f822ff008a421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objClr: {r: 0.10980393, g: 0.12941177, b: 0.15294118, a: 1}
+  objClr: {r: 0.10980392, g: 0.12941177, b: 0.15294118, a: 1}
   colored: 0
 --- !u!1 &1897777531925491009 stripped
 GameObject:
@@ -1961,7 +2184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.83137256, g: 0.12156863, b: 0.14509805, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -1998,7 +2221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.043137256, g: 0.16470589, b: 0.08235294, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -2021,7 +2244,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.10980392, g: 0.12941177, b: 0.15294118, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -2056,7 +2279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d007b2419301c84a9f822ff008a421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objClr: {r: 0.8313726, g: 0.121568635, b: 0.14509805, a: 1}
+  objClr: {r: 0.83137256, g: 0.12156863, b: 0.14509805, a: 1}
   colored: 0
 --- !u!114 &8717746703552522314
 MonoBehaviour:
@@ -2071,8 +2294,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 0.8313726, g: 0.121568635, b: 0.14509805, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0.83137256, g: 0.12156863, b: 0.14509805, a: 1}
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -2095,7 +2318,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.043137256, g: 0.16470589, b: 0.08235294, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -2123,7 +2346,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 8717746704036955019}
+    m_TransformParent: {fileID: 2042304976125007481}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: e49ba14d058868442a473377f0e1559f, type: 3}
       propertyPath: m_RootOrder
@@ -2193,6 +2416,86 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 26671ba914682064b87b06b92440cef6, type: 2}
+    - target: {fileID: -4699073531199927196, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.041665968
+      objectReference: {fileID: 0}
+    - target: {fileID: -4699073531199927196, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.059403997
+      objectReference: {fileID: 0}
+    - target: {fileID: -4699073531199927196, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0058212182
+      objectReference: {fileID: 0}
+    - target: {fileID: -4699073531199927196, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.71990067
+      objectReference: {fileID: 0}
+    - target: {fileID: -4699073531199927196, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.63232416
+      objectReference: {fileID: 0}
+    - target: {fileID: -4699073531199927196, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.14787282
+      objectReference: {fileID: 0}
+    - target: {fileID: -4699073531199927196, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.24503657
+      objectReference: {fileID: 0}
+    - target: {fileID: -4699073531199927196, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -56.925
+      objectReference: {fileID: 0}
+    - target: {fileID: -4699073531199927196, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -73.325
+      objectReference: {fileID: 0}
+    - target: {fileID: -4699073531199927196, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 81.545
+      objectReference: {fileID: 0}
+    - target: {fileID: -3243602521655207705, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.04456978
+      objectReference: {fileID: 0}
+    - target: {fileID: -3243602521655207705, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.054931913
+      objectReference: {fileID: 0}
+    - target: {fileID: -3243602521655207705, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.005676651
+      objectReference: {fileID: 0}
+    - target: {fileID: -3243602521655207705, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.71990067
+      objectReference: {fileID: 0}
+    - target: {fileID: -3243602521655207705, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.63232416
+      objectReference: {fileID: 0}
+    - target: {fileID: -3243602521655207705, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.14787282
+      objectReference: {fileID: 0}
+    - target: {fileID: -3243602521655207705, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.24503657
+      objectReference: {fileID: 0}
+    - target: {fileID: -3243602521655207705, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -56.925
+      objectReference: {fileID: 0}
+    - target: {fileID: -3243602521655207705, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -73.325
+      objectReference: {fileID: 0}
+    - target: {fileID: -3243602521655207705, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 81.545
+      objectReference: {fileID: 0}
     - target: {fileID: -2459207321163117060, guid: e49ba14d058868442a473377f0e1559f, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -2204,6 +2507,86 @@ PrefabInstance:
     - target: {fileID: -861450783241902533, guid: e49ba14d058868442a473377f0e1559f, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -859322575320243141, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.04307909
+      objectReference: {fileID: 0}
+    - target: {fileID: -859322575320243141, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.057380494
+      objectReference: {fileID: 0}
+    - target: {fileID: -859322575320243141, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.004900708
+      objectReference: {fileID: 0}
+    - target: {fileID: -859322575320243141, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.71990067
+      objectReference: {fileID: 0}
+    - target: {fileID: -859322575320243141, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.63232416
+      objectReference: {fileID: 0}
+    - target: {fileID: -859322575320243141, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.14787282
+      objectReference: {fileID: 0}
+    - target: {fileID: -859322575320243141, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.24503657
+      objectReference: {fileID: 0}
+    - target: {fileID: -859322575320243141, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -56.925
+      objectReference: {fileID: 0}
+    - target: {fileID: -859322575320243141, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -73.325
+      objectReference: {fileID: 0}
+    - target: {fileID: -859322575320243141, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 81.545
+      objectReference: {fileID: 0}
+    - target: {fileID: -681207621799261623, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.042285018
+      objectReference: {fileID: 0}
+    - target: {fileID: -681207621799261623, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.058594055
+      objectReference: {fileID: 0}
+    - target: {fileID: -681207621799261623, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.004992242
+      objectReference: {fileID: 0}
+    - target: {fileID: -681207621799261623, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.71990067
+      objectReference: {fileID: 0}
+    - target: {fileID: -681207621799261623, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.63232416
+      objectReference: {fileID: 0}
+    - target: {fileID: -681207621799261623, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.14787282
+      objectReference: {fileID: 0}
+    - target: {fileID: -681207621799261623, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.24503657
+      objectReference: {fileID: 0}
+    - target: {fileID: -681207621799261623, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -56.925
+      objectReference: {fileID: 0}
+    - target: {fileID: -681207621799261623, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -73.325
+      objectReference: {fileID: 0}
+    - target: {fileID: -681207621799261623, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 81.545
       objectReference: {fileID: 0}
     - target: {fileID: -465502775824916577, guid: e49ba14d058868442a473377f0e1559f, type: 3}
       propertyPath: m_Enabled
@@ -2225,6 +2608,46 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 26671ba914682064b87b06b92440cef6, type: 2}
+    - target: {fileID: 5371671862244809227, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.04430041
+      objectReference: {fileID: 0}
+    - target: {fileID: 5371671862244809227, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.05558543
+      objectReference: {fileID: 0}
+    - target: {fileID: 5371671862244809227, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.004361949
+      objectReference: {fileID: 0}
+    - target: {fileID: 5371671862244809227, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.71990067
+      objectReference: {fileID: 0}
+    - target: {fileID: 5371671862244809227, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.63232416
+      objectReference: {fileID: 0}
+    - target: {fileID: 5371671862244809227, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.14787282
+      objectReference: {fileID: 0}
+    - target: {fileID: 5371671862244809227, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.24503657
+      objectReference: {fileID: 0}
+    - target: {fileID: 5371671862244809227, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -56.925
+      objectReference: {fileID: 0}
+    - target: {fileID: 5371671862244809227, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -73.325
+      objectReference: {fileID: 0}
+    - target: {fileID: 5371671862244809227, guid: e49ba14d058868442a473377f0e1559f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 81.545
+      objectReference: {fileID: 0}
     - target: {fileID: 6632308356807446219, guid: e49ba14d058868442a473377f0e1559f, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -2276,7 +2699,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.70980394, g: 0.8745099, b: 0.23529413, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -2313,7 +2736,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 0.654902, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -2350,7 +2773,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.3372549, g: 0.40392157, b: 0.14509805, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -2371,7 +2794,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d007b2419301c84a9f822ff008a421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objClr: {r: 0.3372549, g: 0.4039216, b: 0.14509805, a: 1}
+  objClr: {r: 0.3372549, g: 0.40392157, b: 0.14509805, a: 1}
   colored: 0
 --- !u!114 &8717746703567146222
 MonoBehaviour:
@@ -2386,8 +2809,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 0.3372549, g: 0.4039216, b: 0.14509805, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0.3372549, g: 0.40392157, b: 0.14509805, a: 1}
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -2424,7 +2847,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.63529414, g: 0.3254902, b: 0.24313726, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -2445,7 +2868,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d007b2419301c84a9f822ff008a421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objClr: {r: 0.63529414, g: 0.3254902, b: 0.24313727, a: 1}
+  objClr: {r: 0.63529414, g: 0.3254902, b: 0.24313726, a: 1}
   colored: 0
 --- !u!114 &8717746704389717767
 MonoBehaviour:
@@ -2460,8 +2883,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 0.63529414, g: 0.3254902, b: 0.24313727, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0.63529414, g: 0.3254902, b: 0.24313726, a: 1}
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -2484,7 +2907,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.7137255, g: 0.49803925, b: 0.14117648, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -2512,7 +2935,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 8717746704036955019}
+    m_TransformParent: {fileID: 2042304976125007481}
     m_Modifications:
     - target: {fileID: -9193449387999879474, guid: e3f5c95c7894a7c42b4f5f5563861034, type: 3}
       propertyPath: m_Enabled
@@ -3081,7 +3504,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.08235294, g: 0.29411766, b: 0.08627451, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3118,7 +3541,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.08235294, g: 0.29411766, b: 0.08627451, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3141,7 +3564,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.08235294, g: 0.29411766, b: 0.08627451, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3192,7 +3615,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.10980392, g: 0.12941177, b: 0.15294118, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3229,7 +3652,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.909804, g: 0.20000002, b: 0.21176472, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3266,7 +3689,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.08235294, g: 0.29411766, b: 0.08627451, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3289,7 +3712,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.10980392, g: 0.12941177, b: 0.15294118, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3340,7 +3763,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.10980392, g: 0.12941177, b: 0.15294118, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3361,7 +3784,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d007b2419301c84a9f822ff008a421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objClr: {r: 0.2784314, g: 0.5647059, b: 0.1137255, a: 1}
+  objClr: {r: 0.2784314, g: 0.5647059, b: 0.11372549, a: 1}
   colored: 0
 --- !u!114 &8717746703792453155
 MonoBehaviour:
@@ -3376,8 +3799,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 0.2784314, g: 0.5647059, b: 0.1137255, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0.2784314, g: 0.5647059, b: 0.11372549, a: 1}
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3414,7 +3837,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.08235294, g: 0.29411766, b: 0.08627451, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3437,7 +3860,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.10980392, g: 0.12941177, b: 0.15294118, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3488,7 +3911,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.08235294, g: 0.29411766, b: 0.08627451, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3525,7 +3948,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.08235294, g: 0.29411766, b: 0.08627451, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3548,7 +3971,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.10980392, g: 0.12941177, b: 0.15294118, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3599,7 +4022,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.10980392, g: 0.12941177, b: 0.15294118, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3636,7 +4059,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.10980392, g: 0.12941177, b: 0.15294118, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3659,7 +4082,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.2784314, g: 0.5647059, b: 0.11372549, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3696,7 +4119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.10980392, g: 0.12941177, b: 0.15294118, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3747,7 +4170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.08235294, g: 0.29411766, b: 0.08627451, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3770,7 +4193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.10980392, g: 0.12941177, b: 0.15294118, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3821,7 +4244,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.2784314, g: 0.5647059, b: 0.11372549, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3858,7 +4281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.2784314, g: 0.5647059, b: 0.11372549, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3881,7 +4304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.2784314, g: 0.5647059, b: 0.11372549, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3918,7 +4341,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.10980392, g: 0.12941177, b: 0.15294118, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -3955,7 +4378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.08235294, g: 0.29411766, b: 0.08627451, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4006,7 +4429,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.10980392, g: 0.12941177, b: 0.15294118, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4043,7 +4466,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.08235294, g: 0.29411766, b: 0.08627451, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4080,7 +4503,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.2784314, g: 0.5647059, b: 0.11372549, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4117,7 +4540,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.10980392, g: 0.12941177, b: 0.15294118, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4154,7 +4577,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.10980392, g: 0.12941177, b: 0.15294118, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4191,7 +4614,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.2784314, g: 0.5647059, b: 0.11372549, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4214,7 +4637,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.10980392, g: 0.12941177, b: 0.15294118, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4265,7 +4688,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.2784314, g: 0.5647059, b: 0.11372549, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4302,7 +4725,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.10980392, g: 0.12941177, b: 0.15294118, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4339,7 +4762,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.10980392, g: 0.12941177, b: 0.15294118, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4376,7 +4799,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.10980392, g: 0.12941177, b: 0.15294118, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4399,7 +4822,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.08235294, g: 0.29411766, b: 0.08627451, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4450,7 +4873,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.08235294, g: 0.29411766, b: 0.08627451, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4471,7 +4894,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d007b2419301c84a9f822ff008a421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objClr: {r: 0.2784314, g: 0.5647059, b: 0.1137255, a: 1}
+  objClr: {r: 0.2784314, g: 0.5647059, b: 0.11372549, a: 1}
   colored: 0
 --- !u!114 &8717746703637312766
 MonoBehaviour:
@@ -4486,8 +4909,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 0.2784314, g: 0.5647059, b: 0.1137255, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0.2784314, g: 0.5647059, b: 0.11372549, a: 1}
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4524,7 +4947,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.10980392, g: 0.12941177, b: 0.15294118, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4538,7 +4961,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 8717746704036955019}
+    m_TransformParent: {fileID: 2042304976125007481}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 021b193b3a074594797346910956b22d, type: 3}
       propertyPath: m_RootOrder
@@ -4592,10 +5015,46 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 26671ba914682064b87b06b92440cef6, type: 2}
+    - target: {fileID: -7493596028755563170, guid: 021b193b3a074594797346910956b22d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.88684213
+      objectReference: {fileID: 0}
+    - target: {fileID: -7493596028755563170, guid: 021b193b3a074594797346910956b22d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.018711
+      objectReference: {fileID: 0}
+    - target: {fileID: -7493596028755563170, guid: 021b193b3a074594797346910956b22d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.00212
+      objectReference: {fileID: 0}
     - target: {fileID: -7023974396876390944, guid: 021b193b3a074594797346910956b22d, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 26671ba914682064b87b06b92440cef6, type: 2}
+    - target: {fileID: -5610832936595009893, guid: 021b193b3a074594797346910956b22d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.88684213
+      objectReference: {fileID: 0}
+    - target: {fileID: -5610832936595009893, guid: 021b193b3a074594797346910956b22d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.018711
+      objectReference: {fileID: 0}
+    - target: {fileID: -5610832936595009893, guid: 021b193b3a074594797346910956b22d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.002826
+      objectReference: {fileID: 0}
+    - target: {fileID: -4292154010595695564, guid: 021b193b3a074594797346910956b22d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.88684213
+      objectReference: {fileID: 0}
+    - target: {fileID: -4292154010595695564, guid: 021b193b3a074594797346910956b22d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.018711
+      objectReference: {fileID: 0}
+    - target: {fileID: -4292154010595695564, guid: 021b193b3a074594797346910956b22d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -3840361553397645466, guid: 021b193b3a074594797346910956b22d, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -4603,6 +5062,18 @@ PrefabInstance:
     - target: {fileID: -3464447691518478215, guid: 021b193b3a074594797346910956b22d, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1538112130698044685, guid: 021b193b3a074594797346910956b22d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.88684213
+      objectReference: {fileID: 0}
+    - target: {fileID: -1538112130698044685, guid: 021b193b3a074594797346910956b22d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.018711
+      objectReference: {fileID: 0}
+    - target: {fileID: -1538112130698044685, guid: 021b193b3a074594797346910956b22d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.005651
       objectReference: {fileID: 0}
     - target: {fileID: 882129737928793925, guid: 021b193b3a074594797346910956b22d, type: 3}
       propertyPath: m_Enabled
@@ -4632,6 +5103,18 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 26671ba914682064b87b06b92440cef6, type: 2}
+    - target: {fileID: 5811517544658636179, guid: 021b193b3a074594797346910956b22d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.88684213
+      objectReference: {fileID: 0}
+    - target: {fileID: 5811517544658636179, guid: 021b193b3a074594797346910956b22d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.018711
+      objectReference: {fileID: 0}
+    - target: {fileID: 5811517544658636179, guid: 021b193b3a074594797346910956b22d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6429042682342845315, guid: 021b193b3a074594797346910956b22d, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -4675,7 +5158,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.6313726, g: 0.13333334, b: 0.12941177, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4712,7 +5195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.32941177, g: 0.11764707, b: 0.1254902, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4749,7 +5232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.22352943, g: 0.058823533, b: 0.07058824, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4786,7 +5269,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 0.654902, b: 0.6509804, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4823,7 +5306,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.5764706, g: 0.058823533, b: 0.08235294, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4837,7 +5320,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 8717746704036955019}
+    m_TransformParent: {fileID: 2042304976125007481}
     m_Modifications:
     - target: {fileID: -9008689624359887661, guid: 3894e160f83cb194c8d58ae6f65dd4a5, type: 3}
       propertyPath: m_Enabled
@@ -5038,7 +5521,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.8313726, g: 0.75294125, b: 0.31764707, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -5061,7 +5544,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.043137256, g: 0.16470589, b: 0.08235294, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -5096,7 +5579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d007b2419301c84a9f822ff008a421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objClr: {r: 0.6117647, g: 0.6431373, b: 0.11764707, a: 1}
+  objClr: {r: 0.6117647, g: 0.6431373, b: 0.11764706, a: 1}
   colored: 0
 --- !u!114 &8717746704836304434
 MonoBehaviour:
@@ -5111,8 +5594,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 0.6117647, g: 0.6431373, b: 0.11764707, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0.6117647, g: 0.6431373, b: 0.11764706, a: 1}
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -5149,7 +5632,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.52156866, g: 0.35686275, b: 0.08235294, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -5186,7 +5669,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.043137256, g: 0.16470589, b: 0.08235294, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -5209,7 +5692,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.61960787, g: 0.10980392, b: 0.105882354, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -5246,7 +5729,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.6117647, g: 0.6431373, b: 0.11764706, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -5297,7 +5780,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.043137256, g: 0.16470589, b: 0.08235294, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -5334,7 +5817,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.52156866, g: 0.35686275, b: 0.08235294, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -5371,7 +5854,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.043137256, g: 0.16470589, b: 0.08235294, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -5408,7 +5891,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.043137256, g: 0.16470589, b: 0.08235294, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -5431,7 +5914,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.52156866, g: 0.35686275, b: 0.08235294, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -5482,7 +5965,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.043137256, g: 0.16470589, b: 0.08235294, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -5503,7 +5986,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d007b2419301c84a9f822ff008a421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objClr: {r: 0.61960787, g: 0.10980393, b: 0.10588236, a: 1}
+  objClr: {r: 0.61960787, g: 0.10980392, b: 0.105882354, a: 1}
   colored: 0
 --- !u!114 &8717746704098237731
 MonoBehaviour:
@@ -5518,8 +6001,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 0.61960787, g: 0.10980393, b: 0.10588236, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0.61960787, g: 0.10980392, b: 0.105882354, a: 1}
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -5533,7 +6016,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 8717746704036955019}
+    m_TransformParent: {fileID: 2042304976125007481}
     m_Modifications:
     - target: {fileID: -9051107949914170860, guid: 5869aa17fdac60d4a89b3ce3043762c7, type: 3}
       propertyPath: m_Enabled
@@ -5776,7 +6259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.9254902, g: 0.654902, b: 0.14117648, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -5827,7 +6310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 0.25882354, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -5864,7 +6347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 0.25882354, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -5901,7 +6384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 0.25882354, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -5924,7 +6407,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.9254902, g: 0.654902, b: 0.14117648, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -5975,7 +6458,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 0.25882354, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -6012,7 +6495,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.9254902, g: 0.654902, b: 0.14117648, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -6049,7 +6532,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 0.25882354, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -6086,7 +6569,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 0.25882354, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -6109,7 +6592,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 0.25882354, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -6160,7 +6643,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 0.25882354, a: 1}
-  outlineWidth: 2
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -6182,8 +6665,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 0.92549026, g: 0.654902, b: 0.14117648, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0.9254902, g: 0.654902, b: 0.14117648, a: 1}
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -6199,7 +6682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d007b2419301c84a9f822ff008a421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objClr: {r: 0.92549026, g: 0.654902, b: 0.14117648, a: 1}
+  objClr: {r: 0.9254902, g: 0.654902, b: 0.14117648, a: 1}
   colored: 0
 --- !u!4 &9183139862981252002 stripped
 Transform:

@@ -15,7 +15,6 @@ public class LevelManager : MonoBehaviour
 
     public static Action<int> save;
 
-    [SerializeField]
     List<bool> isColored = new List<bool>();
     
     void CheckLevel(bool colored)
