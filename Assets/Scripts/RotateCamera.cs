@@ -8,15 +8,15 @@ public class RotateCamera : MonoBehaviour
     public float zoomSpeed = 0.5f;
     public float minZoom = 1f;
     public float maxZoom = 5f;
+    public Transform particle_fx;
 
     private Vector2 touchStartPos;
-    private Vector3 rotationEuler;
     private float initialPinchDistance;
-    public Transform target;
-    public float minRotation;
-    public float maxRotation;
+    public Transform target { get; set; }
+   
+
     Camera cam;
-    public Vector3 orignalPos, originalRot;
+    Vector3 orignalPos, originalRot;
 
     private void Start()
     {
@@ -31,7 +31,7 @@ public class RotateCamera : MonoBehaviour
         rotationSpeed = 100f;
         zoomSpeed = 150f;
 #else
-        rotationSpeed = 1.5f;
+        rotationSpeed = 0.7f;/*1.5f;*/
         zoomSpeed = 0.5f;
 #endif
     }
@@ -146,6 +146,7 @@ public class RotateCamera : MonoBehaviour
     void ZoomOut(float scrollVal)
     {
         transform.position = Vector3.MoveTowards(transform.position, orignalPos, scrollVal);
+        particle_fx.localScale = Vector3.MoveTowards(particle_fx.localScale, Vector3.one * 2, scrollVal);
     }
 
     void TargetZoom(float scrollVal, Ray ray)
@@ -160,6 +161,7 @@ public class RotateCamera : MonoBehaviour
         if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, layerMask))
         {
             transform.position = Vector3.MoveTowards(transform.position, hit.point, scrollVal);
+            particle_fx.localScale = Vector3.MoveTowards(particle_fx.localScale, Vector3.one * 0.5f, scrollVal);
         }
     }
 

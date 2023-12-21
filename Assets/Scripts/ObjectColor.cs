@@ -8,7 +8,7 @@ public class ObjectColor : MonoBehaviour
     public Color objClr;
     public bool colored;
     public static Action<Color> onColorSelected, onColored;
-
+    public Texture checkbg;
     private void OnEnable()
     {
         onColorSelected += HighlightObject;
@@ -23,10 +23,12 @@ public class ObjectColor : MonoBehaviour
     {
         GetComponent<Outline>().enabled = false;
         GetComponent<Collider>().enabled = false;
+        gameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", null);
         if (clr.Equals(objClr) && !colored)
         {
             GetComponent<Outline>().enabled = true;
             GetComponent<Collider>().enabled = true;
+            gameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", checkbg);
         }
     }
 

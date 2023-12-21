@@ -67,10 +67,12 @@ public class TapToPaint : MonoBehaviour
                 {
                     if (clr1.Equals(clr2))
                     {
+                        ColorChange.changePos?.Invoke(info.point);
                         info.collider.gameObject.GetComponent<ObjectColor>().colored = true;
                         ObjectColor.onColored?.Invoke(UIManager.chosenClr);
                         info.collider.GetComponent<Renderer>().material.SetColor("_Color", UIManager.chosenClr);
                         info.collider.GetComponent<Outline>().enabled = false;
+                        info.collider.GetComponent<Renderer>().material.SetTexture("_MainTex", null);
                         LevelManager.checkLevel?.Invoke(info.collider.gameObject.GetComponent<ObjectColor>().colored);
                     }
                 }
