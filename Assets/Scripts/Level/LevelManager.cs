@@ -13,10 +13,17 @@ public class LevelManager : MonoBehaviour
     int objsColored = 0;
     public static Action<bool> checkLevel;
 
-    public static Action<int> save;
-
+    public static Action<int> save, delete;
     List<bool> isColored = new List<bool>();
     
+    [ContextMenu("ApplyAllColor")]
+    public void ApplyallColor()
+    {
+        foreach(GameObject r in objsInlevel)
+        {
+            r.GetComponent<Renderer>().material.SetColor("_Color", r.GetComponent<ObjectColor>().objClr);
+        }
+    }
     void CheckLevel(bool colored)
     {
         if(colored)
@@ -25,6 +32,7 @@ public class LevelManager : MonoBehaviour
         if (objsColored >= objsInlevel.Count)
         {
             UIManager.instance.completePanel.SetActive(true);
+            
         }
     }
 
@@ -32,6 +40,7 @@ public class LevelManager : MonoBehaviour
     {
         checkLevel += CheckLevel;
         save += SaveGame;
+        delete += DeleteGame;
         FillList();
     }
 
@@ -39,6 +48,7 @@ public class LevelManager : MonoBehaviour
     {
         checkLevel -= CheckLevel;
         save -= SaveGame;
+        delete -= DeleteGame;
     }
     void FillList()
     {
@@ -60,6 +70,32 @@ public class LevelManager : MonoBehaviour
         }
 
         UIManager.instance.FillColors();
+    }
+
+    void DeleteGame(int levelNo)
+    {
+        try
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(List<bool>));            //Create serializer
+            FileStream stream = new FileStream(Application.persistentDataPath + "/Level" + levelNo, FileMode.Create); //Load file at this path
+            if (stream != null)
+            {
+                isColored.AddRange(serializer.Deserialize(stream) as List<bool>);
+                stream.Close();//Close the stream
+
+                for (int i = 0; i < isColored.Count; i++)
+                {
+                    isColored[i] = false;
+                }
+            }
+
+            serializer.Serialize(stream, isColored);//Write the data in the xml file
+            stream.Close();//Close the stream
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
     }
 
     void SaveGame(int levelNo)
