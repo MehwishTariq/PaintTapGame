@@ -842,7 +842,7 @@ MonoBehaviour:
   - {fileID: 8528653289970161362}
   - {fileID: 5171924212127532836}
   - {fileID: 7968066205735147542}
-  - {fileID: 0}
+  - {fileID: 4612443339803776119}
   - {fileID: 1777792359547477951}
   - {fileID: 2397283998662329525}
   - {fileID: 4604933497387632278}
@@ -4958,6 +4958,11 @@ MonoBehaviour:
   objClr: {r: 1, g: 0.5254902, b: 0.11764707, a: 1}
   colored: 0
   checkbg: {fileID: 2800000, guid: c91cde8afec22294696e2229fd6fadb7, type: 3}
+--- !u!1 &4612443339803776119 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -7116450378752516525, guid: 865b732dff059874d8fb7f255b6b95ba, type: 3}
+  m_PrefabInstance: {fileID: 6719364950375909924}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4715697088690485291 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2039707689543578127, guid: 865b732dff059874d8fb7f255b6b95ba, type: 3}

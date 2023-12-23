@@ -31,8 +31,10 @@ public class LevelManager : MonoBehaviour
 
         if (objsColored >= objsInlevel.Count)
         {
+            AudioManager.Instance.StopMusic();
+            AudioManager.Instance.PlayWinSound();
             UIManager.instance.completePanel.SetActive(true);
-            
+            DeleteGame(GameManager.Level_No);  
         }
     }
 
@@ -80,17 +82,19 @@ public class LevelManager : MonoBehaviour
             FileStream stream = new FileStream(Application.persistentDataPath + "/Level" + levelNo, FileMode.Create); //Load file at this path
             if (stream != null)
             {
-                isColored.AddRange(serializer.Deserialize(stream) as List<bool>);
-                stream.Close();//Close the stream
-
                 for (int i = 0; i < isColored.Count; i++)
                 {
                     isColored[i] = false;
+                    ObjectColor clr = objsInlevel[i].GetComponent<ObjectColor>();
+                    clr.colored = false;
+                    objsInlevel[i].GetComponent<Renderer>().material.SetColor("_Color", clr.objClr);
+                    checkLevel?.Invoke(clr.colored);
                 }
+                serializer.Serialize(stream, isColored);//Write the data in the xml file
+                stream.Close();//Close the stream
             }
 
-            serializer.Serialize(stream, isColored);//Write the data in the xml file
-            stream.Close();//Close the stream
+           
         }
         catch (Exception e)
         {

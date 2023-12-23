@@ -42,6 +42,7 @@ public class TapToPaint : MonoBehaviour
                         info.collider.GetComponent<Renderer>().material.SetColor("_Color", UIManager.chosenClr);
                         info.collider.GetComponent<Outline>().enabled = false;
                         LevelManager.checkLevel?.Invoke(info.collider.gameObject.GetComponent<ObjectColor>().colored);
+                        AudioManager.Instance.PlayColorDone();
                     }
                 }
             }
@@ -74,6 +75,7 @@ public class TapToPaint : MonoBehaviour
                         info.collider.GetComponent<Outline>().enabled = false;
                         info.collider.GetComponent<Renderer>().material.SetTexture("_MainTex", null);
                         LevelManager.checkLevel?.Invoke(info.collider.gameObject.GetComponent<ObjectColor>().colored);
+                        AudioManager.Instance.PlayColorDone();
                     }
                 }
             }

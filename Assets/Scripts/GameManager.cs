@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     public void CreateLevel(int levelNo)
     {
+        AudioManager.Instance.PlayClick();
         if (levelObj != null)
             Destroy(levelObj);
 

@@ -139,6 +139,7 @@ public class RotateCamera : MonoBehaviour
 
     public void ResetTransform()
     {
+        AudioManager.Instance.PlayClick();
         transform.position = orignalPos;
         target.eulerAngles = originalRot;
     }

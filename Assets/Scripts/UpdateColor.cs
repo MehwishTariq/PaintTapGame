@@ -24,7 +24,11 @@ public class UpdateColor : MonoBehaviour
             UIManager.instance.colorsCount[clr]--;
             txt.text = UIManager.instance.colorsCount[clr].ToString();
             if (UIManager.instance.colorsCount[clr] == 0)
+            {
+                
+                //Add Tick
                 gameObject.SetActive(false);
+            }
         }
     }
 }

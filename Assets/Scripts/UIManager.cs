@@ -19,10 +19,12 @@ public class UIManager : MonoBehaviour
     {
         instance = this;
         colorsCount = new Dictionary<Color, int>();
+        AudioManager.Instance.PlayMusic();
     }
 
     public void GotoMM()
     {
+        AudioManager.Instance.PlayClick();
         InGamePanel.SetActive(false);
         mainMenuPanel.SetActive(true);
         LevelManager.save?.Invoke(GameManager.Level_No);
@@ -30,6 +32,7 @@ public class UIManager : MonoBehaviour
 
     public void Play()
     {
+        AudioManager.Instance.PlayClick();
         levelSelectionPanel.SetActive(true);
         mainMenuPanel.SetActive(false);
     }
@@ -43,6 +46,8 @@ public class UIManager : MonoBehaviour
 
     public void NextLevel()
     {
+        AudioManager.Instance.PlayMusic();
+        AudioManager.Instance.PlayClick();
         InGamePanel.SetActive(false);
         completePanel.SetActive(false);
         levelSelectionPanel.SetActive(true);
@@ -50,6 +55,7 @@ public class UIManager : MonoBehaviour
 
     public void Quit()
     {
+        AudioManager.Instance.PlayClick();
         LevelManager.save?.Invoke(GameManager.Level_No);
         Application.Quit();
     }
