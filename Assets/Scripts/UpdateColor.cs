@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UpdateColor : MonoBehaviour
 {
     public Text txt;
+    public Image tick;
     private void OnEnable()
     {
         ObjectColor.onColored += UpdateColorText;
@@ -25,9 +26,10 @@ public class UpdateColor : MonoBehaviour
             txt.text = UIManager.instance.colorsCount[clr].ToString();
             if (UIManager.instance.colorsCount[clr] == 0)
             {
-                
-                //Add Tick
-                gameObject.SetActive(false);
+                tick.gameObject.SetActive(true);
+                txt.gameObject.SetActive(false);
+                GetComponent<Button>().interactable = false;
+                transform.SetSiblingIndex(UIManager.instance.colorsCount.Count - 1);
             }
         }
     }

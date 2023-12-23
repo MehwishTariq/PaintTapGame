@@ -31,8 +31,12 @@ public class LevelManager : MonoBehaviour
 
         if (objsColored >= objsInlevel.Count)
         {
+            Debug.Log("YIO");
             AudioManager.Instance.StopMusic();
             AudioManager.Instance.PlayWinSound();
+            PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins", 0) + 100);
+            int coins = PlayerPrefs.GetInt("Coins", 0);
+            UIManager.instance.coins.text = coins.ToString();
             UIManager.instance.completePanel.SetActive(true);
             DeleteGame(GameManager.Level_No);  
         }
@@ -58,17 +62,22 @@ public class LevelManager : MonoBehaviour
         UIManager.instance.colorsCount.Clear();
         foreach (GameObject x in objsInlevel)
         {
-            if (!x.GetComponent<ObjectColor>().colored)
+            if (x.GetComponent<ObjectColor>())
             {
-                if (!UIManager.instance.colorsCount.ContainsKey(x.GetComponent<ObjectColor>().objClr))
+                if (!x.GetComponent<ObjectColor>().colored)
                 {
-                    UIManager.instance.colorsCount.Add(x.GetComponent<ObjectColor>().objClr, 1);
-                }
-                else
-                {
-                    UIManager.instance.colorsCount[x.GetComponent<ObjectColor>().objClr]++;
+                    if (!UIManager.instance.colorsCount.ContainsKey(x.GetComponent<ObjectColor>().objClr))
+                    {
+                        UIManager.instance.colorsCount.Add(x.GetComponent<ObjectColor>().objClr, 1);
+                    }
+                    else
+                    {
+                        UIManager.instance.colorsCount[x.GetComponent<ObjectColor>().objClr]++;
+                    }
                 }
             }
+            else
+                Debug.Log("Here:" + x.name);
         }
 
         UIManager.instance.FillColors();
@@ -88,7 +97,7 @@ public class LevelManager : MonoBehaviour
                     ObjectColor clr = objsInlevel[i].GetComponent<ObjectColor>();
                     clr.colored = false;
                     objsInlevel[i].GetComponent<Renderer>().material.SetColor("_Color", clr.objClr);
-                    checkLevel?.Invoke(clr.colored);
+                    objsColored = 0;
                 }
                 serializer.Serialize(stream, isColored);//Write the data in the xml file
                 stream.Close();//Close the stream
@@ -107,7 +116,8 @@ public class LevelManager : MonoBehaviour
         isColored.Clear();
         for(int i = 0; i < objsInlevel.Count; i++)
         {
-            isColored.Add(objsInlevel[i].GetComponent<ObjectColor>().colored);
+            if(objsInlevel[i].GetComponent<ObjectColor>())
+                isColored.Add(objsInlevel[i].GetComponent<ObjectColor>().colored);
         }
         Debug.Log("SAVE DATA");
         //Create new xml file

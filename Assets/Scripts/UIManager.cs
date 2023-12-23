@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -15,6 +16,8 @@ public class UIManager : MonoBehaviour
     public List<Color> colorsSet { get; set; }
     public Dictionary<Color, int> colorsCount;
 
+    public TextMeshProUGUI coins;
+
     private void Awake()
     {
         instance = this;
@@ -26,6 +29,7 @@ public class UIManager : MonoBehaviour
     {
         AudioManager.Instance.PlayClick();
         InGamePanel.SetActive(false);
+        completePanel.SetActive(false);
         mainMenuPanel.SetActive(true);
         LevelManager.save?.Invoke(GameManager.Level_No);
     }
