@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,6 @@ public class RotateCamera : MonoBehaviour
     private Vector2 touchStartPos;
     private float initialPinchDistance;
     public Transform target { get; set; }
-   
 
     Camera cam;
     Vector3 orignalPos, originalRot;
@@ -97,7 +97,7 @@ public class RotateCamera : MonoBehaviour
                         // Rotate the object locally
                         //transform.RotateAround(target.position, -Vector3.up, horizontalRotation);
                         
-                        target.Rotate(-Vector3.forward, verticalRotation, Space.World);
+                        //target.Rotate(-Vector3.forward, verticalRotation, Space.World);
                         target.Rotate(Vector3.up, horizontalRotation, Space.World);
                         //touchStartPos = touch.position; // Update the touch start position
                     }
@@ -114,7 +114,7 @@ public class RotateCamera : MonoBehaviour
         float verticalRotation = verticalInput * rotationSpeed * Time.deltaTime;
 
         
-        target.Rotate(-Vector3.forward, verticalRotation, Space.World);
+        //target.Rotate(-Vector3.forward, verticalRotation, Space.World);
         target.Rotate(Vector3.up, horizontalRotation, Space.World);
 
        // transform.RotateAround(target.position,Vector3.forward, verticalRotation);

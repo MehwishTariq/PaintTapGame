@@ -22,6 +22,11 @@ public class UIManager : MonoBehaviour
     {
         instance = this;
         colorsCount = new Dictionary<Color, int>();
+        
+    }
+
+    private void Start()
+    {
         AudioManager.Instance.PlayMusic();
     }
 
@@ -32,6 +37,7 @@ public class UIManager : MonoBehaviour
         completePanel.SetActive(false);
         mainMenuPanel.SetActive(true);
         LevelManager.save?.Invoke(GameManager.Level_No);
+        
     }
 
     public void Play()

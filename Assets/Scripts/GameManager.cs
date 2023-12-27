@@ -22,7 +22,13 @@ public class GameManager : MonoBehaviour
         levelObj.gameObject.SetActive(true);
         cameraRef.gameObject.SetActive(true);
         cameraRef.target = levelObj.GetComponent<Level>().levelObj.transform;
+        Invoke("ResetCam", 0.5f);
         StartCoroutine(UIManager.instance.OpenLevel());
     }
 
+
+    void ResetCam()
+    {
+        cameraRef.ResetTransform();
+    }
 }
