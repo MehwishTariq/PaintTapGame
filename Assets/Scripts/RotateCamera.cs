@@ -23,6 +23,7 @@ public class RotateCamera : MonoBehaviour
         cam = GetComponent<Camera>();
         orignalPos = transform.position;
         originalRot = target.eulerAngles;
+        
     }
 
     private void OnEnable()

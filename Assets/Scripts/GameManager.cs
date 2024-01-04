@@ -5,12 +5,26 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+
     [SerializeField] RotateCamera cameraRef;
     [SerializeField] List<GameObject> levels = new List<GameObject>();
     public static int Level_No;
     public static Action<int> onGameStart;
     GameObject levelObj;
+    [SerializeField]
+    ParticleSystem winParticles;
+    LevelManager levelManager;
+    [SerializeField]
+    float time;
 
+
+
+    private void Awake()
+    {
+        instance = this;
+
+    }
     public void CreateLevel(int levelNo)
     {
         AudioManager.Instance.PlayClick();
@@ -24,11 +38,36 @@ public class GameManager : MonoBehaviour
         cameraRef.target = levelObj.GetComponent<Level>().levelObj.transform;
         Invoke("ResetCam", 0.5f);
         StartCoroutine(UIManager.instance.OpenLevel());
+        levelManager = levelObj.GetComponentInChildren<LevelManager>();
     }
 
 
     void ResetCam()
     {
         cameraRef.ResetTransform();
+    }
+
+    public void LevelComplete()
+    {
+        foreach (var item in levelManager.objsInlevel)
+        {
+            item.GetComponent<ObjectColor>().SetWhiteColor();
+        }
+        StartCoroutine(Complete());
+
+    }
+    IEnumerator Complete()
+    {
+        UIManager.instance.InGamePanel.SetActive(false);
+        float delay = time/ levelManager.objsInlevel.Count;
+        for (int i = 0; i < levelManager.objsInlevel.Count; i++)
+        {
+            levelManager.objsInlevel[i].GetComponent<ObjectColor>().SetOriginalColor();
+            yield return new WaitForSeconds(delay);
+        }
+        winParticles.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1.5f);
+        UIManager.instance.completePanel.SetActive(true);
+        levelManager.DeleteGame(GameManager.Level_No);
     }
 }

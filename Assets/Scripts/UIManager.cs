@@ -12,24 +12,30 @@ public class UIManager : MonoBehaviour
     public GameObject paintImg,content;
     public static Color chosenClr;
     public RectTransform area;
-    public GameObject completePanel, mainMenuPanel, InGamePanel, levelSelectionPanel;
+    public GameObject completePanel, mainMenuPanel, InGamePanel, levelSelectionPanel,loading;
     public List<Color> colorsSet { get; set; }
     public Dictionary<Color, int> colorsCount;
 
     public TextMeshProUGUI coins;
-
+    int levelNo = 0;
+    public const string levelPref = "LevelNo";
     private void Awake()
     {
         instance = this;
         colorsCount = new Dictionary<Color, int>();
+
         
     }
 
     private void Start()
     {
         AudioManager.Instance.PlayMusic();
+        
     }
-
+    void OnEnable()
+    {
+        levelNo = PlayerPrefs.GetInt(levelPref.ToString(), 1);    
+    }
     public void GotoMM()
     {
         AudioManager.Instance.PlayClick();
@@ -43,15 +49,19 @@ public class UIManager : MonoBehaviour
     public void Play()
     {
         AudioManager.Instance.PlayClick();
-        levelSelectionPanel.SetActive(true);
-        mainMenuPanel.SetActive(false);
+        loading.SetActive(true);
+        GameManager.instance.CreateLevel(levelNo);
+        //levelSelectionPanel.SetActive(true);
+        //mainMenuPanel.SetActive(false);
     }
 
     public IEnumerator OpenLevel()
     {
         yield return new WaitForSeconds(1f);
         InGamePanel.SetActive(true);
-        levelSelectionPanel.SetActive(false);
+        mainMenuPanel.SetActive(false);
+        loading.SetActive(false);
+        //levelSelectionPanel.SetActive(false);
     }
 
     public void NextLevel()
@@ -60,7 +70,17 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlayClick();
         InGamePanel.SetActive(false);
         completePanel.SetActive(false);
-        levelSelectionPanel.SetActive(true);
+
+        PlayerPrefs.SetInt(levelPref.ToString(), PlayerPrefs.GetInt(levelPref, 1) + 1);
+        levelNo = PlayerPrefs.GetInt(levelPref, 1);
+        loading.SetActive(true);
+        if(levelNo == 5)
+        {
+            levelNo = 1;
+            PlayerPrefs.SetInt(levelPref.ToString(), levelNo);
+        }
+        GameManager.instance.CreateLevel(levelNo);
+        //levelSelectionPanel.SetActive(true);
     }
 
     public void Quit()

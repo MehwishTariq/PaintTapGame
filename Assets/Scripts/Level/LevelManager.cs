@@ -37,11 +37,13 @@ public class LevelManager : MonoBehaviour
             PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins", 0) + 100);
             int coins = PlayerPrefs.GetInt("Coins", 0);
             UIManager.instance.coins.text = coins.ToString();
-            UIManager.instance.completePanel.SetActive(true);
-            DeleteGame(GameManager.Level_No);  
+            //UIManager.instance.completePanel.SetActive(true);
+            //DeleteGame(GameManager.Level_No);
+            GameManager.instance.LevelComplete();
+            
         }
     }
-
+    
     public void Start()
     {
         checkLevel += CheckLevel;
@@ -83,7 +85,7 @@ public class LevelManager : MonoBehaviour
         UIManager.instance.FillColors();
     }
 
-    void DeleteGame(int levelNo)
+    internal void DeleteGame(int levelNo)
     {
         try
         {
