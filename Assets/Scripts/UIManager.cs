@@ -23,8 +23,6 @@ public class UIManager : MonoBehaviour
     {
         instance = this;
         colorsCount = new Dictionary<Color, int>();
-
-        
     }
 
     private void Start()
@@ -62,6 +60,8 @@ public class UIManager : MonoBehaviour
         mainMenuPanel.SetActive(false);
         loading.SetActive(false);
         //levelSelectionPanel.SetActive(false);
+        if (PlayerPrefs.GetInt("Tutorial", 0) == 0)
+            TutorialController.InvokeNextEvent(TutorialController.cameraRot);
     }
 
     public void NextLevel()
@@ -70,7 +70,7 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlayClick();
         InGamePanel.SetActive(false);
         completePanel.SetActive(false);
-
+        GameManager.instance.TurnParticlesOff();
         PlayerPrefs.SetInt(levelPref.ToString(), PlayerPrefs.GetInt(levelPref, 1) + 1);
         levelNo = PlayerPrefs.GetInt(levelPref, 1);
         loading.SetActive(true);
@@ -94,6 +94,7 @@ public class UIManager : MonoBehaviour
     {
         chosenClr = img.color;
         ObjectColor.onColorSelected?.Invoke(chosenClr);
+        
     }
 
     GameObject tempContent;
@@ -113,6 +114,10 @@ public class UIManager : MonoBehaviour
             y.GetComponent<Button>().onClick.AddListener(() =>
             {
                 SetColor(y.GetComponent<Image>());
+                if (PlayerPrefs.GetInt("Tutorial", 0) == 0)
+                {
+                    TutorialController.InvokeNextEvent(TutorialController.tapOnObj);
+                }
             });
         }
     }

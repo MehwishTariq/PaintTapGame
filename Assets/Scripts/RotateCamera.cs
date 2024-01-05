@@ -18,6 +18,8 @@ public class RotateCamera : MonoBehaviour
     Camera cam;
     Vector3 orignalPos, originalRot;
 
+    float clockTime = 1f;
+
     private void Start()
     {
         cam = GetComponent<Camera>();
@@ -32,10 +34,12 @@ public class RotateCamera : MonoBehaviour
         rotationSpeed = 100f;
         zoomSpeed = 150f;
 #else
-        rotationSpeed = 0.7f;/*1.5f;*/
+        rotationSpeed = 0.7f;
         zoomSpeed = 0.5f;
 #endif
     }
+    bool rotate, zoom;
+    
 
     private void Update()
     {
@@ -59,7 +63,6 @@ public class RotateCamera : MonoBehaviour
 
             if (RectTransformUtility.RectangleContainsScreenPoint(UIManager.instance.area, touch0.position))
             {
-                
                 if (zoomAmount > 0)
                 {
                     Ray pos = cam.ScreenPointToRay(touch0.position);
@@ -70,6 +73,16 @@ public class RotateCamera : MonoBehaviour
                     ZoomOut(Mathf.Abs(zoomAmount));
                 }
 
+                if (PlayerPrefs.GetInt("Tutorial", 0) == 0 && !zoom)
+                {
+                    clockTime -= Time.deltaTime;
+                    if (clockTime <= 0)
+                    {
+                        clockTime = 1;
+                        zoom = true;
+                        TutorialController.InvokeNextEvent(TutorialController.colorSelect);
+                    }
+                }
                 initialPinchDistance = currentPinchDistance;
             }
         }
@@ -100,6 +113,16 @@ public class RotateCamera : MonoBehaviour
                         
                         //target.Rotate(-Vector3.forward, verticalRotation, Space.World);
                         target.Rotate(Vector3.up, horizontalRotation, Space.World);
+                        if( PlayerPrefs.GetInt("Tutorial",0) == 0 && !rotate)
+                        {
+                            clockTime -= Time.deltaTime;
+                            if (clockTime <= 0)
+                            {
+                                clockTime = 1;
+                                rotate = true;
+                                TutorialController.InvokeNextEvent(TutorialController.cameraZoom);
+                            }
+                        }
                         //touchStartPos = touch.position; // Update the touch start position
                     }
                     break;
@@ -121,6 +144,19 @@ public class RotateCamera : MonoBehaviour
        // transform.RotateAround(target.position,Vector3.forward, verticalRotation);
        // transform.RotateAround(target.position, -Vector3.up, horizontalRotation);
         
+        if(horizontalRotation != 0)
+        {
+            if( PlayerPrefs.GetInt("Tutorial",0) == 0 && !rotate)
+            {
+                clockTime -= Time.deltaTime;
+                if (clockTime <= 0)
+                {
+                    clockTime = 1;
+                    rotate = true;
+                    TutorialController.InvokeNextEvent(TutorialController.cameraZoom);
+                }
+            }
+        }
         float scrollWheel = Input.GetAxis("Mouse ScrollWheel");
         float zoomAmount = scrollWheel * zoomSpeed * Time.deltaTime;
 
@@ -133,6 +169,20 @@ public class RotateCamera : MonoBehaviour
         else
         {
             ZoomOut(Mathf.Abs(zoomAmount));
+        }
+        
+        if(zoomAmount != 0)
+        {
+            if (PlayerPrefs.GetInt("Tutorial", 0) == 0 && !zoom)
+            {
+                clockTime -= Time.deltaTime;
+                if (clockTime <= 0)
+                {
+                    clockTime = 1;
+                    zoom = true;
+                    TutorialController.InvokeNextEvent(TutorialController.colorSelect);
+                }
+            }
         }
 #endif
     }

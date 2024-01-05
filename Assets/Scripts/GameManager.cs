@@ -7,14 +7,14 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    [SerializeField] RotateCamera cameraRef;
+    [SerializeField] public RotateCamera cameraRef;
     [SerializeField] List<GameObject> levels = new List<GameObject>();
     public static int Level_No;
     public static Action<int> onGameStart;
     GameObject levelObj;
     [SerializeField]
     ParticleSystem winParticles;
-    LevelManager levelManager;
+    public LevelManager levelManager { set; get; }
     [SerializeField]
     float time;
 
@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
             Destroy(levelObj);
 
         Level_No = levelNo;
-        levelObj = Instantiate(levels[levelNo - 1],  Vector3.zero,Quaternion.identity);
+        levelObj = Instantiate(levels[levelNo - 1], levels[levelNo - 1].transform.position, Quaternion.identity);
         levelObj.gameObject.SetActive(true);
         cameraRef.gameObject.SetActive(true);
         cameraRef.target = levelObj.GetComponent<Level>().levelObj.transform;
@@ -69,5 +69,10 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         UIManager.instance.completePanel.SetActive(true);
         levelManager.DeleteGame(GameManager.Level_No);
+    }
+
+    public void TurnParticlesOff()
+    {
+        winParticles.gameObject.SetActive(false);
     }
 }
