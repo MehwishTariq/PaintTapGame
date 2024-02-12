@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "165727280679",
+    "project_id": "paint-tap",
+    "storage_bucket": "paint-tap.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:165727280679:android:3a6d97c4379fe6b1f27802",
+        "android_client_info": {
+          "package_name": "com.stardust.painttap"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTqhE3StKyL2F84BLqi6d5whQtfsCEkhc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

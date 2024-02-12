@@ -1,3 +1,4 @@
+using MLabsSdk;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -39,6 +40,7 @@ public class GameManager : MonoBehaviour
         Invoke("ResetCam", 0.5f);
         StartCoroutine(UIManager.instance.OpenLevel());
         levelManager = levelObj.GetComponentInChildren<LevelManager>();
+        AnalyticsImp.instance.LogLevelStartedEvent(levelNo);
     }
 
 
@@ -69,6 +71,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         UIManager.instance.completePanel.SetActive(true);
         levelManager.DeleteGame(GameManager.Level_No);
+        AnalyticsImp.instance.LogLevelCompleteEvent(GameManager.Level_No);
     }
 
     public void TurnParticlesOff()
