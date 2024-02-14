@@ -34,7 +34,7 @@ public class RotateCamera : MonoBehaviour
         rotationSpeed = 100f;
         zoomSpeed = 150f;
 #else
-        rotationSpeed = 0.7f;
+        rotationSpeed = 5f;
         zoomSpeed = 0.5f;
 #endif
     }
@@ -110,7 +110,7 @@ public class RotateCamera : MonoBehaviour
 
                         // Rotate the object locally
                         //transform.RotateAround(target.position, -Vector3.up, horizontalRotation);
-                        
+
                         //target.Rotate(-Vector3.forward, verticalRotation, Space.World);
                         target.Rotate(Vector3.up, horizontalRotation, Space.World);
                         if( PlayerPrefs.GetInt("Tutorial",0) == 0 && !rotate)
@@ -123,8 +123,8 @@ public class RotateCamera : MonoBehaviour
                                 TutorialController.InvokeNextEvent(TutorialController.cameraZoom);
                             }
                         }
-                        //touchStartPos = touch.position; // Update the touch start position
                     }
+                    touchStartPos = touch.position; // Update the touch start position
                     break;
             }
         }
