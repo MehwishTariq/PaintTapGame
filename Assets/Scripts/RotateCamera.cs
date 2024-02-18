@@ -215,6 +215,12 @@ public class RotateCamera : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, hit.point, scrollVal);
             particle_fx.localScale = Vector3.MoveTowards(particle_fx.localScale, Vector3.one * 0.5f, scrollVal);
         }
+        else
+        {
+            Vector3 hitPoint = ray.origin + ray.direction;
+            Vector3 nearPoint = GameManager.instance.levelManager.GetNearestPoint(hitPoint);
+            transform.position = Vector3.MoveTowards(transform.position, nearPoint, scrollVal);
+        }
     }
 
 }

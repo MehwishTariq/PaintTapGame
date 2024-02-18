@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 using UnityEngine;
 
@@ -15,7 +16,19 @@ public class LevelManager : MonoBehaviour
 
     public static Action<int> save, delete;
     List<bool> isColored = new List<bool>();
-    
+
+    public List<Transform> nearPoints;
+
+    public Vector3 GetNearestPoint(Vector3 touchpos)
+    {
+        List<float> distances = new List<float>();
+        for (int i = 0; i < nearPoints.Count; i++) 
+        {
+            distances.Add(Vector3.Distance(nearPoints[i].position, touchpos));
+        }
+        return nearPoints[distances.FindIndex(x => x == distances.Min())].position;
+    }
+
     [ContextMenu("ApplyAllColor")]
     public void ApplyallColor()
     {

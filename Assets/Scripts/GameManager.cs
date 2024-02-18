@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
     {
         UIManager.instance.InGamePanel.SetActive(false);
         ResetCam();
+        yield return new WaitForSeconds(0.2f);
         float delay = time/ levelManager.objsInlevel.Count;
         for (int i = 0; i < levelManager.objsInlevel.Count; i++)
         {
