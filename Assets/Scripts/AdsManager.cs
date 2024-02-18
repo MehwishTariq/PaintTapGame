@@ -35,7 +35,7 @@ public class AdsManager : MonoBehaviour
             LoadInterstitialAd();
             LoadBannerAd();
             LoadAppOpenAd();
-            allowTimer = true;
+            Invoke(nameof(Delay), 3f);
         });
     }
 
@@ -52,6 +52,7 @@ public class AdsManager : MonoBehaviour
                 allowTimer = false;
                 clockTime = 60;
                 ShowInterstitialAd();
+                
             }
         }
     }
@@ -67,15 +68,23 @@ public class AdsManager : MonoBehaviour
     {
         if (_interstitialAd != null && _interstitialAd.CanShowAd())
         {
+            HideBanner();
             Debug.Log("Showing interstitial ad.");
             _interstitialAd.Show();
         }
         else
         {
+            LoadInterstitialAd();
             Debug.LogError("Interstitial ad is not ready yet.");
         }
+        Invoke(nameof(Delay), 2f);
+        
     }
-
+    void Delay()
+    {
+        allowTimer = true;
+        ShowBannerAd();
+    }
     /// <summary>
     /// Loads the interstitial ad.
     /// </summary>
@@ -141,15 +150,15 @@ public class AdsManager : MonoBehaviour
         {
             Debug.Log("Interstitial ad full screen content closed.");
             LoadInterstitialAd();
-            allowTimer = true;
+            //allowTimer = true;
         };
         // Raised when the ad failed to open full screen content.
         interstitialAd.OnAdFullScreenContentFailed += (AdError error) =>
         {
             Debug.LogError("Interstitial ad failed to open full screen content " +
                            "with error : " + error);
-            allowTimer = true;
-            LoadInterstitialAd();
+           // allowTimer = true;
+           // LoadInterstitialAd();
         };
     }
     #endregion
@@ -234,13 +243,11 @@ public class AdsManager : MonoBehaviour
         ad.OnAdFullScreenContentOpened += () =>
         {
             Debug.Log("App open ad full screen content opened.");
-            HideBanner();
         };
         // Raised when the ad closed full screen content.
         ad.OnAdFullScreenContentClosed += () =>
         {
             Debug.Log("App open ad full screen content closed.");
-            ShowBannerAd();
         };
         // Raised when the ad failed to open full screen content.
         ad.OnAdFullScreenContentFailed += (AdError error) =>
@@ -267,6 +274,7 @@ public class AdsManager : MonoBehaviour
         }
         else
         {
+            LoadBannerAd();
             Debug.LogError("Banner ad is not ready yet.");
         }
     }
@@ -314,6 +322,7 @@ public class AdsManager : MonoBehaviour
         {
             _bannerView.Hide();
         }
+        LoadBannerAd();
     }
 
     /// <summary>
@@ -344,7 +353,7 @@ public class AdsManager : MonoBehaviour
         {
             Debug.LogError("Banner view failed to load an ad with error : "
                 + error);
-            LoadBannerAd();
+          
         };
         // Raised when the ad is estimated to have earned money.
         _bannerView.OnAdPaid += (AdValue adValue) =>
