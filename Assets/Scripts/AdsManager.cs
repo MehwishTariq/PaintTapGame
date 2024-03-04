@@ -20,23 +20,33 @@ public class AdsManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    public bool testAds;
 
     private string appId = "ca-app-pub-7418823270776132~9642597821";
     private string interstitialAdUnitId = "ca-app-pub-7418823270776132/5492471966";
-    private string appOpenAdUnitId = "ca-app-pub-7418823270776132/2782548149";
     private string bannerAdUnitId = "ca-app-pub-7418823270776132/8552328691";
 
     public void Start()
     {
+        if (testAds)
+        {
+            interstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712";
+            bannerAdUnitId = "ca-app-pub-3940256099942544/6300978111";
+
+        }
+
         // Initialize the Google Mobile Ads SDK.
         MobileAds.Initialize((InitializationStatus initStatus) =>
         {
             // This callback is called once the MobileAds SDK is initialized.
-            LoadInterstitialAd();
-            LoadBannerAd();
-            LoadAppOpenAd();
-            Invoke(nameof(Delay), 3f);
+            
         });
+
+        LoadInterstitialAd();
+        LoadBannerAd();
+
+        Debug.Log("HERE CAll DElay");
+            Invoke(nameof(Delay), 3f);
     }
 
     bool allowTimer;
@@ -46,6 +56,7 @@ public class AdsManager : MonoBehaviour
     {
         if (allowTimer)
         {
+            //Debug.Log("ClockTime: " + clockTime);
             clockTime -= Time.deltaTime;
             if(clockTime <= 0)
             {
@@ -77,12 +88,13 @@ public class AdsManager : MonoBehaviour
             LoadInterstitialAd();
             Debug.LogError("Interstitial ad is not ready yet.");
         }
-        Invoke(nameof(Delay), 2f);
+        Invoke("Delay", 2f);
         
     }
     void Delay()
     {
         allowTimer = true;
+        Debug.Log("Show BANNER");
         ShowBannerAd();
     }
     /// <summary>
@@ -163,101 +175,7 @@ public class AdsManager : MonoBehaviour
     }
     #endregion
 
-    #region AppOpen
-    private AppOpenAd appOpenAd;
-
-    /// <summary>
-    /// Shows the app open ad.
-    /// </summary>
-    public void ShowAppOpenAd()
-    {
-        if (appOpenAd != null && appOpenAd.CanShowAd())
-        {
-            Debug.Log("Showing app open ad.");
-            appOpenAd.Show();
-        }
-        else
-        {
-            Debug.LogError("App open ad is not ready yet.");
-        }
-
-    }
-    /// <summary>
-    /// Loads the app open ad.
-    /// </summary>
-    public void LoadAppOpenAd()
-    {
-        // Clean up the old ad before loading a new one.
-        if (appOpenAd != null)
-        {
-            appOpenAd.Destroy();
-            appOpenAd = null;
-        }
-
-        Debug.Log("Loading the app open ad.");
-
-        // Create our request used to load the ad.
-        var adRequest = new AdRequest();
-
-        // send the request to load the ad.
-        AppOpenAd.Load(appOpenAdUnitId, adRequest,
-            (AppOpenAd ad, LoadAdError error) =>
-            {
-              // if error is not null, the load request failed.
-                if (error != null || ad == null)
-                {
-                    Debug.LogError("app open ad failed to load an ad " +
-                                   "with error : " + error);
-                    return;
-                }
-
-                Debug.Log("App open ad loaded with response : "
-                          + ad.GetResponseInfo());
-
-                appOpenAd = ad;
-                RegisterEventHandlers(ad);
-                ShowAppOpenAd();
-            });
-    }
-
-    private void RegisterEventHandlers(AppOpenAd ad)
-    {
-        // Raised when the ad is estimated to have earned money.
-        ad.OnAdPaid += (AdValue adValue) =>
-        {
-            Debug.Log(String.Format("App open ad paid {0} {1}.",
-                adValue.Value,
-                adValue.CurrencyCode));
-        };
-        // Raised when an impression is recorded for an ad.
-        ad.OnAdImpressionRecorded += () =>
-        {
-            Debug.Log("App open ad recorded an impression.");
-        };
-        // Raised when a click is recorded for an ad.
-        ad.OnAdClicked += () =>
-        {
-            Debug.Log("App open ad was clicked.");
-        };
-        // Raised when an ad opened full screen content.
-        ad.OnAdFullScreenContentOpened += () =>
-        {
-            Debug.Log("App open ad full screen content opened.");
-        };
-        // Raised when the ad closed full screen content.
-        ad.OnAdFullScreenContentClosed += () =>
-        {
-            Debug.Log("App open ad full screen content closed.");
-        };
-        // Raised when the ad failed to open full screen content.
-        ad.OnAdFullScreenContentFailed += (AdError error) =>
-        {
-            Debug.LogError("App open ad failed to open full screen content " +
-                           "with error : " + error);
-        };
-    }
-    #endregion
-
+  
     #region Banner
     BannerView _bannerView;
 
