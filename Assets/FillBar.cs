@@ -6,26 +6,34 @@ using UnityEngine.UI;
 
 public class FillBar : MonoBehaviour
 {
-    float clocktime = 7;
     Image img;
+
+    public float fillDuration = 5f;
+    public float targetFillAmount = 1f;
+
+    private float currentFillAmount = 0f;
 
     private void Start()
     {
         img = GetComponent<Image>();
+        StartCoroutine(FillImageOverTime());
     }
-
-    private void Update()
+    
+    IEnumerator FillImageOverTime()
     {
-        if (clocktime > 0)
+        float timer = 0f;
+        float startAmount = img.fillAmount;
+
+        while (timer < fillDuration)
         {
-            clocktime -= Time.deltaTime;
-            img.fillAmount = 7 - clocktime;
+            timer += Time.deltaTime;
+            currentFillAmount = Mathf.Lerp(startAmount, targetFillAmount, timer / fillDuration);
+            img.fillAmount = currentFillAmount;
+            yield return null; // Wait for the next frame
         }
 
-        if (AppOpenManager.isadDone)
-        {
-            AppOpenManager.isadDone = false;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        }
+        // Ensure that the fill amount reaches the target exactly
+        img.fillAmount = targetFillAmount;
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

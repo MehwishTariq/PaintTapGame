@@ -27,7 +27,8 @@ namespace MLabsSdk
 
         private void Start()
         {
-            Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
+            Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
+            {
                 var dependencyStatus = task.Result;
                 if (dependencyStatus == Firebase.DependencyStatus.Available)
                 {
@@ -51,7 +52,8 @@ namespace MLabsSdk
             {
                 MLogs(eventName);
                 FirebaseAnalytics.LogEvent(eventName);
-            }else
+            }
+            else
             {
                 MLogs("Firebase not initialized");
             }
@@ -79,7 +81,8 @@ namespace MLabsSdk
                 MLogs("EventLevelStart" + " : " + "ParameterLevel" + " : " + level);
                 FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventLevelStart,
                         new Parameter(FirebaseAnalytics.ParameterLevel, level));
-            }else
+            }
+            else
             {
                 MLogs("Firebase not initialized");
             }
@@ -94,7 +97,8 @@ namespace MLabsSdk
                 FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventLevelUp,
                     new Parameter("success", 1),
                     new Parameter(FirebaseAnalytics.ParameterLevel, level));
-            }else
+            }
+            else
             {
                 MLogs("Firebase not initialized");
             }
@@ -108,7 +112,8 @@ namespace MLabsSdk
                 FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventLevelEnd,
                         new Parameter("success", 0),
                         new Parameter(FirebaseAnalytics.ParameterLevel, level));
-            }else
+            }
+            else
             {
                 MLogs("Firebase not initialized");
             }

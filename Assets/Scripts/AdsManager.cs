@@ -44,9 +44,7 @@ public class AdsManager : MonoBehaviour
 
         LoadInterstitialAd();
         LoadBannerAd();
-
-        Debug.Log("HERE CAll DElay");
-            Invoke(nameof(Delay), 3f);
+        Invoke(nameof(Delay), 1f);
     }
 
     bool allowTimer;
@@ -88,7 +86,7 @@ public class AdsManager : MonoBehaviour
             LoadInterstitialAd();
             Debug.LogError("Interstitial ad is not ready yet.");
         }
-        Invoke("Delay", 2f);
+        Invoke(nameof(Delay), 1f);
         
     }
     void Delay()

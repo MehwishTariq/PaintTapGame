@@ -43,13 +43,12 @@ public class AppOpenManager : MonoBehaviour
         {
             // This callback is called once the MobileAds SDK is initialized.
             isInitialized = true;
-            Debug.Log("HERE INIT" + isInitialized);
-
+            LoadAd();
         });
 
     }
 
-    private void Update()
+    private void LoadAd()
     {
         if (isInitialized)
         {
