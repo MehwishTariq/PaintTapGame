@@ -36,11 +36,11 @@ public class AdsManager : MonoBehaviour
         }
 
         // Initialize the Google Mobile Ads SDK.
-        MobileAds.Initialize((InitializationStatus initStatus) =>
-        {
-            // This callback is called once the MobileAds SDK is initialized.
+        //MobileAds.Initialize((InitializationStatus initStatus) =>
+        //{
+        //    // This callback is called once the MobileAds SDK is initialized.
             
-        });
+        //});
 
         LoadInterstitialAd();
         LoadBannerAd();

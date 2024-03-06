@@ -28,6 +28,8 @@ public class AppOpenManager : MonoBehaviour
         }
     }
 
+    bool isInitialized;
+
     public void Start()
     {
         if (testAds)
@@ -40,10 +42,20 @@ public class AppOpenManager : MonoBehaviour
         MobileAds.Initialize((InitializationStatus initStatus) =>
         {
             // This callback is called once the MobileAds SDK is initialized.
-            
+            isInitialized = true;
+            Debug.Log("HERE INIT" + isInitialized);
+
         });
 
-        LoadAppOpenAd();
+    }
+
+    private void Update()
+    {
+        if (isInitialized)
+        {
+            isInitialized = false;
+            LoadAppOpenAd();
+        }
     }
 
     /// <summary>
