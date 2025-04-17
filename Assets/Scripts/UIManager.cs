@@ -1,8 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -19,10 +19,14 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI coins;
     int levelNo = 0;
     public const string levelPref = "LevelNo";
+
+    public static Action ResetTransforms;
+
     private void Awake()
     {
         instance = this;
         colorsCount = new Dictionary<Color, int>();
+
     }
 
     private void Start()
@@ -120,5 +124,11 @@ public class UIManager : MonoBehaviour
                 }
             });
         }
+    }
+
+    public void ResetObjects()
+    {
+        AudioManager.Instance.PlayClick();
+        ResetTransforms?.Invoke();
     }
 }

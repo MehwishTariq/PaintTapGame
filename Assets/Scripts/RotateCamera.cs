@@ -1,46 +1,40 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RotateCamera : MonoBehaviour
 {
-    public float rotationSpeed = 10f;
+
     public float zoomSpeed = 0.5f;
-    public float minZoom = 1f;
-    public float maxZoom = 5f;
     public Transform particle_fx;
-
-    private Vector2 touchStartPos;
-    private float initialPinchDistance;
-    public Transform target { get; set; }
-
     Camera cam;
     Vector3 orignalPos, originalRot;
-
-    float clockTime = 1f;
+    bool zoom;
 
     private void Start()
     {
         cam = GetComponent<Camera>();
         orignalPos = transform.position;
-        originalRot = target.eulerAngles;
-        
+        originalRot = transform.eulerAngles;        
     }
 
     private void OnEnable()
     {
-#if UNITY_EDITOR
-        rotationSpeed = 100f;
+#if MOBILE_INPUT
         zoomSpeed = 150f;
 #else
-        rotationSpeed = 5f;
-        zoomSpeed = 0.5f;
+        zoomSpeed = 20f;
 #endif
-    }
-    bool rotate, zoom;
-    
 
+        InputManager.OnScroll += Zoom;
+        UIManager.ResetTransforms += ResetTransform;
+    }
+
+    private void OnDisable()
+    {
+        UIManager.ResetTransforms -= ResetTransform;
+    }
+
+
+    /*
     private void Update()
     {
 
@@ -111,8 +105,9 @@ public class RotateCamera : MonoBehaviour
                         // Rotate the object locally
                         //transform.RotateAround(target.position, -Vector3.up, horizontalRotation);
 
-                        //target.Rotate(-Vector3.forward, verticalRotation, Space.World);
+                        target.Rotate(-Vector3.forward, verticalRotation, Space.World);
                         target.Rotate(Vector3.up, horizontalRotation, Space.World);
+
                         if( PlayerPrefs.GetInt("Tutorial",0) == 0 && !rotate)
                         {
                             clockTime -= Time.deltaTime;
@@ -138,7 +133,7 @@ public class RotateCamera : MonoBehaviour
         float verticalRotation = verticalInput * rotationSpeed * Time.deltaTime;
 
         
-        //target.Rotate(-Vector3.forward, verticalRotation, Space.World);
+        target.Rotate(-Vector3.forward, verticalRotation, Space.World);
         target.Rotate(Vector3.up, horizontalRotation, Space.World);
 
        // transform.RotateAround(target.position,Vector3.forward, verticalRotation);
@@ -186,13 +181,44 @@ public class RotateCamera : MonoBehaviour
         }
 #endif
     }
-
+    */
 
     public void ResetTransform()
     {
-        AudioManager.Instance.PlayClick();
         transform.position = orignalPos;
-        target.eulerAngles = originalRot;
+        transform.eulerAngles = originalRot;
+    }
+
+    void Zoom(float scrollVal, Vector3 mousePos)
+    {
+        if (RectTransformUtility.RectangleContainsScreenPoint(UIManager.instance.area, mousePos))
+        {
+            float zoomAmount = scrollVal * zoomSpeed;
+
+            if (zoomAmount > 0)
+            {
+                Ray pos = cam.ScreenPointToRay(mousePos);
+                TargetZoom(Mathf.Abs(zoomAmount), pos);
+            }
+            else
+            {
+                ZoomOut(Mathf.Abs(zoomAmount));
+            }
+
+            if (zoomAmount != 0)
+            {
+                if (PlayerPrefs.GetInt("Tutorial", 0) == 0 && !zoom)
+                {
+                    zoom = true;
+                    Invoke(nameof(ColorSelectTutorial), 1.5f);
+                }
+            }
+        }
+    }
+
+    void ColorSelectTutorial()
+    {
+        TutorialController.InvokeNextEvent(TutorialController.colorSelect);
     }
 
     void ZoomOut(float scrollVal)

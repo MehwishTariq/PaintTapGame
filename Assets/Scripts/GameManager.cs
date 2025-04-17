@@ -1,4 +1,3 @@
-using MLabsSdk;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -36,17 +35,15 @@ public class GameManager : MonoBehaviour
         levelObj = Instantiate(levels[levelNo - 1], levels[levelNo - 1].transform.position, Quaternion.identity);
         levelObj.gameObject.SetActive(true);
         cameraRef.gameObject.SetActive(true);
-        cameraRef.target = levelObj.GetComponent<Level>().levelObj.transform;
         Invoke("ResetCam", 0.5f);
         StartCoroutine(UIManager.instance.OpenLevel());
         levelManager = levelObj.GetComponentInChildren<LevelManager>();
-        AnalyticsImp.instance.LogLevelStartedEvent(levelNo);
     }
 
 
     void ResetCam()
     {
-        cameraRef.ResetTransform();
+        UIManager.ResetTransforms?.Invoke();
     }
 
     public void LevelComplete()
@@ -72,8 +69,7 @@ public class GameManager : MonoBehaviour
         winParticles.gameObject.SetActive(true);
         yield return new WaitForSeconds(1.5f);
         UIManager.instance.completePanel.SetActive(true);
-        levelManager.DeleteGame(GameManager.Level_No);
-        AnalyticsImp.instance.LogLevelCompleteEvent(GameManager.Level_No);
+        levelManager.DeleteGame(Level_No);
     }
 
     public void TurnParticlesOff()

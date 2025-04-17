@@ -177,8 +177,5 @@ public class LevelManager : MonoBehaviour
             SaveGame(GameManager.Level_No);
         }
     }
-    //private void OnApplicationQuit()
-    //{
-    //    SaveGame(GameManager.Level_No);
-    //}
+    
 }

@@ -38,6 +38,7 @@ public class TapToPaint : MonoBehaviour
         {
             if (info.collider.GetComponent<ObjectColor>().colored)
                 return;
+
             string clr1 = ColorUtility.ToHtmlStringRGBA(info.collider.gameObject.GetComponent<ObjectColor>().objClr);
             string clr2 = ColorUtility.ToHtmlStringRGBA(UIManager.chosenClr);
             if (!info.collider.gameObject.GetComponent<ObjectColor>().colored)
