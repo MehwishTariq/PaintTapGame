@@ -7,27 +7,27 @@ public class TapToPaint : MonoBehaviour
 {
     Camera cam;
     RaycastHit info;
+    Ray ray;
 
     private void Start()
     {
         cam = Camera.main;
     }
-    Ray ray;
-
-    private void Update()
+    private void OnEnable()
     {
-#if !UNITY_EDITOR
-        if (Input.touchCount == 1)
-        {
-            Touch touch = Input.GetTouch(0);
-            ray = cam.ScreenPointToRay(touch.position);
-        }
-#else
-        if (Input.GetMouseButtonDown(0))
-        {
-            ray = cam.ScreenPointToRay(Input.mousePosition);
-        }
-#endif
+        InputManager.OnPressed += PaintOnTap;
+    }
+
+    private void OnDisable()
+    {
+        InputManager.OnPressed -= PaintOnTap;
+    }
+
+
+    private void PaintOnTap(Vector2 pos)
+    {
+        ray = cam.ScreenPointToRay(pos);
+
         // Bit shift the index of the layer (8) to get a bit mask
         int layerMask = 1 << 2;
 
@@ -36,30 +36,38 @@ public class TapToPaint : MonoBehaviour
         layerMask = ~layerMask;
         if (Physics.Raycast(ray, out info, Mathf.Infinity,layerMask))
         {
-            if (info.collider.GetComponent<ObjectColor>().colored)
-                return;
-
-            string clr1 = ColorUtility.ToHtmlStringRGBA(info.collider.gameObject.GetComponent<ObjectColor>().objClr);
-            string clr2 = ColorUtility.ToHtmlStringRGBA(UIManager.chosenClr);
-            if (!info.collider.gameObject.GetComponent<ObjectColor>().colored)
+            if(info.collider.GetComponent<ObjectColor>().CheckIfCorrectColor())
             {
-                if (clr1.Equals(clr2))
+                AudioManager.Instance.PlayColorDone();
+                if (PlayerPrefs.GetInt("Tutorial", 0) == 0)
                 {
-                    ColorChange.changePos?.Invoke(info.point);
-                    info.collider.gameObject.GetComponent<ObjectColor>().colored = true;
-                    info.collider.gameObject.GetComponent<Collider>().enabled = false;
-                    ObjectColor.onColored?.Invoke(UIManager.chosenClr);
-                    info.collider.GetComponent<Renderer>().material.SetColor("_Color", UIManager.chosenClr);
-                    info.collider.GetComponent<Outline>().enabled = false;
-                    info.collider.GetComponent<Renderer>().material.SetTexture("_MainTex", null);
-                    LevelManager.checkLevel?.Invoke(info.collider.gameObject.GetComponent<ObjectColor>().colored);
-                    AudioManager.Instance.PlayColorDone();
-                    if (PlayerPrefs.GetInt("Tutorial", 0) == 0)
-                    {
-                        TutorialController.InvokeNextEvent(TutorialController.done);
-                    }
+                    TutorialController.InvokeNextEvent(TutorialController.done);
                 }
             }
+
+            //if (info.collider.GetComponent<ObjectColor>().colored)
+            //    return;
+
+            //string clr1 = ColorUtility.ToHtmlStringRGBA(info.collider.gameObject.GetComponent<ObjectColor>().objClr);
+            //string clr2 = ColorUtility.ToHtmlStringRGBA(UIManager.chosenClr);
+            //if (!info.collider.gameObject.GetComponent<ObjectColor>().colored)
+            //{
+            //    if (clr1.Equals(clr2))
+            //    {
+            //        ColorChange.changePos?.Invoke(info.point);
+            //        info.collider.gameObject.GetComponent<ObjectColor>().colored = true;
+            //        info.collider.gameObject.GetComponent<Collider>().enabled = false;
+            //        ObjectColor.onColored?.Invoke(UIManager.chosenClr);
+            //        info.collider.GetComponent<Renderer>().sharedMaterial = MaterialCreator.GetMaterialFromColor(UIManager.chosenClr);
+            //        info.collider.GetComponent<Outline>().enabled = false;
+            //        LevelManager.checkLevel?.Invoke(info.collider.gameObject.GetComponent<ObjectColor>().colored);
+            //        AudioManager.Instance.PlayColorDone();
+            //        if (PlayerPrefs.GetInt("Tutorial", 0) == 0)
+            //        {
+            //            TutorialController.InvokeNextEvent(TutorialController.done);
+            //        }
+            //    }
+            //}
         }
     }
 

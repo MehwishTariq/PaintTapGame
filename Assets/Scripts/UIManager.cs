@@ -14,7 +14,6 @@ public class UIManager : MonoBehaviour
     public RectTransform area;
     public GameObject completePanel, mainMenuPanel, InGamePanel, levelSelectionPanel,loading;
     public List<Color> colorsSet { get; set; }
-    public Dictionary<Color, int> colorsCount;
 
     public TextMeshProUGUI coins;
     int levelNo = 0;
@@ -25,7 +24,6 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        colorsCount = new Dictionary<Color, int>();
 
     }
 
@@ -43,9 +41,7 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlayClick();
         InGamePanel.SetActive(false);
         completePanel.SetActive(false);
-        mainMenuPanel.SetActive(true);
-        LevelManager.save?.Invoke(GameManager.Level_No);
-        
+        mainMenuPanel.SetActive(true);        
     }
 
     public void Play()
@@ -90,14 +86,14 @@ public class UIManager : MonoBehaviour
     public void Quit()
     {
         AudioManager.Instance.PlayClick();
-        LevelManager.save?.Invoke(GameManager.Level_No);
         Application.Quit();
     }
 
     public void SetColor(Image img)
     {
         chosenClr = img.color;
-        ObjectColor.onColorSelected?.Invoke(chosenClr);
+        string colorName = MaterialCreator.GetColorName(chosenClr);
+        ObjectColor.onColorSelected?.Invoke(colorName);
         
     }
 
@@ -106,13 +102,19 @@ public class UIManager : MonoBehaviour
     {
         if(tempContent !=null)
             Destroy(tempContent);
+
         tempContent = Instantiate(content, scrollView.viewport);
         scrollView.content = tempContent.GetComponent<RectTransform>();
-        foreach (Color x in colorsCount.Keys)
+
+        List<MaterialData> colorsCount = MaterialCreator.GetColorsDictionary();
+
+        foreach (MaterialData mat in colorsCount)
         {
             GameObject y = Instantiate(paintImg, tempContent.transform);
-            y.GetComponent<Image>().color = x;
-            y.GetComponentInChildren<Text>().text = colorsCount[x].ToString();
+            if(ColorUtility.TryParseHtmlString(mat.ColorName, out Color clr))
+                y.GetComponent<Image>().color = clr;
+
+            y.GetComponentInChildren<Text>().text = mat.ColorCount.ToString();
 
             y.GetComponent<Button>().onClick.RemoveAllListeners();
             y.GetComponent<Button>().onClick.AddListener(() =>

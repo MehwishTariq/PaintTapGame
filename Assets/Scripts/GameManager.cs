@@ -69,7 +69,6 @@ public class GameManager : MonoBehaviour
         winParticles.gameObject.SetActive(true);
         yield return new WaitForSeconds(1.5f);
         UIManager.instance.completePanel.SetActive(true);
-        levelManager.DeleteGame(Level_No);
     }
 
     public void TurnParticlesOff()

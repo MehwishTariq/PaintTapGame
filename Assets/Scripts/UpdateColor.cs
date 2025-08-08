@@ -16,20 +16,19 @@ public class UpdateColor : MonoBehaviour
         ObjectColor.onColored -= UpdateColorText;
     }
 
-    void UpdateColorText(Color clr)
+    void UpdateColorText(string clr)
     {
-        string clr1 = ColorUtility.ToHtmlStringRGBA(clr);
-        string clr2 = ColorUtility.ToHtmlStringRGBA(GetComponent<Image>().color);
-        if (clr1.Equals(clr2))
+        string clr2 = MaterialCreator.GetColorName(GetComponent<Image>().color);
+        if (clr.Equals(clr2))
         {
-            UIManager.instance.colorsCount[clr]--;
-            txt.text = UIManager.instance.colorsCount[clr].ToString();
-            if (UIManager.instance.colorsCount[clr] == 0)
+            int clrCount = MaterialCreator.UpdateCountOfColor(clr);
+            txt.text = clrCount.ToString();
+            if (clrCount == 0)
             {
                 tick.gameObject.SetActive(true);
                 txt.gameObject.SetActive(false);
                 GetComponent<Button>().interactable = false;
-                transform.SetSiblingIndex(UIManager.instance.colorsCount.Count - 1);
+                transform.SetSiblingIndex(MaterialCreator.GetColorsDictionary().Count - 1);
             }
         }
     }

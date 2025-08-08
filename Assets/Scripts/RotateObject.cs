@@ -48,6 +48,9 @@ public class RotateObject : MonoBehaviour
             float yaw = -moveDelta.x * RotSpeedX;   // Rotate left/right
             float pitch = -moveDelta.y * RotSpeedY; // Rotate up/down
 
+            if (transform == null)
+                return;
+
             // Rotate relative to the object's local axes
             transform.Rotate(Vector3.up, yaw, Space.World);  // Rotate around world Y-axis (left/right)
             transform.Rotate(Vector3.forward, pitch, Space.World); // Rotate around local X-axis (up/down)
