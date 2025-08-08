@@ -38,6 +38,8 @@ public class RotateObject : MonoBehaviour
         transform.eulerAngles = originalRot;
     }
 
+    private float yawAngle;
+    private float pitchAngle;
 
     void RotateObjectOnAxis(Vector2 rotateVal)
     {
@@ -45,23 +47,17 @@ public class RotateObject : MonoBehaviour
         {
             Vector2 moveDelta = rotateVal - lastTappedVal;
 
-            float yaw = -moveDelta.x * RotSpeedX;   // Rotate left/right
-            float pitch = -moveDelta.y * RotSpeedY; // Rotate up/down
+            yawAngle -= moveDelta.x * RotSpeedY * Time.deltaTime;  // Horizontal
+            pitchAngle += moveDelta.y * RotSpeedX * Time.deltaTime;  // Vertical
 
-            if (transform == null)
-                return;
+            // Build rotation using quaternions to avoid gimbal lock
+            Quaternion rotation = Quaternion.Euler(pitchAngle, yawAngle, 0f);
+            transform.rotation = rotation;
 
-            // Rotate relative to the object's local axes
-            transform.Rotate(Vector3.up, yaw, Space.World);  // Rotate around world Y-axis (left/right)
-            transform.Rotate(Vector3.forward, pitch, Space.World); // Rotate around local X-axis (up/down)
-
-            if (yaw != 0)
+            if (Mathf.Abs(moveDelta.x) > 0.01f && PlayerPrefs.GetInt("Tutorial", 0) == 0 && !rotate)
             {
-                if (PlayerPrefs.GetInt("Tutorial", 0) == 0 && !rotate)
-                {
-                    rotate = true;
-                    Invoke(nameof(ZoomTutorialActivate), 1.5f);
-                }
+                rotate = true;
+                Invoke(nameof(ZoomTutorialActivate), 1.5f);
             }
 
             lastTappedVal = rotateVal;

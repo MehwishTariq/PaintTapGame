@@ -3011,5 +3011,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b15535ab9a23a0b4f95d106a2435092c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotSpeedX: 0.05
-  RotSpeedY: 0.08
+  RotSpeedX: 5
+  RotSpeedY: 5
