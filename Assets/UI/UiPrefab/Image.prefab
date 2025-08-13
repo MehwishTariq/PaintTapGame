@@ -243,6 +243,7 @@ GameObject:
   - component: {fileID: 2110427135387983434}
   - component: {fileID: 4413478337343025960}
   - component: {fileID: 6439329003725772275}
+  - component: {fileID: 5659283129149526967}
   m_Layer: 5
   m_Name: Tick
   m_TagString: Untagged
@@ -297,7 +298,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2e59a3071c4ae9c468156d09689d5183, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4c6c57cec6a0c814caf117fd4d11f73d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -307,3 +308,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5659283129149526967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315008442018591407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.0051049455, g: 0.90188676, b: 0.031773824, a: 0.972549}
+  m_EffectDistance: {x: 3, y: -3}
+  m_UseGraphicAlpha: 1

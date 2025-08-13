@@ -29,6 +29,12 @@ public class RotateObject : MonoBehaviour
     private void OnDisable()
     {
         UIManager.ResetTransforms -= ResetTransform;
+        InputManager.OnPressed -= ((mousePos) =>
+        {
+            lastTappedVal = mousePos;
+        });
+
+        InputManager.OnHeld -= RotateObjectOnAxis;
     }
 
 
@@ -51,7 +57,7 @@ public class RotateObject : MonoBehaviour
             pitchAngle += moveDelta.y * RotSpeedX * Time.deltaTime;  // Vertical
 
             // Build rotation using quaternions to avoid gimbal lock
-            Quaternion rotation = Quaternion.Euler(pitchAngle, yawAngle, 0f);
+            Quaternion rotation = Quaternion.Euler(-pitchAngle, yawAngle, 0f);
             transform.rotation = rotation;
 
             if (Mathf.Abs(moveDelta.x) > 0.01f && PlayerPrefs.GetInt("Tutorial", 0) == 0 && !rotate)

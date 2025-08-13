@@ -24,7 +24,6 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-
     }
 
     private void Start()
@@ -34,7 +33,8 @@ public class UIManager : MonoBehaviour
     }
     void OnEnable()
     {
-        levelNo = PlayerPrefs.GetInt(levelPref.ToString(), 1);    
+        levelNo = PlayerPrefs.GetInt(levelPref.ToString(), 1);
+        EventManager.SubscribeToEvent(EventNames.OnComplete, Complete);
     }
     public void GotoMM()
     {
@@ -62,6 +62,11 @@ public class UIManager : MonoBehaviour
         //levelSelectionPanel.SetActive(false);
         if (PlayerPrefs.GetInt("Tutorial", 0) == 0)
             TutorialController.InvokeNextEvent(TutorialController.cameraRot);
+    }
+    
+    public void Complete()
+    {
+        Debug.Log("LevelComplete");
     }
 
     public void NextLevel()
@@ -93,8 +98,7 @@ public class UIManager : MonoBehaviour
     {
         chosenClr = img.color;
         string colorName = MaterialCreator.GetColorName(chosenClr);
-        ObjectColor.onColorSelected?.Invoke(colorName);
-        
+        ObjectColor.onColorSelected?.Invoke(colorName);        
     }
 
     GameObject tempContent;
@@ -107,24 +111,33 @@ public class UIManager : MonoBehaviour
         scrollView.content = tempContent.GetComponent<RectTransform>();
 
         List<MaterialData> colorsCount = MaterialCreator.GetColorsDictionary();
-
+        List<UpdateColor> updatepallete = new();
         foreach (MaterialData mat in colorsCount)
         {
-            GameObject y = Instantiate(paintImg, tempContent.transform);
-            if(ColorUtility.TryParseHtmlString(mat.ColorName, out Color clr))
-                y.GetComponent<Image>().color = clr;
-
-            y.GetComponentInChildren<Text>().text = mat.ColorCount.ToString();
-
-            y.GetComponent<Button>().onClick.RemoveAllListeners();
-            y.GetComponent<Button>().onClick.AddListener(() =>
+            GameObject colorPalette = Instantiate(paintImg, tempContent.transform);
+            Color clr = MaterialCreator.GetColorFromName(mat.ColorName);
+            colorPalette.GetComponent<Image>().color = clr;
+            if(mat.ColorCount == 0)
             {
-                SetColor(y.GetComponent<Image>());
+                updatepallete.Add(colorPalette.GetComponent<UpdateColor>());
+            }
+            else
+                colorPalette.GetComponent<UpdateColor>().txt.text = mat.ColorCount.ToString();
+
+            colorPalette.GetComponent<Button>().onClick.RemoveAllListeners();
+            colorPalette.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                SetColor(colorPalette.GetComponent<Image>());
                 if (PlayerPrefs.GetInt("Tutorial", 0) == 0)
                 {
                     TutorialController.InvokeNextEvent(TutorialController.tapOnObj);
                 }
             });
+        }
+        
+        foreach(var colorBox in updatepallete)
+        {
+            colorBox.SetCompletedColors();
         }
     }
 

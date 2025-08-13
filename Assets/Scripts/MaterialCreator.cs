@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 
+[System.Serializable]
 public class MaterialData
 {
     public string ColorName;
@@ -19,25 +19,34 @@ public class MaterialData
 
 public class MaterialCreator : MonoBehaviour
 {
-    static List<MaterialData> coloredMaterials = new();
-    static Dictionary<string, int> colorsCount = new();
+    public static List<MaterialData> coloredMaterials = new();
     static Material sourceMat;
-    
     public Material SourceMaterial;
     static Material whiteMaterial;
 
-    private void OnEnable()
+    private void Start()
     {
         sourceMat = SourceMaterial;
-        colorsCount.Clear();
-        coloredMaterials.Clear();
         whiteMaterial = new Material(sourceMat);
         whiteMaterial.SetColor("_Color", Color.white);
+    }
+
+    public static void ClearData()
+    {
+        coloredMaterials.Clear();
     }
 
     public static string GetColorName(Color color)
     {
         return "#" + ColorUtility.ToHtmlStringRGBA(color);
+    }
+
+    public static Color GetColorFromName(string name)
+    {
+        if(ColorUtility.TryParseHtmlString(name, out var color)) 
+            return color;
+
+        return Color.black;
     }
 
     public static Material GetWhiteColor()
@@ -83,8 +92,8 @@ public class MaterialCreator : MonoBehaviour
 
     public static Material GetMaterialFromColor(string clrName)
     {
-        bool colorFound = ColorUtility.TryParseHtmlString(clrName, out Color clr);
-        if (colorFound)
+        Color clr = GetColorFromName(clrName);
+        if (clr != null)
         {
             MaterialData mat = coloredMaterials.Find(mat => mat.ColorName == clrName);
             if (mat != null)
@@ -96,18 +105,26 @@ public class MaterialCreator : MonoBehaviour
         return null;
     }
 
+    public static void CreateMaterialFromColor(Color clr)
+    {
+        string colorName = GetColorName(clr);
+        CreateMaterialFromColor(colorName); // call the string version
+    }
+
     public static void CreateMaterialFromColor(string clrName)
     {
-        ColorUtility.TryParseHtmlString(clrName, out Color color);
         int index = coloredMaterials.FindIndex(mat => mat.ColorName == clrName);
         if (index != -1)
         {
+            AddColorsToDictionary(clrName);
             return;
         }
 
         Material coloredMat = new Material(sourceMat);
-        coloredMat.SetColor("_Color", color);
+        coloredMat.SetColor("_Color", GetColorFromName(clrName));
         coloredMat.name = clrName;
-        coloredMaterials.Add(new(coloredMat.name,1, coloredMat));
+        coloredMaterials.Add(new(coloredMat.name, 1, coloredMat));
+        
     }
+
 }

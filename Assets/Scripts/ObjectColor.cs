@@ -16,53 +16,37 @@ public class ObjectsData
     }
 }
 
+[System.Serializable]
+public class ObjectColorSaveData
+{
+    public int objectId;
+    public List<ObjectsData> colors;
+
+    public ObjectColorSaveData(int objectId, List<ObjectsData> colors)
+    {
+        this.objectId = objectId;
+        this.colors = colors;
+    }
+}
+
 public class ObjectColor : MonoBehaviour
 {
-    [SerializeField]public List<ObjectsData> objColorsState;
+    [SerializeField] public List<ObjectsData> objColorsState;
     public bool colored;
     public static Action<string> onColorSelected, onColored;
     public Texture checkbg;
     Renderer rend;
     Collider col;
     public Material grayMat;
-	int coloredObjects = 0;
+    public Material outlineMat;
+    int coloredObjects = 0;
 
     private void Start()
     {
         rend = GetComponent<Renderer>();
         col = GetComponent<Collider>();
-        objColorsState = new List<ObjectsData>();
-        LoadObjectsState();
     }
-
-    public void LoadObjectsState()
-    {
-        List<ObjectsData> loadedData = SaveLoadManager<List<ObjectsData>>.Load("Level" + GameManager.Level_No);
-        if (loadedData == null)
-        {
-            GetColorFromMaterial();
-            SetLevelGray();
-        }
-        else
-        {
-            objColorsState.AddRange(loadedData);
-            SetOriginalColor();
-        }
-    }
-
-    [ContextMenu("SetLevelGray")]
-    public void SetLevelGray()
-    {
-        Renderer rend = GetComponent<Renderer>();
-        Material[] mats = rend.materials;
-        for (int i = 0; i < mats.Length; i++)
-        {
-            mats[i] = grayMat;
-        }
-        rend.materials = mats;
-    }
-
-
+    
     private void OnEnable()
     {
         onColorSelected += HighlightObject;
@@ -86,33 +70,88 @@ public class ObjectColor : MonoBehaviour
                 if (data.clrName.Equals(clrName))
                 {
                     col.enabled = true;
+                    outlineMat.SetColor("_OutlineColor", MaterialCreator.GetColorFromName(clrName));
+                    mats[index] = outlineMat;
                 }
+                else
+                    mats[index] = grayMat;
             }
             index++;
         }
         rend.materials = mats;
     }
 
-    [ContextMenu("GetCOlor")]
-    public void GetColorFromMaterial()
+    [ContextMenu("SetLevelGray")]
+    public void SetLevelGray()
     {
         Renderer rend = GetComponent<Renderer>();
         Material[] mats = rend.materials;
         for (int i = 0; i < mats.Length; i++)
         {
-            objColorsState.Add(new(mats[i].GetColor("_Color"), false));
+            mats[i] = grayMat;
         }
+        rend.materials = mats;
+    }
+
+    public void SetMaterialsFromColors()
+    {
+        foreach(var obj in objColorsState)
+        {
+            MaterialCreator.CreateMaterialFromColor(obj.clrName);
+        }
+    }
+
+    [ContextMenu("GetColor")]
+    public void GetColorFromMaterial()
+    {
+        objColorsState = new List<ObjectsData>();
+        Renderer rend = GetComponent<Renderer>();
+        Material[] mats = rend.materials;
+        for (int i = 0; i < mats.Length; i++)
+        {
+            Color clr = mats[i].GetColor("_Color");
+            objColorsState.Add(new(clr, false));
+            MaterialCreator.CreateMaterialFromColor(clr);
+        }
+        SetLevelGray();
     }
 
     [ContextMenu("SETORIGINALCOLORS")]
     public void SetOriginalColor()
     {
+        Renderer rend = GetComponent<Renderer>();
         Material[] mats = rend.materials;
         int i = 0;
         foreach (var obj in objColorsState)
         {
-           mats[i] = MaterialCreator.GetMaterialFromColor(obj.clrName);
-           i++;
+            if (obj.colored_state)
+            {
+                MaterialCreator.UpdateCountOfColor(obj.clrName);
+                mats[i] = MaterialCreator.GetMaterialFromColor(obj.clrName);
+                coloredObjects++;
+            }
+            else
+                mats[i] = grayMat;
+
+            i++;
+        }
+        if (coloredObjects == objColorsState.Count)
+        {
+            colored = true;
+            LevelManager.checkLevel?.Invoke(colored);
+        }
+        rend.materials = mats;
+    }
+
+    public void ShowColoredLevel()
+    {
+        Renderer rend = GetComponent<Renderer>();
+        Material[] mats = rend.materials;
+        int i = 0;
+        foreach (var obj in objColorsState)
+        {
+            mats[i] = MaterialCreator.GetMaterialFromColor(obj.clrName);
+            i++;
         }
         rend.materials = mats;
     }
@@ -120,7 +159,13 @@ public class ObjectColor : MonoBehaviour
     [ContextMenu("SETALLWHITE")]
     public void SetWhiteColor()
     {
-        rend.sharedMaterial = MaterialCreator.GetWhiteColor();
+        Renderer rend = GetComponent<Renderer>();
+        Material[] mats = rend.materials;
+        for (int i = 0; i < mats.Length; i++)
+        {
+            mats[i] = MaterialCreator.GetWhiteColor();
+        }
+        rend.materials = mats;
     }
 
     public bool CheckIfCorrectColor()
@@ -144,13 +189,13 @@ public class ObjectColor : MonoBehaviour
                     mats[index] = MaterialCreator.GetMaterialFromColor(chosenColor);
                     correctColor = true;
 					coloredObjects++;
-                    SaveLoadManager<List<ObjectsData>>.Save(objColorsState, "Level" + GameManager.Level_No);
 					if(coloredObjects == objColorsState.Count)
 					{
 						colored = true;
 						LevelManager.checkLevel?.Invoke(colored);
                     }
-					break;
+                    LevelManager.SaveLevelData?.Invoke();
+                    break;
                 }
             }
             index++;

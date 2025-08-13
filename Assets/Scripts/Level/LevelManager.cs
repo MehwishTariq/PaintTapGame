@@ -1,9 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[System.Serializable]
+public class LevelSaveData
+{
+    public List<ObjectColorSaveData> allObjects = new List<ObjectColorSaveData>();
+}
 
 public class LevelManager : MonoBehaviour
 {
@@ -11,7 +15,31 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     int objsColored = 0;
     public static Action<bool> checkLevel;
+    public static Action SaveLevelData;
     public List<Transform> nearPoints;
+
+    public void Start()
+    {
+        LoadLevel();
+    }
+
+    private void OnEnable()
+    {
+        checkLevel += CheckLevel;
+        SaveLevelData += SaveLevel;
+        EventManager.SubscribeToEvent(EventNames.OnComplete, Complete);
+    }
+
+    private void OnDisable()
+    {
+        checkLevel -= CheckLevel;
+        SaveLevelData -= SaveLevel;
+    }
+
+    public void Complete()
+    {
+        Debug.Log("LEVEL MANAGER COMPLETE");
+    }
 
     public Vector3 GetNearestPoint(Vector3 touchpos)
     {
@@ -23,19 +51,12 @@ public class LevelManager : MonoBehaviour
         return nearPoints[distances.FindIndex(x => x == distances.Min())].position;
     }
 
-    [ContextMenu("ApplyAllColor")]
-    public void ApplyallColor()
-    {
-        foreach(GameObject r in objsInlevel)
-        {
-            r.GetComponent<ObjectColor>().SetOriginalColor();
-        }
-    }
     void CheckLevel(bool colored)
     {
-        if(colored)
+        if (colored)
+        {
             objsColored++;
-
+        }
         if (objsColored >= objsInlevel.Count)
         {
             AudioManager.Instance.StopMusic();
@@ -47,40 +68,55 @@ public class LevelManager : MonoBehaviour
         }
     }
     
-    public void Start()
+    public void SaveLevel()
     {
-        StartCoroutine(FillList());
-    }
+        LevelSaveData saveData = new LevelSaveData();
+        List<ObjectColor> allObjectsColor = new();
 
-    private void OnEnable()
-    {
-        checkLevel += CheckLevel;
-    }
-
-    private void OnDisable()
-    {
-        checkLevel -= CheckLevel;
-    }
-
-    IEnumerator FillList()
-    {
         foreach (GameObject x in objsInlevel)
         {
             ObjectColor obj = x.GetComponent<ObjectColor>();
             if (obj != null)
-            {
-                yield return new WaitUntil(()=> obj.objColorsState.Count > 0);
-                foreach(var data in obj.objColorsState)
-                {
-                    if (!data.colored_state)
-                    {
-                        MaterialCreator.AddColorsToDictionary(data.clrName);
-                    }
-                    MaterialCreator.CreateMaterialFromColor(data.clrName);
-                }
+                allObjectsColor.Add(obj);
+        }
 
+        int index = 0;
+        foreach (var obj in allObjectsColor)
+        {
+            saveData.allObjects.Add(
+                new ObjectColorSaveData(index, obj.objColorsState)
+            );
+            index++;
+        }
+        SaveLoadManager<LevelSaveData>.Save(saveData, "Level" + GameManager.Level_No);
+    }
+
+    void LoadLevel()
+    {
+        LevelSaveData loaded = SaveLoadManager<LevelSaveData>.Load("Level" + GameManager.Level_No);
+        if (loaded == null)
+        {
+            foreach (var objData in objsInlevel)
+            {
+                var obj = objData.GetComponent<ObjectColor>();
+                obj.GetColorFromMaterial();
             }
         }
+        else
+        {
+            foreach (var objData in loaded.allObjects)
+            {
+                var obj = objsInlevel[objData.objectId];
+                if (obj != null)
+                {
+                    var oc = obj.GetComponent<ObjectColor>();
+                    oc.objColorsState = objData.colors;
+                    oc.SetMaterialsFromColors();
+                    oc.SetOriginalColor();                    
+                }
+            }
+        }
+
         UIManager.instance.FillColors();
     }
 }

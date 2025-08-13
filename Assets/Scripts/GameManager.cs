@@ -18,8 +18,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     float time;
 
-
-
     private void Awake()
     {
         instance = this;
@@ -29,8 +27,10 @@ public class GameManager : MonoBehaviour
     {
         AudioManager.Instance.PlayClick();
         if (levelObj != null)
+        {
+            MaterialCreator.ClearData();
             Destroy(levelObj);
-
+        }
         Level_No = levelNo;
         levelObj = Instantiate(levels[levelNo - 1], levels[levelNo - 1].transform.position, Quaternion.identity);
         levelObj.gameObject.SetActive(true);
@@ -39,7 +39,6 @@ public class GameManager : MonoBehaviour
         StartCoroutine(UIManager.instance.OpenLevel());
         levelManager = levelObj.GetComponentInChildren<LevelManager>();
     }
-
 
     void ResetCam()
     {
@@ -63,12 +62,13 @@ public class GameManager : MonoBehaviour
         float delay = time/ levelManager.objsInlevel.Count;
         for (int i = 0; i < levelManager.objsInlevel.Count; i++)
         {
-            levelManager.objsInlevel[i].GetComponent<ObjectColor>().SetOriginalColor();
+            levelManager.objsInlevel[i].GetComponent<ObjectColor>().ShowColoredLevel();
             yield return new WaitForSeconds(delay);
         }
         winParticles.gameObject.SetActive(true);
         yield return new WaitForSeconds(1.5f);
         UIManager.instance.completePanel.SetActive(true);
+        EventManager.TriggerEvent(EventNames.OnComplete);
     }
 
     public void TurnParticlesOff()

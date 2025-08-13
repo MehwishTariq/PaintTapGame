@@ -25,11 +25,16 @@ public class UpdateColor : MonoBehaviour
             txt.text = clrCount.ToString();
             if (clrCount == 0)
             {
-                tick.gameObject.SetActive(true);
-                txt.gameObject.SetActive(false);
-                GetComponent<Button>().interactable = false;
-                transform.SetSiblingIndex(MaterialCreator.GetColorsDictionary().Count - 1);
+                SetCompletedColors();
             }
         }
+    }
+
+    public void SetCompletedColors()
+    {
+        tick.gameObject.SetActive(true);
+        txt.gameObject.SetActive(false);
+        GetComponent<Button>().interactable = false;
+        transform.SetSiblingIndex(MaterialCreator.GetColorsDictionary().Count - 1);
     }
 }
