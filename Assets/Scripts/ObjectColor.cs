@@ -33,7 +33,6 @@ public class ObjectColor : MonoBehaviour
 {
     [SerializeField] public List<ObjectsData> objColorsState;
     public bool colored;
-    public static Action<string> onColorSelected, onColored;
     public Texture checkbg;
     Renderer rend;
     Collider col;
@@ -49,12 +48,12 @@ public class ObjectColor : MonoBehaviour
     
     private void OnEnable()
     {
-        onColorSelected += HighlightObject;
+        EventManager.SubscribeToEvent<string>(EventNames.OnColorSelect, HighlightObject);
     }
 
     private void OnDisable()
     {
-        onColorSelected -= HighlightObject;
+        EventManager.UnsubscribeFromEvent<string>(EventNames.OnColorSelect, HighlightObject);
     }
 
     void HighlightObject(string clrName)
@@ -129,6 +128,7 @@ public class ObjectColor : MonoBehaviour
                 MaterialCreator.UpdateCountOfColor(obj.clrName);
                 mats[i] = MaterialCreator.GetMaterialFromColor(obj.clrName);
                 coloredObjects++;
+                EventManager.TriggerEvent(EventNames.OnColorFill);
             }
             else
                 mats[i] = grayMat;
@@ -138,7 +138,7 @@ public class ObjectColor : MonoBehaviour
         if (coloredObjects == objColorsState.Count)
         {
             colored = true;
-            LevelManager.checkLevel?.Invoke(colored);
+            EventManager.TriggerEvent<bool>(EventNames.OnCheckLevel, colored);
         }
         rend.materials = mats;
     }
@@ -185,16 +185,18 @@ public class ObjectColor : MonoBehaviour
                 {
                     data.colored_state = true;
                     col.enabled = false;
-                    onColored?.Invoke(chosenColor);
+                    EventManager.TriggerEvent<Vector3>(EventNames.OnChangeParticlePos, transform.position);
+                    EventManager.TriggerEvent<string>(EventNames.OnColored, chosenColor);
                     mats[index] = MaterialCreator.GetMaterialFromColor(chosenColor);
                     correctColor = true;
 					coloredObjects++;
+                    EventManager.TriggerEvent(EventNames.OnColorFill);
 					if(coloredObjects == objColorsState.Count)
 					{
 						colored = true;
-						LevelManager.checkLevel?.Invoke(colored);
+                        EventManager.TriggerEvent<bool>(EventNames.OnCheckLevel, colored);
                     }
-                    LevelManager.SaveLevelData?.Invoke();
+                    EventManager.TriggerEvent(EventNames.OnSaveLevel);
                     break;
                 }
             }

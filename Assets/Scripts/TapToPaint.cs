@@ -39,35 +39,11 @@ public class TapToPaint : MonoBehaviour
             if(info.collider.GetComponent<ObjectColor>().CheckIfCorrectColor())
             {
                 AudioManager.Instance.PlayColorDone();
-                if (PlayerPrefs.GetInt("Tutorial", 0) == 0)
+                if (PlayerPrefs.GetInt(Utility.Tutorial, 0) == 0)
                 {
                     TutorialController.InvokeNextEvent(TutorialController.done);
                 }
             }
-
-            //if (info.collider.GetComponent<ObjectColor>().colored)
-            //    return;
-
-            //string clr1 = ColorUtility.ToHtmlStringRGBA(info.collider.gameObject.GetComponent<ObjectColor>().objClr);
-            //string clr2 = ColorUtility.ToHtmlStringRGBA(UIManager.chosenClr);
-            //if (!info.collider.gameObject.GetComponent<ObjectColor>().colored)
-            //{
-            //    if (clr1.Equals(clr2))
-            //    {
-            //        ColorChange.changePos?.Invoke(info.point);
-            //        info.collider.gameObject.GetComponent<ObjectColor>().colored = true;
-            //        info.collider.gameObject.GetComponent<Collider>().enabled = false;
-            //        ObjectColor.onColored?.Invoke(UIManager.chosenClr);
-            //        info.collider.GetComponent<Renderer>().sharedMaterial = MaterialCreator.GetMaterialFromColor(UIManager.chosenClr);
-            //        info.collider.GetComponent<Outline>().enabled = false;
-            //        LevelManager.checkLevel?.Invoke(info.collider.gameObject.GetComponent<ObjectColor>().colored);
-            //        AudioManager.Instance.PlayColorDone();
-            //        if (PlayerPrefs.GetInt("Tutorial", 0) == 0)
-            //        {
-            //            TutorialController.InvokeNextEvent(TutorialController.done);
-            //        }
-            //    }
-            //}
         }
     }
 

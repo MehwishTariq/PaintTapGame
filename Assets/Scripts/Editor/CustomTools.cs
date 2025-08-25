@@ -7,7 +7,7 @@ public class CustomTools
     [MenuItem("Tools/TutorialDone")]
     public static void TutorialDone()
     {
-        PlayerPrefs.SetInt("Tutorial", 1);
+        PlayerPrefs.SetInt(Utility.Tutorial, 1);
     }
 
 }

@@ -6,10 +6,20 @@ public class InputManager : MonoBehaviour
     public static Action<Vector2> OnPressed, OnHeld;
     public static Action OnReleased;
     public static Action<float,Vector3> OnScroll;
+    public RectTransform InputArea;
+    public static Func<RectTransform> GetInputArea;
 
 #if MOBILE_INPUT
     private float initialPinchDistance;
 #endif
+
+    private void Awake()
+    {
+        GetInputArea += () =>
+        {
+            return InputArea;
+        };
+    }
 
     private void Update()
     {

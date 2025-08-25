@@ -9,11 +9,11 @@ public class UpdateColor : MonoBehaviour
     public Image tick;
     private void OnEnable()
     {
-        ObjectColor.onColored += UpdateColorText;
+        EventManager.SubscribeToEvent<string>(EventNames.OnColored, UpdateColorText);
     }
     private void OnDisable()
     {
-        ObjectColor.onColored -= UpdateColorText;
+        EventManager.UnsubscribeFromEvent<string>(EventNames.OnColored, UpdateColorText);
     }
 
     void UpdateColorText(string clr)

@@ -22,11 +22,11 @@ public class ColorChange : MonoBehaviour
     private void OnEnable()
     {
         p_s = GetComponent<ParticleSystem>();
-        changePos += ChangePos;
+        EventManager.SubscribeToEvent<Vector3>(EventNames.OnChangeParticlePos, ChangePos);
     }
 
     private void OnDisable()
     {
-        changePos -= ChangePos;
+        EventManager.UnsubscribeFromEvent<Vector3>(EventNames.OnChangeParticlePos, ChangePos);
     }
 }

@@ -8,6 +8,7 @@ public class RotateObject : MonoBehaviour
     Vector2 lastTappedVal;
     bool rotate;
     Vector3 orignalPos, originalRot;
+    RectTransform RotateArea;
 
     private void Start()
     {
@@ -23,12 +24,13 @@ public class RotateObject : MonoBehaviour
         });
 
         InputManager.OnHeld += RotateObjectOnAxis;
-        UIManager.ResetTransforms += ResetTransform;
+        EventManager.SubscribeToEvent(EventNames.OnCameraReset, ResetTransform);
+        RotateArea = InputManager.GetInputArea();
     }
 
     private void OnDisable()
     {
-        UIManager.ResetTransforms -= ResetTransform;
+        EventManager.UnsubscribeFromEvent(EventNames.OnCameraReset, ResetTransform);
         InputManager.OnPressed -= ((mousePos) =>
         {
             lastTappedVal = mousePos;
@@ -49,7 +51,7 @@ public class RotateObject : MonoBehaviour
 
     void RotateObjectOnAxis(Vector2 rotateVal)
     {
-        if (RectTransformUtility.RectangleContainsScreenPoint(UIManager.instance.area, lastTappedVal))
+        if (RectTransformUtility.RectangleContainsScreenPoint(RotateArea, lastTappedVal))
         {
             Vector2 moveDelta = rotateVal - lastTappedVal;
 
@@ -60,7 +62,7 @@ public class RotateObject : MonoBehaviour
             Quaternion rotation = Quaternion.Euler(-pitchAngle, yawAngle, 0f);
             transform.rotation = rotation;
 
-            if (Mathf.Abs(moveDelta.x) > 0.01f && PlayerPrefs.GetInt("Tutorial", 0) == 0 && !rotate)
+            if (Mathf.Abs(moveDelta.x) > 0.01f && PlayerPrefs.GetInt(Utility.Tutorial, 0) == 0 && !rotate)
             {
                 rotate = true;
                 Invoke(nameof(ZoomTutorialActivate), 1.5f);

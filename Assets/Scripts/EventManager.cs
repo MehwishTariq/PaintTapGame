@@ -1,49 +1,75 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public enum EventNames
 {
     OnComplete,
-    OnStart
+    OnPlay,
+    OnMainMenu,
+    OnCameraReset,
+    OnPauseLevel,
+    OnResumeLevel,
+    OnRestartLevel,
+    OnVolumeTrigger,
+    OnOpenLevel,
+    OnCompleteUI,
+    OnColorFill,
+    OnNextLevel,
+    OnCheckLevel,
+    OnSaveLevel,
+    OnColorSelect,
+    OnColored,
+    OnChangeParticlePos
 }
 
 public class EventManager : MonoBehaviour
 {
-    // Dictionary to store events by name
-    private static Dictionary<EventNames, Action> events = new();
+    // Store any kind of delegate (Action, Action<T>, etc.)
+    private static Dictionary<EventNames, Delegate> events = new();
 
     // Subscribe method
     public static void SubscribeToEvent(EventNames eventName, Action method)
     {
         if (!events.ContainsKey(eventName))
-        {
-            events.Add(eventName, null);
-        }
+            events[eventName] = null;
 
-        // Avoid adding duplicate methods
-        if (events[eventName] == null)
-        {
-            events[eventName] += method;
-        }
+        events[eventName] = (Action)events[eventName] + method;
     }
 
-    // Unsubscribe method
+    // Subscribe with parameter
+    public static void SubscribeToEvent<T>(EventNames eventName, Action<T> method)
+    {
+        if (!events.ContainsKey(eventName))
+            events[eventName] = null;
+
+        events[eventName] = (Action<T>)events[eventName] + method;
+    }
+
+    // Unsubscribe
     public static void UnsubscribeFromEvent(EventNames eventName, Action method)
     {
         if (events.ContainsKey(eventName))
-        {
-            events[eventName] -= method;
-        }
+            events[eventName] = (Action)events[eventName] - method;
     }
 
-    // Invoke method
+    public static void UnsubscribeFromEvent<T>(EventNames eventName, Action<T> method)
+    {
+        if (events.ContainsKey(eventName))
+            events[eventName] = (Action<T>)events[eventName] - method;
+    }
+
+    // Trigger (no parameter)
     public static void TriggerEvent(EventNames eventName)
     {
         if (events.ContainsKey(eventName))
-        {
-            events[eventName]?.Invoke();
-        }
+            (events[eventName] as Action)?.Invoke();
+    }
+
+    // Trigger (with parameter)
+    public static void TriggerEvent<T>(EventNames eventName, T param)
+    {
+        if (events.ContainsKey(eventName))
+            (events[eventName] as Action<T>)?.Invoke(param);
     }
 }

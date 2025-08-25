@@ -14,42 +14,55 @@ public class LevelManager : MonoBehaviour
     public List<GameObject> objsInlevel;
     [SerializeField]
     int objsColored = 0;
-    public static Action<bool> checkLevel;
-    public static Action SaveLevelData;
     public List<Transform> nearPoints;
 
     public void Start()
     {
         LoadLevel();
+        GetTotalTaps();
     }
 
     private void OnEnable()
     {
-        checkLevel += CheckLevel;
-        SaveLevelData += SaveLevel;
-        EventManager.SubscribeToEvent(EventNames.OnComplete, Complete);
+        EventManager.SubscribeToEvent<bool>(EventNames.OnCheckLevel,CheckLevel);
+        EventManager.SubscribeToEvent(EventNames.OnSaveLevel,SaveLevel);
     }
 
     private void OnDisable()
     {
-        checkLevel -= CheckLevel;
-        SaveLevelData -= SaveLevel;
+        EventManager.UnsubscribeFromEvent<bool>(EventNames.OnCheckLevel, CheckLevel);
+        EventManager.UnsubscribeFromEvent(EventNames.OnSaveLevel, SaveLevel);
     }
 
-    public void Complete()
+    public void GetTotalTaps()
     {
-        Debug.Log("LEVEL MANAGER COMPLETE");
+        int count = 0;
+        foreach(var obj in objsInlevel)
+        {
+            count += obj.GetComponent<ObjectColor>().objColorsState.Count;
+        }
+        TestingManager.Instance.SetText("No of Taps: " + count.ToString());
     }
 
     public Vector3 GetNearestPoint(Vector3 touchpos)
     {
-        List<float> distances = new List<float>();
-        for (int i = 0; i < nearPoints.Count; i++) 
+        float minSqrDist = float.MaxValue;
+        Vector3 nearestPoint = Vector3.zero;
+
+        for (int i = 0; i < nearPoints.Count; i++)
         {
-            distances.Add(Vector3.Distance(nearPoints[i].position, touchpos));
+            float sqrDist = (nearPoints[i].position - touchpos).sqrMagnitude;
+
+            if (sqrDist < minSqrDist)
+            {
+                minSqrDist = sqrDist;
+                nearestPoint = nearPoints[i].position;
+            }
         }
-        return nearPoints[distances.FindIndex(x => x == distances.Min())].position;
+
+        return nearestPoint;
     }
+
 
     void CheckLevel(bool colored)
     {
@@ -59,12 +72,7 @@ public class LevelManager : MonoBehaviour
         }
         if (objsColored >= objsInlevel.Count)
         {
-            AudioManager.Instance.StopMusic();
-            AudioManager.Instance.PlayWinSound();
-            PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins", 0) + 100);
-            int coins = PlayerPrefs.GetInt("Coins", 0);
-            UIManager.instance.coins.text = coins.ToString();
-            GameManager.instance.LevelComplete();            
+            EventManager.TriggerEvent(EventNames.OnComplete);
         }
     }
     
@@ -117,6 +125,5 @@ public class LevelManager : MonoBehaviour
             }
         }
 
-        UIManager.instance.FillColors();
     }
 }

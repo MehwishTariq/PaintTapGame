@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,8 +11,8 @@ public class TutorialController : MonoBehaviour
     public GameObject canvas;
     GameObject tempCanvas;
     public GameObject rotation_point, zoom_point, colorSelect_point, tap_point, paintArea;
-    RectTransform originalPanel;
     public RectTransform tutorialPanel;
+    public ScrollRect ColorsScroller;
 
     private void OnEnable()
     {
@@ -33,10 +31,6 @@ public class TutorialController : MonoBehaviour
 
     void CameraRotationHint()
     {
-        originalPanel = UIManager.instance.area;
-
-        UIManager.instance.area = tutorialPanel;
-        tutorialPanel.gameObject.SetActive(true);
         rotation_point.SetActive(true);
     }
 
@@ -48,7 +42,7 @@ public class TutorialController : MonoBehaviour
 
     void ColorSelectHint()
     {
-        Transform image = UIManager.instance.scrollView.content.transform.GetChild(0);
+        Transform image = ColorsScroller.content.GetChild(0);
         GameObject clr = Instantiate(image.gameObject, paintArea.transform);
         clr.transform.position = image.position;
         clr.GetComponent<Button>().onClick = image.GetComponent<Button>().onClick;
@@ -58,7 +52,7 @@ public class TutorialController : MonoBehaviour
 
     void TapHint()
     {
-        GameManager.instance.cameraRef.ResetTransform();
+        EventManager.TriggerEvent(EventNames.OnCameraReset);
         tempCanvas = Instantiate(canvas, GameManager.instance.levelManager.objsInlevel[0].transform);
         colorSelect_point.SetActive(false);
         tap_point.SetActive(true);
@@ -68,8 +62,7 @@ public class TutorialController : MonoBehaviour
     {
         tempCanvas.SetActive(false);
         tutorialPanel.gameObject.SetActive(false);
-        UIManager.instance.area = originalPanel;
-        PlayerPrefs.SetInt("Tutorial", 1);
+        PlayerPrefs.SetInt(Utility.Tutorial, 1);
         tap_point.SetActive(false);
     }
 

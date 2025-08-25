@@ -7,10 +7,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    [SerializeField] public RotateCamera cameraRef;
+    [SerializeField] public ZoomCamera cameraRef;
     [SerializeField] List<GameObject> levels = new List<GameObject>();
     public static int Level_No;
-    public static Action<int> onGameStart;
     GameObject levelObj;
     [SerializeField]
     ParticleSystem winParticles;
@@ -21,11 +20,18 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+    }
+    private void OnEnable()
+    {
+        EventManager.SubscribeToEvent(EventNames.OnComplete, LevelComplete);
+        EventManager.SubscribeToEvent(EventNames.OnPlay, CreateLevel);
+        EventManager.SubscribeToEvent(EventNames.OnNextLevel, TurnParticlesOff);
 
     }
-    public void CreateLevel(int levelNo)
+
+    public void CreateLevel()
     {
-        AudioManager.Instance.PlayClick();
+        int levelNo = PlayerPrefs.GetInt(Utility.levelPref.ToString(), 1);
         if (levelObj != null)
         {
             MaterialCreator.ClearData();
@@ -33,19 +39,19 @@ public class GameManager : MonoBehaviour
         }
         Level_No = levelNo;
         levelObj = Instantiate(levels[levelNo - 1], levels[levelNo - 1].transform.position, Quaternion.identity);
-        levelObj.gameObject.SetActive(true);
+        levelObj.SetActive(true);
         cameraRef.gameObject.SetActive(true);
-        Invoke("ResetCam", 0.5f);
-        StartCoroutine(UIManager.instance.OpenLevel());
+        Invoke(nameof(ResetCam), 0.5f);
+        EventManager.TriggerEvent(EventNames.OnOpenLevel);
         levelManager = levelObj.GetComponentInChildren<LevelManager>();
     }
 
     void ResetCam()
     {
-        UIManager.ResetTransforms?.Invoke();
+        EventManager.TriggerEvent(EventNames.OnCameraReset);
     }
 
-    public void LevelComplete()
+    void LevelComplete()
     {
         foreach (var item in levelManager.objsInlevel)
         {
@@ -55,8 +61,7 @@ public class GameManager : MonoBehaviour
 
     }
     IEnumerator Complete()
-    {
-        UIManager.instance.InGamePanel.SetActive(false);
+    {        
         ResetCam();
         yield return new WaitForSeconds(0.2f);
         float delay = time/ levelManager.objsInlevel.Count;
@@ -67,8 +72,7 @@ public class GameManager : MonoBehaviour
         }
         winParticles.gameObject.SetActive(true);
         yield return new WaitForSeconds(1.5f);
-        UIManager.instance.completePanel.SetActive(true);
-        EventManager.TriggerEvent(EventNames.OnComplete);
+        EventManager.TriggerEvent(EventNames.OnCompleteUI);
     }
 
     public void TurnParticlesOff()

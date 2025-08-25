@@ -5,38 +5,68 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class UIManager : MonoBehaviour
 {
-    public static UIManager instance;
     public ScrollRect scrollView;
     public GameObject paintImg,content;
     public static Color chosenClr;
-    public RectTransform area;
     public GameObject completePanel, mainMenuPanel, InGamePanel, levelSelectionPanel,loading;
     public List<Color> colorsSet { get; set; }
+    public Image ProgressBar;
 
-    public TextMeshProUGUI coins;
+    public TextMeshProUGUI CoinText;
     int levelNo = 0;
-    public const string levelPref = "LevelNo";
 
-    public static Action ResetTransforms;
-
-    private void Awake()
-    {
-        instance = this;
-    }
+    static int coloredPercent;
 
     private void Start()
     {
-        AudioManager.Instance.PlayMusic();
-        
+        AudioManager.Instance.PlayMusic();        
     }
+
     void OnEnable()
     {
-        levelNo = PlayerPrefs.GetInt(levelPref.ToString(), 1);
-        EventManager.SubscribeToEvent(EventNames.OnComplete, Complete);
+        EventManager.SubscribeToEvent(EventNames.OnComplete, LevelComplete);
+        EventManager.SubscribeToEvent(EventNames.OnCompleteUI, Complete);
+        EventManager.SubscribeToEvent(EventNames.OnPlay, Play);
+        EventManager.SubscribeToEvent(EventNames.OnMainMenu, GotoMM);
+        EventManager.SubscribeToEvent(EventNames.OnPauseLevel, GotoMM);
+        EventManager.SubscribeToEvent(EventNames.OnColorFill, TrackProgress);
+        EventManager.SubscribeToEvent(EventNames.OnNextLevel, NextLevel);
+        EventManager.SubscribeToEvent(EventNames.OnOpenLevel, () => StartCoroutine(OpenLevel()));
     }
-    public void GotoMM()
+
+    private void OnDisable()
+    {
+        EventManager.UnsubscribeFromEvent(EventNames.OnComplete, LevelComplete);
+        EventManager.UnsubscribeFromEvent(EventNames.OnCompleteUI, Complete);
+        EventManager.UnsubscribeFromEvent(EventNames.OnPlay, Play);
+        EventManager.UnsubscribeFromEvent(EventNames.OnMainMenu, GotoMM);
+        EventManager.UnsubscribeFromEvent(EventNames.OnPauseLevel, GotoMM);
+        EventManager.UnsubscribeFromEvent(EventNames.OnColorFill, TrackProgress);
+        EventManager.UnsubscribeFromEvent(EventNames.OnNextLevel, NextLevel);
+        EventManager.UnsubscribeFromEvent(EventNames.OnOpenLevel, () => StartCoroutine(OpenLevel()));
+    }
+
+    private void LevelComplete()
+    {
+        InGamePanel.SetActive(false);
+        AudioManager.Instance.StopMusic();
+        AudioManager.Instance.PlayWinSound();
+        PlayerPrefs.SetInt(Utility.Coins, PlayerPrefs.GetInt(Utility.Coins, 0) + 100);
+        int coins = PlayerPrefs.GetInt(Utility.Coins, 0);
+        CoinText.text = coins.ToString();
+    }
+
+    void TrackProgress()
+    {
+        coloredPercent++;
+        int totalObjs = GameManager.instance.levelManager.objsInlevel.Count;
+        ProgressBar.fillAmount = (float)coloredPercent / (float)totalObjs;
+    }
+
+    void GotoMM()
     {
         AudioManager.Instance.PlayClick();
         InGamePanel.SetActive(false);
@@ -44,47 +74,42 @@ public class UIManager : MonoBehaviour
         mainMenuPanel.SetActive(true);        
     }
 
-    public void Play()
+    void Play()
     {
-        AudioManager.Instance.PlayClick();
         loading.SetActive(true);
-        GameManager.instance.CreateLevel(levelNo);
         //levelSelectionPanel.SetActive(true);
         //mainMenuPanel.SetActive(false);
     }
 
-    public IEnumerator OpenLevel()
+    IEnumerator OpenLevel()
     {
+        coloredPercent = 0;
+        ProgressBar.fillAmount = 0;
         yield return new WaitForSeconds(1f);
+        FillColors();
         InGamePanel.SetActive(true);
         mainMenuPanel.SetActive(false);
         loading.SetActive(false);
         //levelSelectionPanel.SetActive(false);
-        if (PlayerPrefs.GetInt("Tutorial", 0) == 0)
+        if (PlayerPrefs.GetInt(Utility.Tutorial, 0) == 0)
             TutorialController.InvokeNextEvent(TutorialController.cameraRot);
+
     }
     
-    public void Complete()
+    void Complete()
     {
-        Debug.Log("LevelComplete");
+        completePanel.SetActive(true);
     }
 
-    public void NextLevel()
+    void NextLevel()
     {
         AudioManager.Instance.PlayMusic();
-        AudioManager.Instance.PlayClick();
         InGamePanel.SetActive(false);
         completePanel.SetActive(false);
-        GameManager.instance.TurnParticlesOff();
-        PlayerPrefs.SetInt(levelPref.ToString(), PlayerPrefs.GetInt(levelPref, 1) + 1);
-        levelNo = PlayerPrefs.GetInt(levelPref, 1);
+        PlayerPrefs.SetInt(Utility.levelPref.ToString(), PlayerPrefs.GetInt(Utility.levelPref, 1) + 1);
+        levelNo = PlayerPrefs.GetInt(Utility.levelPref, 1);
         loading.SetActive(true);
-        if(levelNo == 5)
-        {
-            levelNo = 1;
-            PlayerPrefs.SetInt(levelPref.ToString(), levelNo);
-        }
-        GameManager.instance.CreateLevel(levelNo);
+        EventManager.TriggerEvent(EventNames.OnPlay);
         //levelSelectionPanel.SetActive(true);
     }
 
@@ -98,7 +123,7 @@ public class UIManager : MonoBehaviour
     {
         chosenClr = img.color;
         string colorName = MaterialCreator.GetColorName(chosenClr);
-        ObjectColor.onColorSelected?.Invoke(colorName);        
+        EventManager.TriggerEvent<string>(EventNames.OnColorSelect, colorName);
     }
 
     GameObject tempContent;
@@ -128,7 +153,7 @@ public class UIManager : MonoBehaviour
             colorPalette.GetComponent<Button>().onClick.AddListener(() =>
             {
                 SetColor(colorPalette.GetComponent<Image>());
-                if (PlayerPrefs.GetInt("Tutorial", 0) == 0)
+                if (PlayerPrefs.GetInt(Utility.Tutorial, 0) == 0)
                 {
                     TutorialController.InvokeNextEvent(TutorialController.tapOnObj);
                 }
@@ -141,9 +166,4 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ResetObjects()
-    {
-        AudioManager.Instance.PlayClick();
-        ResetTransforms?.Invoke();
-    }
 }

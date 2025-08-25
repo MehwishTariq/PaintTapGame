@@ -1,18 +1,21 @@
 using UnityEngine;
 
-public class RotateCamera : MonoBehaviour
+public class ZoomCamera : MonoBehaviour
 {
     public float zoomSpeed = 0.5f;
     public Transform particle_fx;
     Camera cam;
     Vector3 orignalPos, originalRot;
     bool zoom;
+    RectTransform RotateArea;
 
     private void Start()
     {
         cam = GetComponent<Camera>();
         orignalPos = transform.position;
-        originalRot = transform.eulerAngles;        
+        originalRot = transform.eulerAngles;
+        RotateArea = InputManager.GetInputArea();
+
     }
 
     private void OnEnable()
@@ -24,13 +27,13 @@ public class RotateCamera : MonoBehaviour
 #endif
 
         InputManager.OnScroll += Zoom;
-        UIManager.ResetTransforms += ResetTransform;
+        EventManager.SubscribeToEvent(EventNames.OnCameraReset, ResetTransform);
     }
 
     private void OnDisable()
     {
-        UIManager.ResetTransforms -= ResetTransform;
         InputManager.OnScroll -= Zoom;
+        EventManager.UnsubscribeFromEvent(EventNames.OnCameraReset, ResetTransform);
     }
 
     public void ResetTransform()
@@ -41,7 +44,7 @@ public class RotateCamera : MonoBehaviour
 
     void Zoom(float scrollVal, Vector3 mousePos)
     {
-        if (RectTransformUtility.RectangleContainsScreenPoint(UIManager.instance.area, mousePos))
+        if (RectTransformUtility.RectangleContainsScreenPoint(RotateArea, mousePos))
         {
             float zoomAmount = scrollVal * zoomSpeed;
 
@@ -57,7 +60,7 @@ public class RotateCamera : MonoBehaviour
 
             if (zoomAmount != 0)
             {
-                if (PlayerPrefs.GetInt("Tutorial", 0) == 0 && !zoom)
+                if (PlayerPrefs.GetInt(Utility.Tutorial, 0) == 0 && !zoom)
                 {
                     zoom = true;
                     Invoke(nameof(ColorSelectTutorial), 1.5f);
