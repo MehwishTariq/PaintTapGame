@@ -11,7 +11,7 @@ public class UIManager : MonoBehaviour
     public ScrollRect scrollView;
     public GameObject paintImg,content;
     public static Color chosenClr;
-    public GameObject completePanel, mainMenuPanel, InGamePanel, levelSelectionPanel,loading;
+    public GameObject completePanel, mainMenuPanel, InGamePanel, levelSelectionPanel,loading, pausePanel;
     public List<Color> colorsSet { get; set; }
     public Image ProgressBar;
 
@@ -31,7 +31,9 @@ public class UIManager : MonoBehaviour
         EventManager.SubscribeToEvent(EventNames.OnCompleteUI, Complete);
         EventManager.SubscribeToEvent(EventNames.OnPlay, Play);
         EventManager.SubscribeToEvent(EventNames.OnMainMenu, GotoMM);
-        EventManager.SubscribeToEvent(EventNames.OnPauseLevel, GotoMM);
+        EventManager.SubscribeToEvent(EventNames.OnPauseLevel, Pause);
+        EventManager.SubscribeToEvent(EventNames.OnResumeLevel, Resume);
+        EventManager.SubscribeToEvent(EventNames.OnRestartLevel, Restart);
         EventManager.SubscribeToEvent(EventNames.OnColorFill, TrackProgress);
         EventManager.SubscribeToEvent(EventNames.OnNextLevel, NextLevel);
         EventManager.SubscribeToEvent(EventNames.OnOpenLevel, () => StartCoroutine(OpenLevel()));
@@ -43,17 +45,37 @@ public class UIManager : MonoBehaviour
         EventManager.UnsubscribeFromEvent(EventNames.OnCompleteUI, Complete);
         EventManager.UnsubscribeFromEvent(EventNames.OnPlay, Play);
         EventManager.UnsubscribeFromEvent(EventNames.OnMainMenu, GotoMM);
-        EventManager.UnsubscribeFromEvent(EventNames.OnPauseLevel, GotoMM);
+        EventManager.UnsubscribeFromEvent(EventNames.OnPauseLevel, Pause);
+        EventManager.UnsubscribeFromEvent(EventNames.OnResumeLevel, Resume);
+        EventManager.UnsubscribeFromEvent(EventNames.OnRestartLevel, Restart);
         EventManager.UnsubscribeFromEvent(EventNames.OnColorFill, TrackProgress);
         EventManager.UnsubscribeFromEvent(EventNames.OnNextLevel, NextLevel);
         EventManager.UnsubscribeFromEvent(EventNames.OnOpenLevel, () => StartCoroutine(OpenLevel()));
     }
 
-    private void LevelComplete()
+    void Restart()
+    {
+        SaveLoadManager<LevelSaveData>.Delete("Level" + GameManager.Level_No);
+        EventManager.TriggerEvent(EventNames.OnPlay);
+    }
+
+    void Pause()
+    {
+        pausePanel.SetActive(true);
+    }
+
+    void Resume()
+    {
+        pausePanel.SetActive(false);
+    }
+
+    void LevelComplete()
     {
         InGamePanel.SetActive(false);
+        pausePanel.SetActive(false);
         AudioManager.Instance.StopMusic();
         AudioManager.Instance.PlayWinSound();
+        PlayerPrefs.SetInt(Utility.levelPref.ToString(), PlayerPrefs.GetInt(Utility.levelPref, 1) + 1);
         PlayerPrefs.SetInt(Utility.Coins, PlayerPrefs.GetInt(Utility.Coins, 0) + 100);
         int coins = PlayerPrefs.GetInt(Utility.Coins, 0);
         CoinText.text = coins.ToString();
@@ -71,14 +93,16 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlayClick();
         InGamePanel.SetActive(false);
         completePanel.SetActive(false);
-        mainMenuPanel.SetActive(true);        
+        pausePanel.SetActive(false);
+        mainMenuPanel.SetActive(true);
     }
 
     void Play()
     {
         loading.SetActive(true);
-        //levelSelectionPanel.SetActive(true);
-        //mainMenuPanel.SetActive(false);
+        pausePanel.SetActive(false);
+        mainMenuPanel.SetActive(false);
+        InGamePanel.SetActive(false);
     }
 
     IEnumerator OpenLevel()
@@ -90,7 +114,7 @@ public class UIManager : MonoBehaviour
         InGamePanel.SetActive(true);
         mainMenuPanel.SetActive(false);
         loading.SetActive(false);
-        //levelSelectionPanel.SetActive(false);
+
         if (PlayerPrefs.GetInt(Utility.Tutorial, 0) == 0)
             TutorialController.InvokeNextEvent(TutorialController.cameraRot);
 
@@ -106,7 +130,6 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlayMusic();
         InGamePanel.SetActive(false);
         completePanel.SetActive(false);
-        PlayerPrefs.SetInt(Utility.levelPref.ToString(), PlayerPrefs.GetInt(Utility.levelPref, 1) + 1);
         levelNo = PlayerPrefs.GetInt(Utility.levelPref, 1);
         loading.SetActive(true);
         EventManager.TriggerEvent(EventNames.OnPlay);

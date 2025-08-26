@@ -44,8 +44,8 @@ public class ZoomCamera : MonoBehaviour
 
     void Zoom(float scrollVal, Vector3 mousePos)
     {
-        if (RectTransformUtility.RectangleContainsScreenPoint(RotateArea, mousePos))
-        {
+        //if (RectTransformUtility.RectangleContainsScreenPoint(RotateArea, mousePos))
+        //{
             float zoomAmount = scrollVal * zoomSpeed;
 
             if (zoomAmount > 0)
@@ -66,7 +66,7 @@ public class ZoomCamera : MonoBehaviour
                     Invoke(nameof(ColorSelectTutorial), 1.5f);
                 }
             }
-        }
+        //}
     }
 
     void ColorSelectTutorial()
@@ -83,12 +83,12 @@ public class ZoomCamera : MonoBehaviour
     void TargetZoom(float scrollVal, Ray ray)
     {
         RaycastHit hit;
-        // Bit shift the index of the layer (8) to get a bit mask
+        // Bit shift the index of the layer (2) to get a bit mask
         int layerMask = 1 << 2;
 
-        // This would cast rays only against colliders in layer 8.
-        // But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
-        //layerMask = ~layerMask;
+        // This would cast rays only against colliders in layer 2.
+        // But instead we want to collide against everything except layer 2. The ~ operator does this, it inverts a bitmask.
+        layerMask = ~layerMask;
         if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, layerMask))
         {
             transform.position = Vector3.MoveTowards(transform.position, hit.point, scrollVal);

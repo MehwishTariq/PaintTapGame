@@ -52,6 +52,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: living room
       objectReference: {fileID: 0}
+    - target: {fileID: 2265027543458636026, guid: f96bd80fc5554ef45bb369d2e372e685, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 343821693335509759, guid: 876938a6d15e78d4db521444779b23a6, type: 3}
+    - target: {fileID: 9107926915260527663, guid: f96bd80fc5554ef45bb369d2e372e685, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 9180892828007318148, guid: 3127485000e1dc54fb97ec6a45f311ca, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

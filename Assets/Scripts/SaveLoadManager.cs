@@ -15,7 +15,11 @@ public static class SaveLoadManager<T>
         try
         {
             string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+#if UNITY_WEBGL
+            PlayerPrefs.SetString(Utility.SaveData, json);
+#else
             File.WriteAllText(GetFilePath(fileName), json);
+#endif
 #if UNITY_EDITOR
             Debug.Log($"[Save] Saved {typeof(T)} to {GetFilePath(fileName)}");
 #endif
@@ -39,7 +43,11 @@ public static class SaveLoadManager<T>
 
         try
         {
+#if UNITY_WEBGL
+           string json = PlayerPrefs.GetString(Utility.SaveData);
+#else
             string json = File.ReadAllText(path);
+#endif
             return JsonConvert.DeserializeObject<T>(json);
         }
         catch (Exception ex)

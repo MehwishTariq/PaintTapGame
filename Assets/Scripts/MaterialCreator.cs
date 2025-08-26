@@ -28,7 +28,7 @@ public class MaterialCreator : MonoBehaviour
     {
         sourceMat = SourceMaterial;
         whiteMaterial = new Material(sourceMat);
-        whiteMaterial.SetColor("_Color", Color.white);
+        whiteMaterial.SetColor("_BaseColor", Color.white);
     }
 
     public static void ClearData()
@@ -121,7 +121,7 @@ public class MaterialCreator : MonoBehaviour
         }
 
         Material coloredMat = new Material(sourceMat);
-        coloredMat.SetColor("_Color", GetColorFromName(clrName));
+        coloredMat.SetColor("_BaseColor", GetColorFromName(clrName));
         coloredMat.name = clrName;
         coloredMaterials.Add(new(coloredMat.name, 1, coloredMat));
         
