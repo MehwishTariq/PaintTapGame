@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 
@@ -59,8 +60,8 @@ public class ObjectColor : MonoBehaviour
     void HighlightObject(string clrName)
     {
         col.enabled = false;
-        Material[] mats = rend.materials;
-
+        List<Material> mats = rend.materials.ToList();
+        
         int index = 0;
         foreach (var data in objColorsState)
         {            
@@ -70,14 +71,20 @@ public class ObjectColor : MonoBehaviour
                 {
                     col.enabled = true;
                     outlineMat.SetColor("_OutlineColor", MaterialCreator.GetColorFromName(clrName));
-                    mats[index] = outlineMat;
+                    if(!mats.Exists(mat => mat.HasProperty("_OutlineColor")))
+                        mats.Add(outlineMat);
                 }
                 else
+                {
                     mats[index] = grayMat;
+                    int outline_index = mats.FindIndex(mat => mat.HasProperty("_OutlineColor"));
+                    if(outline_index != -1)
+                        mats.RemoveAt(outline_index);
+                }
             }
             index++;
         }
-        rend.materials = mats;
+        rend.materials = mats.ToArray();
     }
 
     [ContextMenu("SetLevelGray")]
@@ -173,7 +180,7 @@ public class ObjectColor : MonoBehaviour
         if (colored)
             return false;
 
-        Material[] mats = rend.materials;
+        List<Material> mats = rend.materials.ToList();
         bool correctColor = false;
         int index = 0;
         foreach (var data in objColorsState)
@@ -188,6 +195,11 @@ public class ObjectColor : MonoBehaviour
                     EventManager.TriggerEvent<Vector3>(EventNames.OnChangeParticlePos, transform.position);
                     EventManager.TriggerEvent<string>(EventNames.OnColored, chosenColor);
                     mats[index] = MaterialCreator.GetMaterialFromColor(chosenColor);
+
+                    int outline_index = mats.FindIndex(mat => mat.HasProperty("_OutlineColor"));
+                    if (outline_index != -1)
+                        mats.RemoveAt(outline_index);
+
                     correctColor = true;
 					coloredObjects++;
                     EventManager.TriggerEvent(EventNames.OnColorFill);
@@ -202,7 +214,7 @@ public class ObjectColor : MonoBehaviour
             }
             index++;
         }
-        rend.materials = mats;
+        rend.materials = mats.ToArray();
         return correctColor;
     }
 }

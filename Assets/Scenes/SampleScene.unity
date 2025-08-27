@@ -3816,7 +3816,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f2a1ad587b266249bc08e836b882d0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoomSpeed: 2
   particle_fx: {fileID: 1041724683}
 --- !u!114 &963194231
 MonoBehaviour:
@@ -22130,7 +22129,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1981835834
 MonoBehaviour:
   m_ObjectHideFlags: 0
