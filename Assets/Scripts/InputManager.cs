@@ -5,13 +5,11 @@ public class InputManager : MonoBehaviour
 {
     public static Action<Vector2> OnPressed, OnHeld;
     public static Action OnReleased;
-    public static Action<float,Vector3> OnScroll;
+    public static Action<float,Vector3> OnPinchZoom;
     public RectTransform InputArea;
     public static Func<RectTransform> GetInputArea;
 
-#if MOBILE_INPUT
     private float initialPinchDistance;
-#endif
 
     private void Awake()
     {
@@ -24,7 +22,7 @@ public class InputManager : MonoBehaviour
     private void Update()
     {
 
-#if MOBILE_INPUT
+#if !UNITY_ANDROID
 
         if (Input.touchCount == 2)
         {
@@ -36,10 +34,16 @@ public class InputManager : MonoBehaviour
             if (touch0.phase == TouchPhase.Began || touch1.phase == TouchPhase.Began)
             {
                 initialPinchDistance = currentPinchDistance;
+                return;
             }
-
             float pinchDifference = currentPinchDistance - initialPinchDistance;
-            OnScroll?.Invoke(pinchDifference, touch0.position);
+            initialPinchDistance = currentPinchDistance;
+
+            // midpoint between fingers
+            Vector2 pinchCenter = (touch0.position + touch1.position) * 0.5f;
+
+            OnPinchZoom?.Invoke(pinchDifference, pinchCenter);
+            
 
         }
         else if (Input.touchCount == 1)
@@ -80,7 +84,7 @@ public class InputManager : MonoBehaviour
         }
 
         if(Input.GetAxis("Mouse ScrollWheel") != 0)
-            OnScroll?.Invoke(Input.GetAxis("Mouse ScrollWheel"), Input.mousePosition);
+            OnPinchZoom?.Invoke(Input.GetAxis("Mouse ScrollWheel"), Input.mousePosition);
 
 #endif
     }

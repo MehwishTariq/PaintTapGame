@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,11 +35,9 @@ public class ObjectColor : MonoBehaviour
 {
     [SerializeField] public List<ObjectsData> objColorsState;
     public bool colored;
-    public Texture checkbg;
     Renderer rend;
     Collider col;
     public Material grayMat;
-    public Material outlineMat;
     int coloredObjects = 0;
 
     private void Start()
@@ -57,34 +56,47 @@ public class ObjectColor : MonoBehaviour
         EventManager.UnsubscribeFromEvent<string>(EventNames.OnColorSelect, HighlightObject);
     }
 
+    Tween TweenFresnel(Material mat, string property, float to, float duration)
+    {
+        return DOTween.To(
+            () => mat.GetFloat(property),
+            x => mat.SetFloat(property, x),
+            to,
+            duration
+        );
+    }
     void HighlightObject(string clrName)
     {
         col.enabled = false;
-        List<Material> mats = rend.materials.ToList();
-        
+        Material[] mats = rend.materials;
         int index = 0;
         foreach (var data in objColorsState)
-        {            
+        {
+
             if (!data.colored_state)
             {
                 if (data.clrName.Equals(clrName))
                 {
                     col.enabled = true;
-                    outlineMat.SetColor("_OutlineColor", MaterialCreator.GetColorFromName(clrName));
-                    if(!mats.Exists(mat => mat.HasProperty("_OutlineColor")))
-                        mats.Add(outlineMat);
+                    mats[index].SetColor("_HighlightColor",MaterialCreator.GetColorFromName(clrName));
+                    // Kill old tween on this material
+                    DOTween.Kill(mats[index]);
+
+                    // Start looping tween
+                    TweenFresnel(mats[index], "_Intensity", 5f, 1f)
+                        .SetLoops(-1)
+                        .SetId(mats[index]);
                 }
                 else
                 {
-                    mats[index] = grayMat;
-                    int outline_index = mats.FindIndex(mat => mat.HasProperty("_OutlineColor"));
-                    if(outline_index != -1)
-                        mats.RemoveAt(outline_index);
+                    mats[index].SetColor("_HighlightColor", mats[index].GetColor("_BaseColor"));
+                    DOTween.Kill(mats[index]);
+                    mats[index].SetFloat("_Intensity", 2f);
                 }
             }
             index++;
         }
-        rend.materials = mats.ToArray();
+        rend.materials = mats;
     }
 
     [ContextMenu("SetLevelGray")]
@@ -196,9 +208,6 @@ public class ObjectColor : MonoBehaviour
                     EventManager.TriggerEvent<string>(EventNames.OnColored, chosenColor);
                     mats[index] = MaterialCreator.GetMaterialFromColor(chosenColor);
 
-                    int outline_index = mats.FindIndex(mat => mat.HasProperty("_OutlineColor"));
-                    if (outline_index != -1)
-                        mats.RemoveAt(outline_index);
 
                     correctColor = true;
 					coloredObjects++;

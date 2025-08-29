@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6692cbc2d5d17d4b93945b52a8314e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InputArea: {fileID: 0}
 --- !u!4 &248903756
 Transform:
   m_ObjectHideFlags: 0
@@ -176,6 +177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1343884437}
   - component: {fileID: 1343884436}
+  - component: {fileID: 1343884438}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -260,6 +262,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1343884438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343884435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &1380205492
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,7 +297,6 @@ GameObject:
   - component: {fileID: 1380205496}
   - component: {fileID: 1380205495}
   - component: {fileID: 1380205494}
-  - component: {fileID: 1380205493}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -280,25 +304,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1380205493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1380205492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b15535ab9a23a0b4f95d106a2435092c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RotSpeedX: 0.05
-  RotSpeedY: 0.08
-  zoomSpeed: 0.5
-  minZoom: 1
-  maxZoom: 5
-  minX: 0
-  maxX: 0
 --- !u!65 &1380205494
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -340,7 +345,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 8992934318045909824, guid: 3127485000e1dc54fb97ec6a45f311ca, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

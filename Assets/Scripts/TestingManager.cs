@@ -17,7 +17,7 @@ public class TestingManager : MonoBehaviour
 
     public void SetText(string text)
     {
-        TapsText.text = text;
+        TapsText.text += "\n" + text;
     }
 
 }

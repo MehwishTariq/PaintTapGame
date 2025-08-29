@@ -20,7 +20,8 @@ public enum EventNames
     OnSaveLevel,
     OnColorSelect,
     OnColored,
-    OnChangeParticlePos
+    OnChangeParticlePos,
+    RotateStateChange
 }
 
 public class EventManager : MonoBehaviour

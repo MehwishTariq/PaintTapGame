@@ -75,10 +75,15 @@ public class UIManager : MonoBehaviour
         pausePanel.SetActive(false);
         AudioManager.Instance.StopMusic();
         AudioManager.Instance.PlayWinSound();
-        PlayerPrefs.SetInt(Utility.levelPref.ToString(), PlayerPrefs.GetInt(Utility.levelPref, 1) + 1);
-        PlayerPrefs.SetInt(Utility.Coins, PlayerPrefs.GetInt(Utility.Coins, 0) + 100);
         int coins = PlayerPrefs.GetInt(Utility.Coins, 0);
         CoinText.text = coins.ToString();
+        PlayerPrefs.SetInt(Utility.Coins, PlayerPrefs.GetInt(Utility.Coins, 0) + 100);
+        int levelsOpened = PlayerPrefs.GetInt(Utility.levelPref, 1);
+        if(levelsOpened < GameManager.instance.levels.Count - 1)
+            PlayerPrefs.SetInt(Utility.levelPref.ToString(), levelsOpened + 1);
+        else
+            PlayerPrefs.SetInt(Utility.levelPref.ToString(), 1);
+
     }
 
     void TrackProgress()
@@ -109,7 +114,7 @@ public class UIManager : MonoBehaviour
     {
         coloredPercent = 0;
         ProgressBar.fillAmount = 0;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         FillColors();
         InGamePanel.SetActive(true);
         mainMenuPanel.SetActive(false);

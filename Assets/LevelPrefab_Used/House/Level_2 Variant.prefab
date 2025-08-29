@@ -180,6 +180,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6407794758290110081, guid: 04b56462c85bff94ea6e77e06ebef1f6, type: 3}
+      propertyPath: RotSpeedX
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6407794758290110081, guid: 04b56462c85bff94ea6e77e06ebef1f6, type: 3}
+      propertyPath: RotSpeedY
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7875232021709141463, guid: 04b56462c85bff94ea6e77e06ebef1f6, type: 3}
       propertyPath: m_Name
       value: Level_2 Variant

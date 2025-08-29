@@ -7,8 +7,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    [SerializeField] public ZoomCamera cameraRef;
-    [SerializeField] List<GameObject> levels = new List<GameObject>();
+    public ZoomCamera cameraRef;
+    public List<GameObject> levels = new List<GameObject>();
     public static int Level_No;
     GameObject levelObj;
     [SerializeField]

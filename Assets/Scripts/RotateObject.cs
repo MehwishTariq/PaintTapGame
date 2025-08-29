@@ -5,7 +5,7 @@ public class RotateObject : MonoBehaviour
     public float RotSpeedX = 10f;
     public float RotSpeedY = 10f;
 
-    Vector2 lastTappedVal;
+    public Vector2 lastTappedVal;
     bool rotate;
     Vector3 orignalPos, originalRot;
     RectTransform RotateArea;
@@ -14,6 +14,7 @@ public class RotateObject : MonoBehaviour
     {
         orignalPos = transform.position;
         originalRot = transform.eulerAngles;
+        ChangeRotateState(true);
     }
 
     private void OnEnable()
@@ -23,28 +24,40 @@ public class RotateObject : MonoBehaviour
             lastTappedVal = mousePos;
         });
 
-        InputManager.OnHeld += RotateObjectOnAxis;
         EventManager.SubscribeToEvent(EventNames.OnCameraReset, ResetTransform);
+        EventManager.SubscribeToEvent<bool>(EventNames.RotateStateChange, ChangeRotateState);
         RotateArea = InputManager.GetInputArea();
     }
 
     private void OnDisable()
     {
         EventManager.UnsubscribeFromEvent(EventNames.OnCameraReset, ResetTransform);
+        EventManager.UnsubscribeFromEvent<bool>(EventNames.RotateStateChange, ChangeRotateState);
+
         InputManager.OnPressed -= ((mousePos) =>
         {
             lastTappedVal = mousePos;
         });
 
-        InputManager.OnHeld -= RotateObjectOnAxis;
     }
 
+    void ChangeRotateState(bool enable)
+    {
+        if (enable)
+        {
+            InputManager.OnHeld += RotateObjectOnAxis;
+        }
+        else
+        {
+            InputManager.OnHeld -= RotateObjectOnAxis;
+        }
+    }
 
     public void ResetTransform()
     {
         transform.position = orignalPos;
         transform.eulerAngles = originalRot;
-        lastTappedVal = Vector2.zero;
+        lastTappedVal = Vector2.one;
     }
 
     private float yawAngle;
@@ -58,13 +71,13 @@ public class RotateObject : MonoBehaviour
             Vector2 moveDelta = rotateVal - lastTappedVal;
 
             yawAngle = -moveDelta.x * RotSpeedY * Time.deltaTime;  
-            pitchAngle = -moveDelta.y * RotSpeedX * Time.deltaTime;  
+            //pitchAngle = -moveDelta.y * RotSpeedX * Time.deltaTime;  
 
             Quaternion yawRotation = Quaternion.AngleAxis(yawAngle, Vector3.up);
-            Quaternion pitchRotation = Quaternion.AngleAxis(pitchAngle, Vector3.right);
+            //Quaternion pitchRotation = Quaternion.AngleAxis(pitchAngle, Vector3.right);
 
             // Apply to targetRotation (order matters: local first, then world)
-            targetRotation = yawRotation * targetRotation * pitchRotation;
+            targetRotation = yawRotation * targetRotation;// * pitchRotation;
 
             // Assign
             transform.rotation = targetRotation;
