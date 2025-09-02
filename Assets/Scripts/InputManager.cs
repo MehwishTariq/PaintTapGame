@@ -22,7 +22,7 @@ public class InputManager : MonoBehaviour
     private void Update()
     {
 
-#if UNITY_ANDROID
+#if !UNITY_ANDROID
 
         if (Input.touchCount == 2)
         {

@@ -8,6 +8,7 @@ public class TapToPaint : MonoBehaviour
     Camera cam;
     RaycastHit info;
     Ray ray;
+    bool panDone;
 
     private void Start()
     {
@@ -26,6 +27,9 @@ public class TapToPaint : MonoBehaviour
 
     private void PaintOnTap(Vector2 pos)
     {
+        if (TutorialController.TutorialStages == TutorialStages.ZoomIn)
+            return;
+
         ray = cam.ScreenPointToRay(pos);
 
         // Bit shift the index of the layer (8) to get a bit mask
@@ -41,7 +45,15 @@ public class TapToPaint : MonoBehaviour
                 AudioManager.Instance.PlayColorDone();
                 if (PlayerPrefs.GetInt(Utility.Tutorial, 0) == 0)
                 {
-                    TutorialController.InvokeNextEvent(TutorialController.done);
+                    if (!panDone)
+                    {
+                        panDone = true;
+                        TutorialController.InvokeNextEvent(TutorialController.cameraPan);
+                    }
+                    else
+                    {
+                        TutorialController.InvokeNextEvent(TutorialController.cameraZoom);
+                    }
                 }
             }
         }

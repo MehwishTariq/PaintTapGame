@@ -9,12 +9,12 @@ public class RotateObject : MonoBehaviour
     bool rotate;
     Vector3 orignalPos, originalRot;
     RectTransform RotateArea;
+    bool disableRotate;
 
     private void Start()
     {
         orignalPos = transform.position;
         originalRot = transform.eulerAngles;
-        ChangeRotateState(true);
     }
 
     private void OnEnable()
@@ -23,6 +23,7 @@ public class RotateObject : MonoBehaviour
         {
             lastTappedVal = mousePos;
         });
+        InputManager.OnHeld += RotateObjectOnAxis;
 
         EventManager.SubscribeToEvent(EventNames.OnCameraReset, ResetTransform);
         EventManager.SubscribeToEvent<bool>(EventNames.RotateStateChange, ChangeRotateState);
@@ -38,26 +39,20 @@ public class RotateObject : MonoBehaviour
         {
             lastTappedVal = mousePos;
         });
+        InputManager.OnHeld -= RotateObjectOnAxis;
 
     }
 
     void ChangeRotateState(bool enable)
     {
-        if (enable)
-        {
-            InputManager.OnHeld += RotateObjectOnAxis;
-        }
-        else
-        {
-            InputManager.OnHeld -= RotateObjectOnAxis;
-        }
+        disableRotate = enable;
     }
 
     public void ResetTransform()
     {
         transform.position = orignalPos;
         transform.eulerAngles = originalRot;
-        lastTappedVal = Vector2.one;
+        targetRotation = Quaternion.identity;
     }
 
     private float yawAngle;
@@ -66,6 +61,11 @@ public class RotateObject : MonoBehaviour
 
     void RotateObjectOnAxis(Vector2 rotateVal)
     {
+        if (disableRotate ||
+            TutorialController.TutorialStages != TutorialStages.Rotate &&
+            TutorialController.TutorialStages < TutorialStages.Done)
+            return;
+
         if (RectTransformUtility.RectangleContainsScreenPoint(RotateArea, lastTappedVal))
         {
             Vector2 moveDelta = rotateVal - lastTappedVal;
@@ -76,7 +76,6 @@ public class RotateObject : MonoBehaviour
             Quaternion yawRotation = Quaternion.AngleAxis(yawAngle, Vector3.up);
             //Quaternion pitchRotation = Quaternion.AngleAxis(pitchAngle, Vector3.right);
 
-            // Apply to targetRotation (order matters: local first, then world)
             targetRotation = yawRotation * targetRotation;// * pitchRotation;
 
             // Assign
@@ -85,7 +84,7 @@ public class RotateObject : MonoBehaviour
             if (Mathf.Abs(moveDelta.x) > 0.01f && PlayerPrefs.GetInt(Utility.Tutorial, 0) == 0 && !rotate)
             {
                 rotate = true;
-                Invoke(nameof(ZoomTutorialActivate), 1.5f);
+                Invoke(nameof(TutorialDone), 1.5f);
             }
 
             lastTappedVal = rotateVal;
@@ -93,9 +92,9 @@ public class RotateObject : MonoBehaviour
     }
     
 
-    void ZoomTutorialActivate()
+    void TutorialDone()
     {
-        TutorialController.InvokeNextEvent(TutorialController.cameraZoom);
+        TutorialController.InvokeNextEvent(TutorialController.done);
     }
     
 }

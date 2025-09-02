@@ -37,7 +37,7 @@ public class ObjectColor : MonoBehaviour
     public bool colored;
     Renderer rend;
     Collider col;
-    public Material grayMat;
+    public Material grayMat,grayHighlightMat;
     int coloredObjects = 0;
 
     private void Start()
@@ -78,7 +78,9 @@ public class ObjectColor : MonoBehaviour
                 if (data.clrName.Equals(clrName))
                 {
                     col.enabled = true;
-                    mats[index].SetColor("_HighlightColor",MaterialCreator.GetColorFromName(clrName));
+                    mats[index] = grayHighlightMat;
+                    mats[index].SetFloat("_Intensity", 2f);
+                    mats[index].SetColor("_HighlightColor",MaterialCreator.GetColorFromName(MaterialCreator.GetColorName(grayMat.color)));
                     // Kill old tween on this material
                     DOTween.Kill(mats[index]);
 
@@ -89,9 +91,8 @@ public class ObjectColor : MonoBehaviour
                 }
                 else
                 {
-                    mats[index].SetColor("_HighlightColor", mats[index].GetColor("_BaseColor"));
                     DOTween.Kill(mats[index]);
-                    mats[index].SetFloat("_Intensity", 2f);
+                    mats[index] = grayMat;
                 }
             }
             index++;

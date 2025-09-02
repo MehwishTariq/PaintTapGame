@@ -44,10 +44,10 @@ public class LevelManager : MonoBehaviour
         TestingManager.Instance.SetText("No of Taps: " + count.ToString());
     }
 
-    public Vector3 GetNearestPoint(Vector3 touchpos)
+    public Transform GetNearestPoint(Vector3 touchpos)
     {
         float minSqrDist = float.MaxValue;
-        Vector3 nearestPoint = Vector3.zero;
+        Transform nearestPoint = null;
 
         for (int i = 0; i < nearPoints.Count; i++)
         {
@@ -56,7 +56,7 @@ public class LevelManager : MonoBehaviour
             if (sqrDist < minSqrDist)
             {
                 minSqrDist = sqrDist;
-                nearestPoint = nearPoints[i].position;
+                nearestPoint = nearPoints[i];
             }
         }
 
@@ -78,6 +78,9 @@ public class LevelManager : MonoBehaviour
     
     public void SaveLevel()
     {
+        if (PlayerPrefs.GetInt(Utility.Tutorial) == 0)
+            return;
+
         LevelSaveData saveData = new LevelSaveData();
         List<ObjectColor> allObjectsColor = new();
 

@@ -17,7 +17,7 @@ public class UIManager : MonoBehaviour
 
     public TextMeshProUGUI CoinText;
     int levelNo = 0;
-
+    bool colorSelectDone;
     static int coloredPercent;
 
     private void Start()
@@ -120,8 +120,9 @@ public class UIManager : MonoBehaviour
         mainMenuPanel.SetActive(false);
         loading.SetActive(false);
 
+        yield return new WaitForSeconds(1f);
         if (PlayerPrefs.GetInt(Utility.Tutorial, 0) == 0)
-            TutorialController.InvokeNextEvent(TutorialController.cameraRot);
+            TutorialController.InvokeNextEvent(TutorialController.colorSelect);
 
     }
     
@@ -183,7 +184,15 @@ public class UIManager : MonoBehaviour
                 SetColor(colorPalette.GetComponent<Image>());
                 if (PlayerPrefs.GetInt(Utility.Tutorial, 0) == 0)
                 {
-                    TutorialController.InvokeNextEvent(TutorialController.tapOnObj);
+                    if (!colorSelectDone)
+                    {
+                        colorSelectDone = true;
+                        TutorialController.InvokeNextEvent(TutorialController.cameraZoom);
+                    }
+                    else
+                    {
+                        TutorialController.InvokeNextEvent(TutorialController.tapOnObj);
+                    }
                 }
             });
         }
