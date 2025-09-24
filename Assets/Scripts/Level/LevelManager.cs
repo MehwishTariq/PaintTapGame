@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -14,7 +12,6 @@ public class LevelManager : MonoBehaviour
     public List<GameObject> objsInlevel;
     [SerializeField]
     int objsColored = 0;
-    public List<Transform> nearPoints;
 
     public void Start()
     {
@@ -44,26 +41,7 @@ public class LevelManager : MonoBehaviour
         TestingManager.Instance.SetText("No of Taps: " + count.ToString());
     }
 
-    public Transform GetNearestPoint(Vector3 touchpos)
-    {
-        float minSqrDist = float.MaxValue;
-        Transform nearestPoint = null;
-
-        for (int i = 0; i < nearPoints.Count; i++)
-        {
-            float sqrDist = (nearPoints[i].position - touchpos).sqrMagnitude;
-
-            if (sqrDist < minSqrDist)
-            {
-                minSqrDist = sqrDist;
-                nearestPoint = nearPoints[i];
-            }
-        }
-
-        return nearestPoint;
-    }
-
-
+    
     void CheckLevel(bool colored)
     {
         if (colored)

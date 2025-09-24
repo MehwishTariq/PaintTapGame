@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     ParticleSystem winParticles;
     public LevelManager levelManager { set; get; }
+    public Level LevelObject { set; get; }
     [SerializeField]
     float time;
 
@@ -43,7 +44,9 @@ public class GameManager : MonoBehaviour
         cameraRef.gameObject.SetActive(true);
         Invoke(nameof(ResetCam), 0.5f);
         EventManager.TriggerEvent(EventNames.OnOpenLevel);
-        levelManager = levelObj.GetComponentInChildren<LevelManager>();
+        LevelObject = levelObj.GetComponent<Level>();
+        levelManager = LevelObject.Manager;
+        EventManager.TriggerEvent(EventNames.OnObjectSet,LevelObject);
     }
 
     void ResetCam()

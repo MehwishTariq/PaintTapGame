@@ -2850,7 +2850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0.13207549, g: 0.12534711, b: 0.12534711, a: 0.68235296}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3161,12 +3161,12 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.955363, b: 0.6698113, a: 1}
-  m_Intensity: 0.5
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1.1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
+  m_CookieSize: 37.06
   m_Shadows:
     m_Type: 2
     m_Resolution: -1
@@ -3174,7 +3174,7 @@ Light:
     m_Strength: 1
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 6.75
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -3194,7 +3194,7 @@ Light:
       e33: 1
     m_UseCullingMatrixOverride: 0
   m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
+  m_DrawHalo: 1
   m_Flare: {fileID: 0}
   m_RenderMode: 0
   m_CullingMask:
@@ -3220,13 +3220,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 733847079}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: -0.19579744, y: 0.80317307, z: -0.37452576, w: -0.41988903}
   m_LocalPosition: {x: 0.08040583, y: 0.9098856, z: -0.042197466}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 50, y: -484.8, z: 0}
 --- !u!1 &787388105
 GameObject:
   m_ObjectHideFlags: 0
@@ -3923,7 +3923,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.90188676, g: 0.90188676, b: 0.90188676, a: 0}
+  m_BackGroundColor: {r: 0.77014065, g: 0.8037735, b: 0.7203631, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -4004,9 +4004,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f2a1ad587b266249bc08e836b882d0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoomSpeed: 0.01
-  moveSpeed: 0.01
+  zoomSpeed: 5
+  moveSpeed: 1
   particle_fx: {fileID: 1041724683}
+  safeDistance: 1
 --- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4537,8 +4538,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 52, y: -68.676}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 24.204956, y: 0}
+  m_SizeDelta: {x: 81.5539, y: 106.9157}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1051694447
 GameObject:
@@ -23788,36 +23789,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3372059015683752323}
   m_CullTransparentMesh: 1
---- !u!114 &3372059016402181192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3372059016402181199}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.03773582, g: 0.03538623, b: 0.03538623, a: 0.78039217}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!111 &3372059016402181193
 Animation:
   m_ObjectHideFlags: 0
@@ -23834,14 +23805,6 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!222 &3372059016402181195
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3372059016402181199}
-  m_CullTransparentMesh: 1
 --- !u!224 &3372059016402181198
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23872,8 +23835,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3372059016402181198}
-  - component: {fileID: 3372059016402181195}
-  - component: {fileID: 3372059016402181192}
   - component: {fileID: 3372059016402181193}
   m_Layer: 5
   m_Name: ColorSelect

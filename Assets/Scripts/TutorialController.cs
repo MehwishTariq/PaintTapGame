@@ -24,7 +24,11 @@ public class TutorialController : MonoBehaviour
         colorSelect += ColorSelectHint;
         tapOnObj += TapHint;
         done += Done;
-       
+        if (PlayerPrefs.GetInt(Utility.Tutorial) == 1)
+            TutorialStages = TutorialStages.Done;
+        else
+            tutorialPanel.gameObject.SetActive(true);
+
     }
 
     public static void InvokeNextEvent(Action _event)
@@ -34,6 +38,9 @@ public class TutorialController : MonoBehaviour
 
     void CameraPanningHint()
     {
+        if (tempCanvas != null)
+            Destroy(tempCanvas);
+
         TutorialStages = TutorialStages.Pan;
         rotation_point.SetActive(false);
         tap_point.SetActive(false);
@@ -52,12 +59,14 @@ public class TutorialController : MonoBehaviour
     void CameraZoomHint()
     {
         TutorialStages = TutorialStages.ZoomIn;
-        tutorialPanel.gameObject.SetActive(true);
         tap_point.SetActive(false);
         colorSelect_point.SetActive(false);
         zoom_point.SetActive(true);
         if (nextZoom)
         {
+            if (tempCanvas != null)
+                Destroy(tempCanvas);
+
             TutorialStages = TutorialStages.ZoomOut;
             zoom_point.GetComponent<Animation>().Play("CameraZoomOut");
         }
@@ -79,13 +88,12 @@ public class TutorialController : MonoBehaviour
     }
 
     int index = 0;
+
     void TapHint()
     {
         if(!nextZoom)
             TutorialStages = TutorialStages.Paint;
 
-        if(tempCanvas != null)
-            Destroy (tempCanvas);
         tempCanvas = Instantiate(canvas, GameManager.instance.levelManager.objsInlevel[index].transform);
         colorSelect_point.SetActive(false);
         tap_point.SetActive(true);
@@ -97,10 +105,10 @@ public class TutorialController : MonoBehaviour
     void Done()
     {
         TutorialStages = TutorialStages.Done;
-        tempCanvas.SetActive(false);
         tutorialPanel.gameObject.SetActive(false);
         PlayerPrefs.SetInt(Utility.Tutorial, 1);
         rotation_point.SetActive(false);
+        EventManager.TriggerEvent(EventNames.OnSaveLevel);
     }
 
     private void Update()

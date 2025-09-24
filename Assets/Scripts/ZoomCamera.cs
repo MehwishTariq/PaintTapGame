@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ZoomCamera : MonoBehaviour
@@ -10,7 +11,9 @@ public class ZoomCamera : MonoBehaviour
     Vector3 orignalPos, originalRot;
     bool zoomTutorial, panTutorial, rotationTutorial;
     Vector2 lastTappedVal;
-    Collider objInview;
+    Level objInview;
+    float currentDist, distance, halfDist;
+    public float safeDistance = 0.3f;
 
     private void Start()
     {
@@ -28,6 +31,7 @@ public class ZoomCamera : MonoBehaviour
             lastTappedVal = pressedVal;
         };
         EventManager.SubscribeToEvent(EventNames.OnCameraReset, ResetTransform);
+        EventManager.SubscribeToEvent<Level>(EventNames.OnObjectSet, SetObjectInView);
     }
 
     private void OnDisable()
@@ -39,6 +43,7 @@ public class ZoomCamera : MonoBehaviour
             lastTappedVal = pressedVal;
         };
         EventManager.UnsubscribeFromEvent(EventNames.OnCameraReset, ResetTransform);
+        EventManager.UnsubscribeFromEvent<Level>(EventNames.OnObjectSet, SetObjectInView);
     }
 
     public void ResetTransform()
@@ -49,10 +54,15 @@ public class ZoomCamera : MonoBehaviour
         EventManager.TriggerEvent(EventNames.RotateStateChange, false);
     }
 
-    void Zoom(float zoomVal, Vector3 mousePos)
+    void SetObjectInView(Level LevelObject)
     {
-        
-        
+        objInview = LevelObject;
+        distance = (transform.position - objInview.transform.position).sqrMagnitude;
+        halfDist = distance / 2;
+    }
+
+    void Zoom(float zoomVal, Vector3 mousePos)
+    {   
         float zoomAmount = zoomVal * zoomSpeed;
 
         if (zoomAmount > 0)
@@ -94,7 +104,6 @@ public class ZoomCamera : MonoBehaviour
         
         if (objInview != null)
         {
-
             Vector2 moveDelta = moveVal - lastTappedVal;
 
             Vector3 right = transform.right;
@@ -104,7 +113,7 @@ public class ZoomCamera : MonoBehaviour
             transform.position -= move;
 
             Plane[] planes = GeometryUtility.CalculateFrustumPlanes(cam);
-            Bounds bounds = objInview.bounds;
+            Bounds bounds = objInview.LevelObjectBounds;
 
             if (!GeometryUtility.TestPlanesAABB(planes, bounds))
             {
@@ -147,10 +156,11 @@ public class ZoomCamera : MonoBehaviour
         }
     }
     
-    float currentDist, distance, halfDist;
 
     void TargetZoom(float zoomVal, Ray ray)
-    {        
+    {
+        Vector3 targetPos;
+
         RaycastHit hit;
         // Bit shift the index of the layer (2) to get a bit mask
         int layerMask = 1 << 2;
@@ -160,27 +170,37 @@ public class ZoomCamera : MonoBehaviour
         layerMask = ~layerMask;
         if (Physics.SphereCast(ray.origin,0.5f, ray.direction, out hit, Mathf.Infinity, layerMask))
         {
-            transform.position = Vector3.MoveTowards(transform.position, hit.point, zoomVal);
-            particle_fx.localScale = Vector3.MoveTowards(particle_fx.localScale, Vector3.one * 0.5f, zoomVal);
-            if (objInview == null)
+            Vector3 desiredPos = Vector3.MoveTowards(transform.position, hit.point, zoomVal);
+
+            float distToHit = Vector3.Distance(desiredPos, hit.point);
+            if (distToHit < safeDistance)
             {
-                objInview = hit.collider.transform.root.GetComponent<Collider>();
-                distance = (transform.position - objInview.transform.position).sqrMagnitude;
-                halfDist = distance / 2;
+                desiredPos = hit.point - ray.direction.normalized * safeDistance;
             }
+
+            targetPos = desiredPos;
+            particle_fx.localScale = Vector3.MoveTowards(particle_fx.localScale, Vector3.one * 0.5f, zoomVal);            
         }
         else
         {
             Vector3 hitPoint = ray.origin + ray.direction;
-            Transform nearPoint = GameManager.instance.levelManager.GetNearestPoint(hitPoint);
-            transform.position = Vector3.MoveTowards(transform.position, nearPoint.position, zoomVal);
-            if (objInview == null)
+            Transform nearPoint = objInview.GetNearestPoint(hitPoint);
+            Vector3 desiredPos = Vector3.MoveTowards(transform.position, nearPoint.position, zoomVal);
+
+            //Clamp: keep some distance from the near point
+            float distToPoint = Vector3.Distance(desiredPos, nearPoint.position);
+
+            if (distToPoint < safeDistance)
             {
-                objInview = nearPoint.root.GetComponent<Collider>();
-                distance = (transform.position - objInview.transform.position).sqrMagnitude;
-                halfDist = distance / 2;
+                Vector3 dir = (desiredPos - nearPoint.position).normalized;
+                desiredPos = nearPoint.position + dir * safeDistance;
             }
+
+            targetPos = desiredPos;
         }
+
+
+        transform.position = targetPos;
 
         currentDist = (transform.position - objInview.transform.position).sqrMagnitude;
 
@@ -198,5 +218,4 @@ public class ZoomCamera : MonoBehaviour
             }
         }
     }
-
 }
