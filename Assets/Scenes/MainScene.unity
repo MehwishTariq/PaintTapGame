@@ -4004,8 +4004,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f2a1ad587b266249bc08e836b882d0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoomSpeed: 5
-  moveSpeed: 1
+  zoomSpeed: 0.02
+  moveSpeed: 0.02
   particle_fx: {fileID: 1041724683}
   safeDistance: 1
 --- !u!114 &963194231
