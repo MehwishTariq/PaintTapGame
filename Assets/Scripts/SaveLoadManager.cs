@@ -31,21 +31,23 @@ public static class SaveLoadManager<T>
     }
 
     public static T Load(string fileName)
-    {
-        string path = GetFilePath(fileName);
-        if (!File.Exists(path))
-        {
-#if UNITY_EDITOR
-            Debug.LogWarning($"[Load] No file found at {path}");
-#endif
-            return default;
-        }
-
+    {        
         try
         {
 #if UNITY_WEBGL
-           string json = PlayerPrefs.GetString(Utility.SaveData);
+            string json = PlayerPrefs.GetString(Utility.SaveData);
+            Debug.Log(json);
+
 #else
+        string path = GetFilePath(fileName);
+        if (!File.Exists(path))
+        {
+        #if UNITY_EDITOR
+                    Debug.LogWarning($"[Load] No file found at {path}");
+        #endif
+                    return default;
+        }
+
             string json = File.ReadAllText(path);
 #endif
             return JsonConvert.DeserializeObject<T>(json);

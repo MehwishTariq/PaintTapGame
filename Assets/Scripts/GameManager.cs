@@ -53,8 +53,8 @@ public class GameManager : MonoBehaviour
     {
         EventManager.TriggerEvent(EventNames.OnCameraReset);
     }
-
-    void LevelComplete()
+[ContextMenu("Level Complete")]
+    public void LevelComplete()
     {
         foreach (var item in levelManager.objsInlevel)
         {
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
         }
         winParticles.gameObject.SetActive(true);
         yield return new WaitForSeconds(1.5f);
-        EventManager.TriggerEvent(EventNames.OnCompleteUI);
+        EventManager.TriggerEvent<int>(EventNames.OnCompleteUI, levelManager.starGained);
     }
 
     public void TurnParticlesOff()

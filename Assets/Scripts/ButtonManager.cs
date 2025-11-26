@@ -5,13 +5,14 @@ using UnityEngine.UI;
 public class ButtonManager : MonoBehaviour
 {
     public Button PlayButton;
-    public Button MainMenuButton;
+    public Button[] MainMenuButton;
     public Button PauseButton;
     public Button ResumeButton;
     public Button RestartButton;
     public Button ResetCameraButton;
     public Button VolumeButton;
     public Button NextLevelButton;
+    public Button PlayAgainButton;
 
     private void Start()
     {
@@ -20,16 +21,19 @@ public class ButtonManager : MonoBehaviour
             AudioManager.Instance.PlayClick();
             EventManager.TriggerEvent(EventNames.OnPlay);
         });
-        ResetCameraButton.onClick.AddListener(()=>
+        ResetCameraButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlayClick();
             EventManager.TriggerEvent(EventNames.OnCameraReset);
         });
-        MainMenuButton.onClick.AddListener(() =>
+        foreach (Button btn in MainMenuButton)
         {
-            AudioManager.Instance.PlayClick();
-            EventManager.TriggerEvent(EventNames.OnMainMenu);
-        });
+            btn.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlayClick();
+                EventManager.TriggerEvent(EventNames.OnMainMenu);
+            });
+        }
         PauseButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlayClick();
@@ -54,6 +58,22 @@ public class ButtonManager : MonoBehaviour
         {
             AudioManager.Instance.PlayClick();
             EventManager.TriggerEvent(EventNames.OnNextLevel);
+        });
+        PlayAgainButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlayClick();
+            PlayerPrefs.SetInt(Utility.levelPref.ToString(), 1);
+            EventManager.TriggerEvent(EventNames.OnResetGame);
+        });
+    }
+
+    void OnEnable()
+    {
+        EventManager.SubscribeToEvent(EventNames.OnGameComplete, () =>
+        {
+            NextLevelButton.gameObject.SetActive(false);
+            PlayAgainButton.gameObject.SetActive(true);
+            PlayButton.gameObject.SetActive(false);
         });
     }
 }

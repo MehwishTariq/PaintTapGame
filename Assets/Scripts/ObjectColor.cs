@@ -116,7 +116,7 @@ public class ObjectColor : MonoBehaviour
     {
         foreach(var obj in objColorsState)
         {
-            MaterialCreator.CreateMaterialFromColor(obj.clrName);
+            MaterialCreator.CreateMaterialFromColor(obj.clrName,false);
         }
     }
 
@@ -130,7 +130,8 @@ public class ObjectColor : MonoBehaviour
         {
             Color clr = mats[i].GetColor("_Color");
             objColorsState.Add(new(clr, false));
-            MaterialCreator.CreateMaterialFromColor(clr);
+            MaterialCreator.CreateMaterialFromColor(clr,false);
+            MaterialCreator.CreateMaterialFromColor(clr,true);
         }
         SetLevelGray();
     }
@@ -146,7 +147,7 @@ public class ObjectColor : MonoBehaviour
             if (obj.colored_state)
             {
                 MaterialCreator.UpdateCountOfColor(obj.clrName);
-                mats[i] = MaterialCreator.GetMaterialFromColor(obj.clrName);
+                mats[i] = MaterialCreator.GetMaterialFromColor(obj.clrName,false);
                 coloredObjects++;
                 EventManager.TriggerEvent(EventNames.OnColorFill);
             }
@@ -170,7 +171,7 @@ public class ObjectColor : MonoBehaviour
         int i = 0;
         foreach (var obj in objColorsState)
         {
-            mats[i] = MaterialCreator.GetMaterialFromColor(obj.clrName);
+            mats[i] = MaterialCreator.GetMaterialFromColor(obj.clrName,false);
             i++;
         }
         rend.materials = mats;
@@ -188,7 +189,7 @@ public class ObjectColor : MonoBehaviour
         rend.materials = mats;
     }
 
-    public bool CheckIfCorrectColor()
+    public bool CheckIfCorrectColor(Vector3 hitPos)
     {
         if (colored)
             return false;
@@ -205,9 +206,9 @@ public class ObjectColor : MonoBehaviour
                 {
                     data.colored_state = true;
                     col.enabled = false;
-                    EventManager.TriggerEvent<Vector3>(EventNames.OnChangeParticlePos, transform.position);
+                    EventManager.TriggerEvent<Vector3>(EventNames.OnChangeParticlePos, hitPos);
                     EventManager.TriggerEvent<string>(EventNames.OnColored, chosenColor);
-                    mats[index] = MaterialCreator.GetMaterialFromColor(chosenColor);
+                    mats[index] = MaterialCreator.GetMaterialFromColor(chosenColor,false);
 
 
                     correctColor = true;

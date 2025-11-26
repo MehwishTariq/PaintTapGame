@@ -40,7 +40,7 @@ public class TapToPaint : MonoBehaviour
         layerMask = ~layerMask;
         if (Physics.Raycast(ray, out info, Mathf.Infinity,layerMask))
         {
-            if(info.collider.GetComponent<ObjectColor>().CheckIfCorrectColor())
+            if(info.collider.GetComponent<ObjectColor>().CheckIfCorrectColor(info.point))
             {
                 AudioManager.Instance.PlayColorDone();
                 if (PlayerPrefs.GetInt(Utility.Tutorial, 0) == 0)

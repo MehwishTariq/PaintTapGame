@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [System.Serializable]
 public class LevelSaveData
@@ -9,26 +10,44 @@ public class LevelSaveData
 
 public class LevelManager : MonoBehaviour
 {
+    public float TargetLevelTimeInSeconds;
     public List<GameObject> objsInlevel;
     [SerializeField]
     int objsColored = 0;
+
+    float currentTime = 0;
+    bool levelStarted;
+    public int starGained{get; private set;}
 
     public void Start()
     {
         LoadLevel();
         GetTotalTaps();
+        starGained = 3;
     }
 
     private void OnEnable()
     {
         EventManager.SubscribeToEvent<bool>(EventNames.OnCheckLevel,CheckLevel);
-        EventManager.SubscribeToEvent(EventNames.OnSaveLevel,SaveLevel);
+        EventManager.SubscribeToEvent(EventNames.OnSaveLevel, SaveLevel);
+        EventManager.SubscribeToEvent(EventNames.OnResetGame,DeleteAllLevels);
+
     }
 
     private void OnDisable()
     {
         EventManager.UnsubscribeFromEvent<bool>(EventNames.OnCheckLevel, CheckLevel);
         EventManager.UnsubscribeFromEvent(EventNames.OnSaveLevel, SaveLevel);
+        EventManager.UnsubscribeFromEvent(EventNames.OnResetGame,DeleteAllLevels);
+
+    }
+
+    void Update()
+    {
+        if(levelStarted)
+        {
+            currentTime += Time.deltaTime;
+        }
     }
 
     public void GetTotalTaps()
@@ -41,7 +60,22 @@ public class LevelManager : MonoBehaviour
         TestingManager.Instance.SetText("No of Taps: " + count.ToString());
     }
 
-    
+
+    void StarsGained()
+    {
+        for(int i = 1;i < 4 ;i++)
+        {
+            if(currentTime > TargetLevelTimeInSeconds * i)
+            {
+                starGained--;
+                if(starGained == 0)
+                    break;
+            }
+            else
+                break;
+        }
+    }
+
     void CheckLevel(bool colored)
     {
         if (colored)
@@ -49,9 +83,20 @@ public class LevelManager : MonoBehaviour
             objsColored++;
         }
         if (objsColored >= objsInlevel.Count)
-        {
+        {            
+            levelStarted = false;
+            StarsGained();
             EventManager.TriggerEvent(EventNames.OnComplete);
         }
+    }
+
+    public void DeleteAllLevels()
+    {
+#if !UNITY_WEBGL
+        for (int i = 0; i < GameManager.instance.levels.Count; i++)
+            SaveLoadManager<LevelSaveData>.Delete("Level" + i);            
+#endif
+        PlayerPrefs.DeleteAll();
     }
     
     public void SaveLevel()
@@ -105,6 +150,6 @@ public class LevelManager : MonoBehaviour
                 }
             }
         }
-
+        levelStarted = true;
     }
 }

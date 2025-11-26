@@ -6,7 +6,6 @@ public class ZoomCamera : MonoBehaviour
     public float zoomSpeed;
     public float moveSpeed;
     bool zoomed;
-    public Transform particle_fx;
     Camera cam;
     Vector3 orignalPos, originalRot;
     bool zoomTutorial, panTutorial, rotationTutorial;
@@ -137,7 +136,7 @@ public class ZoomCamera : MonoBehaviour
     void ZoomOut(float zoomVal)
     {
         transform.position = Vector3.MoveTowards(transform.position, orignalPos, zoomVal);
-        particle_fx.localScale = Vector3.MoveTowards(particle_fx.localScale, Vector3.one * 2, zoomVal);
+        EventManager.TriggerEvent<SizeData>(EventNames.OnChangeParticleSize, new(zoomVal,false));
 
         if (objInview != null)
         {
@@ -179,7 +178,6 @@ public class ZoomCamera : MonoBehaviour
             }
 
             targetPos = desiredPos;
-            particle_fx.localScale = Vector3.MoveTowards(particle_fx.localScale, Vector3.one * 0.5f, zoomVal);            
         }
         else
         {
@@ -199,6 +197,7 @@ public class ZoomCamera : MonoBehaviour
             targetPos = desiredPos;
         }
 
+        EventManager.TriggerEvent<SizeData>(EventNames.OnChangeParticleSize, new(zoomVal,true));
 
         transform.position = targetPos;
 

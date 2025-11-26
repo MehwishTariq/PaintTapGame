@@ -86,8 +86,8 @@ MonoBehaviour:
   eyeAdaptation:
     m_Enabled: 0
     m_Settings:
-      lowPercent: 45
-      highPercent: 95
+      lowPercent: 49
+      highPercent: 99
       minLuminance: -5
       maxLuminance: 1
       keyValue: 0.25
@@ -98,13 +98,13 @@ MonoBehaviour:
       logMin: -8
       logMax: 4
   bloom:
-    m_Enabled: 1
+    m_Enabled: 0
     m_Settings:
       bloom:
-        intensity: 0.03
-        threshold: 0.82
-        softKnee: 0.907
-        radius: 4.48
+        intensity: 0.05
+        threshold: 0.23
+        softKnee: 0.662
+        radius: 5.92
         antiFlicker: 1
       lensDirt:
         texture: {fileID: 0}

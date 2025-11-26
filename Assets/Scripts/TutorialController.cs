@@ -27,7 +27,10 @@ public class TutorialController : MonoBehaviour
         if (PlayerPrefs.GetInt(Utility.Tutorial) == 1)
             TutorialStages = TutorialStages.Done;
         else
+        {
+            TutorialStages = TutorialStages.None;
             tutorialPanel.gameObject.SetActive(true);
+        }
 
     }
 

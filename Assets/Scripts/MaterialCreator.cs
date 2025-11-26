@@ -20,13 +20,16 @@ public class MaterialData
 public class MaterialCreator : MonoBehaviour
 {
     public static List<MaterialData> coloredMaterials = new();
-    static Material sourceMat;
+    public static List<MaterialData> shaderMaterials = new();
+    static Material sourceMat, shaderMat;
     public Material SourceMaterial;
+    public Material ShaderMaterial;
     static Material whiteMaterial;
 
     private void Start()
     {
         sourceMat = SourceMaterial;
+        shaderMat = ShaderMaterial;
         whiteMaterial = new Material(sourceMat);
         whiteMaterial.SetColor("_Color", Color.white);
     }
@@ -43,7 +46,7 @@ public class MaterialCreator : MonoBehaviour
 
     public static Color GetColorFromName(string name)
     {
-        if(ColorUtility.TryParseHtmlString(name, out var color)) 
+        if (ColorUtility.TryParseHtmlString(name, out var color))
             return color;
 
         return Color.black;
@@ -81,21 +84,17 @@ public class MaterialCreator : MonoBehaviour
         return -1;
     }
 
-    public static void AddColorsToDictionary(string clr)
-    {
-        int index = coloredMaterials.FindIndex(mat => mat.ColorName == clr);
-        if (index != -1)
-        {
-            coloredMaterials[index].ColorCount++;
-        }
-    }
-
-    public static Material GetMaterialFromColor(string clrName)
+    public static Material GetMaterialFromColor(string clrName, bool isShader)
     {
         Color clr = GetColorFromName(clrName);
         if (clr != null)
         {
-            MaterialData mat = coloredMaterials.Find(mat => mat.ColorName == clrName);
+            MaterialData mat;
+            if (isShader)
+                mat = shaderMaterials.Find(mat => mat.ColorName == clrName);
+            else
+                mat = coloredMaterials.Find(mat => mat.ColorName == clrName);
+
             if (mat != null)
             {
                 return mat.Material;
@@ -105,26 +104,46 @@ public class MaterialCreator : MonoBehaviour
         return null;
     }
 
-    public static void CreateMaterialFromColor(Color clr)
+    public static void CreateMaterialFromColor(Color clr, bool isShader)
     {
         string colorName = GetColorName(clr);
-        CreateMaterialFromColor(colorName); // call the string version
+        CreateMaterialFromColor(colorName, isShader); // call the string version
     }
 
-    public static void CreateMaterialFromColor(string clrName)
+    public static void CreateMaterialFromColor(string clrName, bool isShader)
     {
-        int index = coloredMaterials.FindIndex(mat => mat.ColorName == clrName);
-        if (index != -1)
+        int index = 0;
+        if (isShader)
         {
-            AddColorsToDictionary(clrName);
-            return;
+            index = shaderMaterials.FindIndex(mat => mat.ColorName == clrName);
+            if (index != -1)
+            {
+                shaderMaterials[index].ColorCount++;
+                return;
+            }
+
+            Material shader_Mat = new Material(shaderMat);
+            shader_Mat.SetColor("_Color", GetColorFromName(clrName));
+            shader_Mat.name = clrName;
+            shaderMaterials.Add(new(shader_Mat.name, 1, shader_Mat));
+        }
+        else
+        {
+            index = coloredMaterials.FindIndex(mat => mat.ColorName == clrName);
+            if (index != -1)
+            {
+                coloredMaterials[index].ColorCount++;
+                return;
+            }
+
+            Material coloredMat = new Material(sourceMat);
+            coloredMat.SetColor("_Color", GetColorFromName(clrName));
+            coloredMat.name = clrName;
+            coloredMaterials.Add(new(coloredMat.name, 1, coloredMat));
+
         }
 
-        Material coloredMat = new Material(sourceMat);
-        coloredMat.SetColor("_Color", GetColorFromName(clrName));
-        coloredMat.name = clrName;
-        coloredMaterials.Add(new(coloredMat.name, 1, coloredMat));
-        
+
     }
 
 }
