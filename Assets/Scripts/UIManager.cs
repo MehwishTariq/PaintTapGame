@@ -75,7 +75,6 @@ public class UIManager : MonoBehaviour
     {
         InGamePanel.SetActive(false);
         pausePanel.SetActive(false);
-        AudioManager.Instance.StopMusic();
         AudioManager.Instance.PlayWinSound();
     }
 
@@ -92,6 +91,8 @@ public class UIManager : MonoBehaviour
                 .Append(star.DOFillAmount(1, 0.8f))
                 .Join(star.transform.DOScale(1f, 0.8f).SetEase(Ease.OutBack))
                 .WaitForCompletion();
+
+            AudioManager.Instance.PlayStarPop();
         }
     }
 

@@ -16,7 +16,7 @@ public static class SaveLoadManager<T>
         {
             string json = JsonConvert.SerializeObject(data, Formatting.Indented);
 #if UNITY_WEBGL
-            PlayerPrefs.SetString(Utility.SaveData, json);
+            PlayerPrefs.SetString(fileName + Utility.SaveData, json);
 #else
             File.WriteAllText(GetFilePath(fileName), json);
 #endif
@@ -35,7 +35,7 @@ public static class SaveLoadManager<T>
         try
         {
 #if UNITY_WEBGL
-            string json = PlayerPrefs.GetString(Utility.SaveData);
+            string json = PlayerPrefs.GetString(fileName + Utility.SaveData);
             Debug.Log(json);
 
 #else
@@ -66,6 +66,10 @@ public static class SaveLoadManager<T>
 
     public static void Delete(string fileName)
     {
+
+#if UNITY_WEBGL
+        PlayerPrefs.DeleteKey(fileName + Utility.SaveData);
+#else
         string path = GetFilePath(fileName);
         if (File.Exists(path))
         {
@@ -74,6 +78,7 @@ public static class SaveLoadManager<T>
             Debug.Log($"[Delete] Deleted {path}");
 #endif
         }
+#endif
     }
 
 }

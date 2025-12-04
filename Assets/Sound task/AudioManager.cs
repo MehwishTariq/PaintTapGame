@@ -14,6 +14,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource _click;
     [SerializeField] AudioSource _color;
     [SerializeField] AudioSource _win;
+    [SerializeField] AudioSource _starPop;
     public void PlayMusic()
     {
         if(!_bg.isPlaying)
@@ -35,5 +36,8 @@ public class AudioManager : MonoBehaviour
     {
         _win.Play();
     }
-
+    public void PlayStarPop()
+    {
+        _starPop.Play();
+    }
 }

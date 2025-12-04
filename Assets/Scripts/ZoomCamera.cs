@@ -3,8 +3,15 @@ using UnityEngine;
 
 public class ZoomCamera : MonoBehaviour
 {
-    public float zoomSpeed;
-    public float moveSpeed;
+    #if UNITY_ANDROID
+    public float zoomSpeed = 0.02f;
+    public float moveSpeed = 0.02f;
+    #else
+    public float zoomSpeed = 3f;
+    public float moveSpeed = 0.5f;
+    #endif
+    public float safeDistance = 1f;
+
     bool zoomed;
     Camera cam;
     Vector3 orignalPos, originalRot;
@@ -12,7 +19,6 @@ public class ZoomCamera : MonoBehaviour
     Vector2 lastTappedVal;
     Level objInview;
     float currentDist, distance, halfDist;
-    public float safeDistance = 0.3f;
 
     private void Start()
     {

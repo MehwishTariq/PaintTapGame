@@ -262,7 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6956bdb6ebc835748b29885ff305147b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetLevelTimeInSeconds: 60
+  TargetLevelTimeInSeconds: 150
   objsInlevel:
   - {fileID: 4551691149503744236}
   - {fileID: 5871236802747588614}
@@ -694,7 +694,7 @@ PrefabInstance:
     - target: {fileID: 7965936633267205325, guid: 3127485000e1dc54fb97ec6a45f311ca, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: -5893160060819351940, guid: 3127485000e1dc54fb97ec6a45f311ca, type: 3}
+      objectReference: {fileID: -1976799459468813334, guid: 876938a6d15e78d4db521444779b23a6, type: 3}
     - target: {fileID: 8813639153781053250, guid: 3127485000e1dc54fb97ec6a45f311ca, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.8
