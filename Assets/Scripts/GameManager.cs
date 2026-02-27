@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
@@ -26,8 +27,24 @@ public class GameManager : MonoBehaviour
     {
         EventManager.SubscribeToEvent(EventNames.OnComplete, LevelComplete);
         EventManager.SubscribeToEvent(EventNames.OnPlay, CreateLevel);
-        EventManager.SubscribeToEvent(EventNames.OnNextLevel, TurnParticlesOff);
+        EventManager.SubscribeToEvent(EventNames.OnResetGame, DeleteAllLevels);
 
+        int levelsOpened = PlayerPrefs.GetInt(Utility.levelPref, 1);
+        if (levelsOpened >= levels.Count)
+        {
+            EventManager.TriggerEvent(EventNames.OnGameComplete);
+        }
+    }
+
+
+    public void DeleteAllLevels()
+    {
+#if !UNITY_WEBGL
+        for (int i = 0; i < GameManager.instance.levels.Count; i++)
+            SaveLoadManager<LevelSaveData>.Delete("Level" + i);            
+#endif
+        PlayerPrefs.DeleteAll();
+        EventManager.TriggerEvent(EventNames.OnPlay);
     }
 
     public void CreateLevel()
@@ -46,14 +63,14 @@ public class GameManager : MonoBehaviour
         EventManager.TriggerEvent(EventNames.OnOpenLevel);
         LevelObject = levelObj.GetComponent<Level>();
         levelManager = LevelObject.Manager;
-        EventManager.TriggerEvent(EventNames.OnObjectSet,LevelObject);
+        EventManager.TriggerEvent(EventNames.OnObjectSet, LevelObject);
     }
 
     void ResetCam()
     {
         EventManager.TriggerEvent(EventNames.OnCameraReset);
     }
-[ContextMenu("Level Complete")]
+    [ContextMenu("Level Complete")]
     public void LevelComplete()
     {
         foreach (var item in levelManager.objsInlevel)
@@ -64,22 +81,42 @@ public class GameManager : MonoBehaviour
 
     }
     IEnumerator Complete()
-    {        
+    {
         ResetCam();
         yield return new WaitForSeconds(0.2f);
-        float delay = time/ levelManager.objsInlevel.Count;
+        float delay = Mathf.Clamp(
+            time / levelManager.objsInlevel.Count,
+            0.05f,
+            0.2f
+        );
         for (int i = 0; i < levelManager.objsInlevel.Count; i++)
         {
             levelManager.objsInlevel[i].GetComponent<ObjectColor>().ShowColoredLevel();
             yield return new WaitForSeconds(delay);
         }
+        AnimateModelOnComplete();
         winParticles.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
+        winParticles.gameObject.SetActive(false);
+
         EventManager.TriggerEvent<int>(EventNames.OnCompleteUI, levelManager.starGained);
     }
 
-    public void TurnParticlesOff()
+    void AnimateModelOnComplete()
     {
-        winParticles.gameObject.SetActive(false);
+        Sequence seq = DOTween.Sequence();
+
+        seq.Append(
+            levelObj.transform
+                .DOLocalRotate(new Vector3(0, 360, 0), 1.2f, RotateMode.FastBeyond360)
+            .SetEase(Ease.OutCubic)
+        );
+
+        seq.Append(
+            levelObj.transform
+                .DOPunchScale(Vector3.one * 0.15f, 0.4f, 6, 0.8f)
+        );
+        
+        seq.PrependInterval(0.2f);
     }
 }

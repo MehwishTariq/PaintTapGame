@@ -10,21 +10,20 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public ScrollRect scrollView;
-    public GameObject paintImg,content;
+    public GameObject paintImg, content;
     public static Color chosenClr;
-    public GameObject completePanel, mainMenuPanel, InGamePanel, levelSelectionPanel,loading, pausePanel;
-    public List<Color> colorsSet { get; set; }
+    public GameObject completePanel, mainMenuPanel, InGamePanel, levelSelectionPanel, loading, pausePanel;
     public Image ProgressBar;
-
     public Image[] Stars;
-    int levelNo = 0;
-    bool colorSelectDone;
-    static int coloredPercent;
-    GameObject tempContent;
+    public TMP_Text Timer;
 
+    UpdateColor selectedColorBox;
+    bool colorSelectDone;
+    int totalObjs;
+    
     private void Start()
     {
-        AudioManager.Instance.PlayMusic();        
+        AudioManager.Instance.PlayMusic();
     }
 
     void OnEnable()
@@ -36,9 +35,10 @@ public class UIManager : MonoBehaviour
         EventManager.SubscribeToEvent(EventNames.OnPauseLevel, Pause);
         EventManager.SubscribeToEvent(EventNames.OnResumeLevel, Resume);
         EventManager.SubscribeToEvent(EventNames.OnRestartLevel, Restart);
-        EventManager.SubscribeToEvent(EventNames.OnColorFill, TrackProgress);
+        EventManager.SubscribeToEvent<int>(EventNames.OnColorFill, TrackProgress);
         EventManager.SubscribeToEvent(EventNames.OnNextLevel, NextLevel);
         EventManager.SubscribeToEvent(EventNames.OnOpenLevel, () => StartCoroutine(OpenLevel()));
+        EventManager.SubscribeToEvent<float>(EventNames.OnTimeUpdate, SetTime);
     }
 
     private void OnDisable()
@@ -50,25 +50,29 @@ public class UIManager : MonoBehaviour
         EventManager.UnsubscribeFromEvent(EventNames.OnPauseLevel, Pause);
         EventManager.UnsubscribeFromEvent(EventNames.OnResumeLevel, Resume);
         EventManager.UnsubscribeFromEvent(EventNames.OnRestartLevel, Restart);
-        EventManager.UnsubscribeFromEvent(EventNames.OnColorFill, TrackProgress);
+        EventManager.UnsubscribeFromEvent<int>(EventNames.OnColorFill, TrackProgress);
         EventManager.UnsubscribeFromEvent(EventNames.OnNextLevel, NextLevel);
         EventManager.UnsubscribeFromEvent(EventNames.OnOpenLevel, () => StartCoroutine(OpenLevel()));
+        EventManager.UnsubscribeFromEvent<float>(EventNames.OnTimeUpdate, SetTime);
     }
 
     void Restart()
     {
         SaveLoadManager<LevelSaveData>.Delete("Level" + GameManager.Level_No);
         EventManager.TriggerEvent(EventNames.OnPlay);
+        SetTime(0);
     }
 
     void Pause()
     {
         pausePanel.SetActive(true);
+        GameManager.instance.levelManager.levelStarted = false;
     }
 
     void Resume()
     {
         pausePanel.SetActive(false);
+        GameManager.instance.levelManager.levelStarted = true;
     }
 
     void LevelComplete()
@@ -80,7 +84,17 @@ public class UIManager : MonoBehaviour
 
     IEnumerator AnimateStars(int stars)
     {
-        for(int i = 0; i < stars && i < Stars.Length; i++)
+        // Reset all stars first
+        for (int i = 0; i < Stars.Length; i++)
+        {
+            Stars[i].DOKill(); // important
+            Stars[i].fillAmount = 0;
+            Stars[i].transform.localScale = Vector3.zero;
+        }
+
+        yield return null; // one frame safety
+
+        for (int i = 0; i < stars && i < Stars.Length; i++)
         {
             var star = Stars[i];
             star.fillAmount = 0;
@@ -96,11 +110,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    void TrackProgress()
+    void TrackProgress(int objsColored)
     {
-        coloredPercent++;
-        int totalObjs = GameManager.instance.levelManager.objsInlevel.Count;
-        ProgressBar.DOFillAmount((float)coloredPercent / (float)totalObjs,0.3f).SetEase(Ease.InOutSine).SetDelay(0.03f);
+        float progress = (float)objsColored / totalObjs;
+        ProgressBar.DOFillAmount(progress, 0.3f).SetEase(Ease.InOutSine).SetDelay(0.03f);
     }
 
     void GotoMM()
@@ -110,10 +123,12 @@ public class UIManager : MonoBehaviour
         completePanel.SetActive(false);
         pausePanel.SetActive(false);
         mainMenuPanel.SetActive(true);
+        GameManager.instance.levelManager.levelStarted = false;
     }
 
     void Play()
     {
+        SetTime(0);
         loading.SetActive(true);
         pausePanel.SetActive(false);
         mainMenuPanel.SetActive(false);
@@ -122,7 +137,6 @@ public class UIManager : MonoBehaviour
 
     IEnumerator OpenLevel()
     {
-        coloredPercent = 0;
         ProgressBar.fillAmount = 0;
         yield return new WaitForSeconds(2f);
         FillColors();
@@ -133,14 +147,15 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         if (PlayerPrefs.GetInt(Utility.Tutorial, 0) == 0)
             TutorialController.InvokeNextEvent(TutorialController.colorSelect);
-
+        GameManager.instance.levelManager.levelStarted = true;
+        totalObjs = GameManager.instance.levelManager.objsInlevel.Count;
     }
-    
+
     void Complete(int starGained)
     {
         completePanel.SetActive(true);
         int levelsOpened = PlayerPrefs.GetInt(Utility.levelPref, 1);
-        if (levelsOpened < GameManager.instance.levels.Count - 1)
+        if (levelsOpened < GameManager.instance.levels.Count)
             PlayerPrefs.SetInt(Utility.levelPref.ToString(), levelsOpened + 1);
         else
         {
@@ -155,11 +170,20 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlayMusic();
         InGamePanel.SetActive(false);
         completePanel.SetActive(false);
-        levelNo = PlayerPrefs.GetInt(Utility.levelPref, 1);
         loading.SetActive(true);
         EventManager.TriggerEvent(EventNames.OnPlay);
+        GameManager.instance.levelManager.levelStarted = false;
         //levelSelectionPanel.SetActive(true);
     }
+
+    void SetTime(float currentTime)
+    {
+        int minutes = Mathf.FloorToInt(currentTime / 60f);
+        int seconds = Mathf.FloorToInt(currentTime % 60f);
+
+        Timer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
+
     public void Quit()
     {
         AudioManager.Instance.PlayClick();
@@ -176,32 +200,61 @@ public class UIManager : MonoBehaviour
 
     public void FillColors()
     {
-        if(tempContent !=null)
-            Destroy(tempContent);
-
-        tempContent = Instantiate(content, scrollView.viewport);
-        scrollView.content = tempContent.GetComponent<RectTransform>();
-
         List<MaterialData> colorsCount = MaterialCreator.GetColorsDictionary();
         List<UpdateColor> updatepallete = new();
-        foreach (MaterialData mat in colorsCount)
-        {
-            GameObject colorPalette = Instantiate(paintImg, tempContent.transform);
-            Color clr = MaterialCreator.GetColorFromName(mat.ColorName);
-            colorPalette.GetComponent<Image>().color = clr;
-            colorPalette.GetComponent<Image>().material = MaterialCreator.GetMaterialFromColor(mat.ColorName,true);
 
-            if(mat.ColorCount == 0)
+        int existingChildren = content.transform.childCount;
+        int required = colorsCount.Count;
+
+        // Remove extra child objects if we have more than needed
+        for (int i = required; i < existingChildren; i++)
+        {
+            Destroy(content.transform.GetChild(i).gameObject);
+        }
+
+        for (int i = 0; i < required; i++)
+        {
+            GameObject colorPalette;
+
+            // Reuse if child exists
+            if (i < existingChildren)
             {
-                updatepallete.Add(colorPalette.GetComponent<UpdateColor>());
+                colorPalette = content.transform.GetChild(i).gameObject;
             }
             else
-                colorPalette.GetComponent<UpdateColor>().txt.text = mat.ColorCount.ToString();
-
-            colorPalette.GetComponent<Button>().onClick.RemoveAllListeners();
-            colorPalette.GetComponent<Button>().onClick.AddListener(() =>
             {
-                SetColor(colorPalette.GetComponent<Image>());
+                // Otherwise instantiate
+                colorPalette = Instantiate(paintImg, content.transform);
+            }
+
+            MaterialData mat = colorsCount[i];
+            Color clr = MaterialCreator.GetColorFromName(mat.ColorName);
+
+            UpdateColor colorBox = colorPalette.GetComponent<UpdateColor>();
+            Button colorBtn = colorPalette.GetComponent<Button>();
+
+            colorBox.paintBox.color = clr;
+            colorBox.stroke.DOFade(0, 0f);
+            colorBox.paintBox.material = MaterialCreator.GetMaterialFromColor(mat.ColorName, true);
+
+            if (mat.ColorCount == 0)
+                updatepallete.Add(colorBox);
+            else
+                colorBox.txt.text = mat.ColorCount.ToString();
+
+            colorBox.ResetState();
+
+            // Set Button behaviour
+            colorBtn.onClick.RemoveAllListeners();
+            colorBtn.onClick.AddListener(() =>
+            {
+                if (selectedColorBox != null)
+                    selectedColorBox.DisableHighlights();
+
+                selectedColorBox = colorBox;
+                SetColor(colorBox.paintBox);
+                colorBox.HighlightBox();
+
                 if (PlayerPrefs.GetInt(Utility.Tutorial, 0) == 0)
                 {
                     if (!colorSelectDone)
@@ -216,8 +269,8 @@ public class UIManager : MonoBehaviour
                 }
             });
         }
-        
-        foreach(var colorBox in updatepallete)
+
+        foreach (var colorBox in updatepallete)
         {
             colorBox.SetCompletedColors();
         }

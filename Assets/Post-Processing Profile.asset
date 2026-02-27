@@ -309,7 +309,7 @@ MonoBehaviour:
     m_Enabled: 0
     m_Settings:
       spectralTexture: {fileID: 0}
-      intensity: 0.1
+      intensity: 0.093
   grain:
     m_Enabled: 0
     m_Settings:
@@ -325,7 +325,7 @@ MonoBehaviour:
       center: {x: 0.5, y: 0.5}
       intensity: 0.464
       smoothness: 1
-      roundness: 0.717
+      roundness: 0.681
       mask: {fileID: 0}
       opacity: 1
       rounded: 0

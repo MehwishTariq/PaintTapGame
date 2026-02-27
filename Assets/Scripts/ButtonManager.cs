@@ -13,9 +13,19 @@ public class ButtonManager : MonoBehaviour
     public Button VolumeButton;
     public Button NextLevelButton;
     public Button PlayAgainButton;
+    public Button CloseButton;
+    public Button InfoButton;
 
     private void Start()
     {
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlayClick();
+        });
+        InfoButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlayClick();
+        });
         PlayButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlayClick();
@@ -64,6 +74,7 @@ public class ButtonManager : MonoBehaviour
             AudioManager.Instance.PlayClick();
             PlayerPrefs.SetInt(Utility.levelPref.ToString(), 1);
             EventManager.TriggerEvent(EventNames.OnResetGame);
+            NextLevelButton.gameObject.SetActive(true);
         });
     }
 

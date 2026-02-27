@@ -36,7 +36,6 @@ public static class SaveLoadManager<T>
         {
 #if UNITY_WEBGL
             string json = PlayerPrefs.GetString(fileName + Utility.SaveData);
-            Debug.Log(json);
 
 #else
         string path = GetFilePath(fileName);

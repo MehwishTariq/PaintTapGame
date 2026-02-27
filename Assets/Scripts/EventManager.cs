@@ -26,6 +26,7 @@ public enum EventNames
     OnChangeParticleSize,
     OnResetGame,
     OnGameComplete,
+    OnTimeUpdate,
 }
 
 public class EventManager : MonoBehaviour

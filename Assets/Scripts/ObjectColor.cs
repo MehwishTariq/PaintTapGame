@@ -13,7 +13,7 @@ public class ObjectsData
 
     public ObjectsData(Color clr, bool colored_state)
     {
-        this.clrName =  MaterialCreator.GetColorName(clr);
+        this.clrName = MaterialCreator.GetColorName(clr);
         this.colored_state = colored_state;
     }
 }
@@ -37,7 +37,7 @@ public class ObjectColor : MonoBehaviour
     public bool colored;
     Renderer rend;
     Collider col;
-    public Material grayMat,grayHighlightMat;
+    public Material grayMat, grayHighlightMat;
     int coloredObjects = 0;
 
     private void Start()
@@ -45,7 +45,7 @@ public class ObjectColor : MonoBehaviour
         rend = GetComponent<Renderer>();
         col = GetComponent<Collider>();
     }
-    
+
     private void OnEnable()
     {
         EventManager.SubscribeToEvent<string>(EventNames.OnColorSelect, HighlightObject);
@@ -80,7 +80,7 @@ public class ObjectColor : MonoBehaviour
                     col.enabled = true;
                     mats[index] = grayHighlightMat;
                     mats[index].SetFloat("_Intensity", 2f);
-                    mats[index].SetColor("_HighlightColor",MaterialCreator.GetColorFromName(MaterialCreator.GetColorName(grayMat.color)));
+                    mats[index].SetColor("_HighlightColor", MaterialCreator.GetColorFromName(MaterialCreator.GetColorName(grayMat.color)));
                     // Kill old tween on this material
                     DOTween.Kill(mats[index]);
 
@@ -114,9 +114,9 @@ public class ObjectColor : MonoBehaviour
 
     public void SetMaterialsFromColors()
     {
-        foreach(var obj in objColorsState)
+        foreach (var obj in objColorsState)
         {
-            MaterialCreator.CreateMaterialFromColor(obj.clrName,false);
+            MaterialCreator.CreateMaterialFromColor(obj.clrName, false);
         }
     }
 
@@ -130,8 +130,8 @@ public class ObjectColor : MonoBehaviour
         {
             Color clr = mats[i].GetColor("_Color");
             objColorsState.Add(new(clr, false));
-            MaterialCreator.CreateMaterialFromColor(clr,false);
-            MaterialCreator.CreateMaterialFromColor(clr,true);
+            MaterialCreator.CreateMaterialFromColor(clr, false);
+            MaterialCreator.CreateMaterialFromColor(clr, true);
         }
         SetLevelGray();
     }
@@ -147,9 +147,8 @@ public class ObjectColor : MonoBehaviour
             if (obj.colored_state)
             {
                 MaterialCreator.UpdateCountOfColor(obj.clrName);
-                mats[i] = MaterialCreator.GetMaterialFromColor(obj.clrName,false);
+                mats[i] = MaterialCreator.GetMaterialFromColor(obj.clrName, false);
                 coloredObjects++;
-                EventManager.TriggerEvent(EventNames.OnColorFill);
             }
             else
                 mats[i] = grayMat;
@@ -166,15 +165,41 @@ public class ObjectColor : MonoBehaviour
 
     public void ShowColoredLevel()
     {
-        Renderer rend = GetComponent<Renderer>();
-        Material[] mats = rend.materials;
-        int i = 0;
-        foreach (var obj in objColorsState)
+        Transform t = transform;
+
+        Sequence seq = DOTween.Sequence();
+
+        // Color fill (your existing logic)
+        seq.AppendCallback(() =>
         {
-            mats[i] = MaterialCreator.GetMaterialFromColor(obj.clrName,false);
-            i++;
-        }
-        rend.materials = mats;
+            Renderer rend = GetComponent<Renderer>();
+            Material[] mats = rend.materials;
+            int i = 0;
+            foreach (var obj in objColorsState)
+            {
+                mats[i] = MaterialCreator.GetMaterialFromColor(obj.clrName, false);
+                i++;
+            }
+            rend.materials = mats;
+            AudioManager.Instance.PlayColorDone();
+        });
+
+        // Tiny lift
+        seq.Join(
+            t.DOLocalMoveY(t.localPosition.y + 0.05f, 0.15f)
+             .SetEase(Ease.OutSine)
+        );
+
+        // Soft scale pop
+        seq.Join(
+            t.DOPunchScale(Vector3.one * 0.08f, 0.25f, 5, 0.7f)
+        );
+
+        // Return
+        seq.Append(
+            t.DOLocalMoveY(t.localPosition.y, 0.15f)
+             .SetEase(Ease.InSine)
+        );
     }
 
     [ContextMenu("SETALLWHITE")]
@@ -208,23 +233,23 @@ public class ObjectColor : MonoBehaviour
                     col.enabled = false;
                     EventManager.TriggerEvent<Vector3>(EventNames.OnChangeParticlePos, hitPos);
                     EventManager.TriggerEvent<string>(EventNames.OnColored, chosenColor);
-                    mats[index] = MaterialCreator.GetMaterialFromColor(chosenColor,false);
+                    mats[index] = MaterialCreator.GetMaterialFromColor(chosenColor, false);
 
 
                     correctColor = true;
-					coloredObjects++;
-                    EventManager.TriggerEvent(EventNames.OnColorFill);
-					if(coloredObjects == objColorsState.Count)
-					{
-						colored = true;
+                    coloredObjects++;
+                    
+                    if (coloredObjects == objColorsState.Count)
+                    {
+                        colored = true;
                         EventManager.TriggerEvent<bool>(EventNames.OnCheckLevel, colored);
                     }
-                    EventManager.TriggerEvent(EventNames.OnSaveLevel);
                     break;
                 }
             }
             index++;
         }
+        EventManager.TriggerEvent(EventNames.OnSaveLevel);
         rend.materials = mats.ToArray();
         return correctColor;
     }

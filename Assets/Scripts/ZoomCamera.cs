@@ -3,13 +3,6 @@ using UnityEngine;
 
 public class ZoomCamera : MonoBehaviour
 {
-    #if UNITY_ANDROID
-    public float zoomSpeed = 0.02f;
-    public float moveSpeed = 0.02f;
-    #else
-    public float zoomSpeed = 3f;
-    public float moveSpeed = 0.5f;
-    #endif
     public float safeDistance = 1f;
 
     bool zoomed;
@@ -18,7 +11,7 @@ public class ZoomCamera : MonoBehaviour
     bool zoomTutorial, panTutorial, rotationTutorial;
     Vector2 lastTappedVal;
     Level objInview;
-    float currentDist, distance, halfDist;
+    float currentDist, distance, triggerDistance;
 
     private void Start()
     {
@@ -39,7 +32,7 @@ public class ZoomCamera : MonoBehaviour
         EventManager.SubscribeToEvent<Level>(EventNames.OnObjectSet, SetObjectInView);
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         InputManager.OnPinchZoom -= Zoom;
         InputManager.OnHeld -= PanCamera;
@@ -63,12 +56,13 @@ public class ZoomCamera : MonoBehaviour
     {
         objInview = LevelObject;
         distance = (transform.position - objInview.transform.position).sqrMagnitude;
-        halfDist = distance / 2;
+        triggerDistance = distance / 3;
     }
 
     void Zoom(float zoomVal, Vector3 mousePos)
     {   
-        float zoomAmount = zoomVal * zoomSpeed;
+
+        float zoomAmount = zoomVal;
 
         if (zoomAmount > 0)
         {
@@ -108,7 +102,8 @@ public class ZoomCamera : MonoBehaviour
 
         
         if (objInview != null)
-        {
+        {   
+            float moveSpeed = InputManager.IsTouch ? 0.01f: 0.35f;
             Vector2 moveDelta = moveVal - lastTappedVal;
 
             Vector3 right = transform.right;
@@ -148,7 +143,7 @@ public class ZoomCamera : MonoBehaviour
         {
             currentDist = (transform.position - objInview.transform.position).sqrMagnitude;
 
-            if (zoomed && currentDist > halfDist)
+            if (zoomed && currentDist > triggerDistance)
             {
                 if (PlayerPrefs.GetInt(Utility.Tutorial, 0) == 0 && !rotationTutorial)
                 {
@@ -211,13 +206,13 @@ public class ZoomCamera : MonoBehaviour
 
         if (!zoomed)
         {
-            if (currentDist < halfDist)
+            if (currentDist < (distance - triggerDistance))
             {
                 zoomed = true;
                 if (PlayerPrefs.GetInt(Utility.Tutorial, 0) == 0 && !zoomTutorial)
                 {
                     zoomTutorial = true;
-                    Invoke(nameof(ColorTapTutorial), 1.5f);
+                    Invoke(nameof(ColorTapTutorial), 0.8f);
                 }
                 EventManager.TriggerEvent(EventNames.RotateStateChange, true);
             }

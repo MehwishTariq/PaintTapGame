@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,6 +7,7 @@ using UnityEngine.EventSystems;
 public class LevelSaveData
 {
     public List<ObjectColorSaveData> allObjects = new List<ObjectColorSaveData>();
+    public float LastSavedTime;
 }
 
 public class LevelManager : MonoBehaviour
@@ -14,23 +16,21 @@ public class LevelManager : MonoBehaviour
     public List<GameObject> objsInlevel;
     [SerializeField]
     int objsColored = 0;
-
-    float currentTime = 0;
-    bool levelStarted;
-    public int starGained{get; private set;}
+    int lastSecond = 0;
+    float currentTime;
+    public bool levelStarted;
+    public int starGained { get; private set; }
 
     public void Start()
     {
         LoadLevel();
-        GetTotalTaps();
         starGained = 3;
     }
 
     private void OnEnable()
     {
-        EventManager.SubscribeToEvent<bool>(EventNames.OnCheckLevel,CheckLevel);
+        EventManager.SubscribeToEvent<bool>(EventNames.OnCheckLevel, CheckLevel);
         EventManager.SubscribeToEvent(EventNames.OnSaveLevel, SaveLevel);
-        EventManager.SubscribeToEvent(EventNames.OnResetGame,DeleteAllLevels);
 
     }
 
@@ -38,14 +38,19 @@ public class LevelManager : MonoBehaviour
     {
         EventManager.UnsubscribeFromEvent<bool>(EventNames.OnCheckLevel, CheckLevel);
         EventManager.UnsubscribeFromEvent(EventNames.OnSaveLevel, SaveLevel);
-        EventManager.UnsubscribeFromEvent(EventNames.OnResetGame,DeleteAllLevels);
 
     }
 
     void Update()
     {
-        if(levelStarted)
+        if (levelStarted)
         {
+            int currentSecond = Mathf.FloorToInt(currentTime);
+            if (currentSecond != lastSecond)
+            {
+                lastSecond = currentSecond;
+                EventManager.TriggerEvent(EventNames.OnTimeUpdate,currentTime);
+            }
             currentTime += Time.deltaTime;
         }
     }
@@ -53,7 +58,7 @@ public class LevelManager : MonoBehaviour
     public void GetTotalTaps()
     {
         int count = 0;
-        foreach(var obj in objsInlevel)
+        foreach (var obj in objsInlevel)
         {
             count += obj.GetComponent<ObjectColor>().objColorsState.Count;
         }
@@ -63,12 +68,12 @@ public class LevelManager : MonoBehaviour
 
     void StarsGained()
     {
-        for(int i = 1;i < 4 ;i++)
+        for (int i = 1; i < 4; i++)
         {
-            if(currentTime > TargetLevelTimeInSeconds * i)
+            if (currentTime > TargetLevelTimeInSeconds * i)
             {
                 starGained--;
-                if(starGained == 0)
+                if (starGained == 0)
                     break;
             }
             else
@@ -83,22 +88,14 @@ public class LevelManager : MonoBehaviour
             objsColored++;
         }
         if (objsColored >= objsInlevel.Count)
-        {            
+        {
             levelStarted = false;
             StarsGained();
             EventManager.TriggerEvent(EventNames.OnComplete);
         }
+        EventManager.TriggerEvent(EventNames.OnColorFill, objsColored);
     }
 
-    public void DeleteAllLevels()
-    {
-#if !UNITY_WEBGL
-        for (int i = 0; i < GameManager.instance.levels.Count; i++)
-            SaveLoadManager<LevelSaveData>.Delete("Level" + i);            
-#endif
-        PlayerPrefs.DeleteAll();
-    }
-    
     public void SaveLevel()
     {
         if (PlayerPrefs.GetInt(Utility.Tutorial) == 0)
@@ -122,6 +119,7 @@ public class LevelManager : MonoBehaviour
             );
             index++;
         }
+        saveData.LastSavedTime = currentTime;
         SaveLoadManager<LevelSaveData>.Save(saveData, "Level" + GameManager.Level_No);
     }
 
@@ -135,6 +133,7 @@ public class LevelManager : MonoBehaviour
                 var obj = objData.GetComponent<ObjectColor>();
                 obj.GetColorFromMaterial();
             }
+            currentTime = 0;
         }
         else
         {
@@ -146,10 +145,10 @@ public class LevelManager : MonoBehaviour
                     var oc = obj.GetComponent<ObjectColor>();
                     oc.objColorsState = objData.colors;
                     oc.SetMaterialsFromColors();
-                    oc.SetOriginalColor();                    
+                    oc.SetOriginalColor();
                 }
             }
+            currentTime = loaded.LastSavedTime;
         }
-        levelStarted = true;
     }
 }

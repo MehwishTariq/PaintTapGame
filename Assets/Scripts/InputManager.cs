@@ -5,10 +5,11 @@ public class InputManager : MonoBehaviour
 {
     public static Action<Vector2> OnPressed, OnHeld;
     public static Action OnReleased;
-    public static Action<float,Vector3> OnPinchZoom;
+    public static Action<float, Vector3> OnPinchZoom;
     public RectTransform InputArea;
     public static Func<RectTransform> GetInputArea;
 
+    public static bool IsTouch;
     private float initialPinchDistance;
 
     private void Awake()
@@ -19,13 +20,18 @@ public class InputManager : MonoBehaviour
         };
     }
 
-    private void Update()
+    void Update()
     {
+        HandleMouse();
+        HandleTouch();
+    }
 
-#if UNITY_ANDROID && !UNITY_EDITOR
-
+    private void HandleTouch()
+    {
         if (Input.touchCount == 2)
         {
+            float zoomSpeed = 0.01f;
+
             Touch touch0 = Input.GetTouch(0);
             Touch touch1 = Input.GetTouch(1);
 
@@ -41,11 +47,9 @@ public class InputManager : MonoBehaviour
 
             // midpoint between fingers
             Vector2 pinchCenter = (touch0.position + touch1.position) * 0.5f;
-
-            OnPinchZoom?.Invoke(pinchDifference, pinchCenter);
-            
-
+            OnPinchZoom?.Invoke(pinchDifference * zoomSpeed, pinchCenter);
         }
+
         else if (Input.touchCount == 1)
         {
             Touch touch = Input.GetTouch(0);
@@ -57,6 +61,7 @@ public class InputManager : MonoBehaviour
                     break;
 
                 case TouchPhase.Moved:
+                    IsTouch = true;
                     OnHeld?.Invoke(touch.position);
                     break;
 
@@ -66,8 +71,9 @@ public class InputManager : MonoBehaviour
             }
         }
 
-#else
-
+    }
+    private void HandleMouse()
+    {
         if (Input.GetMouseButtonDown(0))
         {
             OnPressed?.Invoke(Input.mousePosition);
@@ -80,12 +86,16 @@ public class InputManager : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
+            IsTouch = false;
             OnHeld?.Invoke(Input.mousePosition);
         }
 
-        if(Input.GetAxis("Mouse ScrollWheel") != 0)
-            OnPinchZoom?.Invoke(Input.GetAxis("Mouse ScrollWheel"), Input.mousePosition);
+        if (Input.GetAxis("Mouse ScrollWheel") != 0)
+        {
+            float zoomSpeed = 1f;
+            OnPinchZoom?.Invoke(Input.GetAxis("Mouse ScrollWheel") * zoomSpeed, Input.mousePosition);
+        }
 
-#endif
+
     }
 }
