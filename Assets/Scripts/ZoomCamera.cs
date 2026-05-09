@@ -24,24 +24,22 @@ public class ZoomCamera : MonoBehaviour
     {
         InputManager.OnPinchZoom += Zoom;
         InputManager.OnHeld += PanCamera;
-        InputManager.OnPressed += (pressedVal) =>
-        {
-            lastTappedVal = pressedVal;
-        };
+        InputManager.OnPressed += OnPressedInput;
         EventManager.SubscribeToEvent(EventNames.OnCameraReset, ResetTransform);
         EventManager.SubscribeToEvent<Level>(EventNames.OnObjectSet, SetObjectInView);
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         InputManager.OnPinchZoom -= Zoom;
         InputManager.OnHeld -= PanCamera;
-        InputManager.OnPressed -= (pressedVal) =>
-        {
-            lastTappedVal = pressedVal;
-        };
+        InputManager.OnPressed -= OnPressedInput;
         EventManager.UnsubscribeFromEvent(EventNames.OnCameraReset, ResetTransform);
         EventManager.UnsubscribeFromEvent<Level>(EventNames.OnObjectSet, SetObjectInView);
+    }
+    private void OnPressedInput(Vector2 pos)
+    {
+        lastTappedVal = pos;
     }
 
     public void ResetTransform()
@@ -60,24 +58,22 @@ public class ZoomCamera : MonoBehaviour
     }
 
     void Zoom(float zoomVal, Vector3 mousePos)
-    {   
+    {
 
         float zoomAmount = zoomVal;
 
         if (zoomAmount > 0)
         {
-            if (TutorialController.TutorialStages != TutorialStages.ZoomIn &&
-            TutorialController.TutorialStages < TutorialStages.Done)
+            if (TutorialController.TutorialStages < TutorialStages.ZoomIn)
                 return;
 
             Ray pos = cam.ScreenPointToRay(mousePos);
             TargetZoom(Mathf.Abs(zoomAmount), pos);
-                
+
         }
         else
         {
-            if (TutorialController.TutorialStages != TutorialStages.ZoomOut &&
-            TutorialController.TutorialStages < TutorialStages.Done)
+            if (TutorialController.TutorialStages < TutorialStages.ZoomOut)
                 return;
 
             ZoomOut(Mathf.Abs(zoomAmount));
@@ -86,24 +82,32 @@ public class ZoomCamera : MonoBehaviour
 
     void ColorTapTutorial()
     {
+        TutorialController.TutorialStages = TutorialStages.Paint_1;
         TutorialController.InvokeNextEvent(TutorialController.tapOnObj);
     }
     void ColorSelectTutorial()
     {
+        TutorialController.TutorialStages = TutorialStages.Select_2;
         TutorialController.InvokeNextEvent(TutorialController.colorSelect);
     }
 
     void PanCamera(Vector2 moveVal)
     {
-        if (!zoomed ||
-            TutorialController.TutorialStages != TutorialStages.Pan &&
-            TutorialController.TutorialStages < TutorialStages.Done)
+        if (InputManager.IsPinching)
+        {
+            lastTappedVal = moveVal;
             return;
+        }
 
-        
+        if (!zoomed ||
+            TutorialController.TutorialStages < TutorialStages.Pan)
+        {
+            return;
+        }
+
         if (objInview != null)
-        {   
-            float moveSpeed = InputManager.IsTouch ? 0.01f: 0.35f;
+        {
+            float moveSpeed = InputManager.IsTouch ? 0.2f : 0.35f;
             Vector2 moveDelta = moveVal - lastTappedVal;
 
             Vector3 right = transform.right;
@@ -128,7 +132,6 @@ public class ZoomCamera : MonoBehaviour
                     Invoke(nameof(ColorSelectTutorial), 1.5f);
                 }
             }
-
         }
         lastTappedVal = moveVal;
     }
@@ -137,7 +140,7 @@ public class ZoomCamera : MonoBehaviour
     void ZoomOut(float zoomVal)
     {
         transform.position = Vector3.MoveTowards(transform.position, orignalPos, zoomVal);
-        EventManager.TriggerEvent<SizeData>(EventNames.OnChangeParticleSize, new(zoomVal,false));
+        EventManager.TriggerEvent<SizeData>(EventNames.OnChangeParticleSize, new(zoomVal, false));
 
         if (objInview != null)
         {
@@ -155,7 +158,7 @@ public class ZoomCamera : MonoBehaviour
             }
         }
     }
-    
+
 
     void TargetZoom(float zoomVal, Ray ray)
     {
@@ -168,7 +171,7 @@ public class ZoomCamera : MonoBehaviour
         // This would cast rays only against colliders in layer 2.
         // But instead we want to collide against everything except layer 2. The ~ operator does this, it inverts a bitmask.
         layerMask = ~layerMask;
-        if (Physics.SphereCast(ray.origin,0.5f, ray.direction, out hit, Mathf.Infinity, layerMask))
+        if (Physics.SphereCast(ray.origin, 0.5f, ray.direction, out hit, Mathf.Infinity, layerMask))
         {
             Vector3 desiredPos = Vector3.MoveTowards(transform.position, hit.point, zoomVal);
 
@@ -198,7 +201,7 @@ public class ZoomCamera : MonoBehaviour
             targetPos = desiredPos;
         }
 
-        EventManager.TriggerEvent<SizeData>(EventNames.OnChangeParticleSize, new(zoomVal,true));
+        EventManager.TriggerEvent<SizeData>(EventNames.OnChangeParticleSize, new(zoomVal, true));
 
         transform.position = targetPos;
 

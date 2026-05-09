@@ -75,6 +75,8 @@ public class ButtonManager : MonoBehaviour
             PlayerPrefs.SetInt(Utility.levelPref.ToString(), 1);
             EventManager.TriggerEvent(EventNames.OnResetGame);
             NextLevelButton.gameObject.SetActive(true);
+            PlayAgainButton.gameObject.SetActive(false);
+            PlayButton.gameObject.SetActive(true);
         });
     }
 

@@ -16,11 +16,13 @@ public class UIManager : MonoBehaviour
     public Image ProgressBar;
     public Image[] Stars;
     public TMP_Text Timer;
+    public Image LevelRefImage;
+    public List<Sprite> LevelRenders;
 
     UpdateColor selectedColorBox;
     bool colorSelectDone;
     int totalObjs;
-    
+
     private void Start()
     {
         AudioManager.Instance.PlayMusic();
@@ -67,17 +69,20 @@ public class UIManager : MonoBehaviour
     {
         pausePanel.SetActive(true);
         GameManager.instance.levelManager.levelStarted = false;
+
+        GameManager.instance.Sdk.GamePlayStopEvent();
     }
 
     void Resume()
     {
         pausePanel.SetActive(false);
         GameManager.instance.levelManager.levelStarted = true;
+
+        GameManager.instance.Sdk.GamePlayStartEvent();
     }
 
     void LevelComplete()
     {
-        InGamePanel.SetActive(false);
         pausePanel.SetActive(false);
         AudioManager.Instance.PlayWinSound();
     }
@@ -124,6 +129,8 @@ public class UIManager : MonoBehaviour
         pausePanel.SetActive(false);
         mainMenuPanel.SetActive(true);
         GameManager.instance.levelManager.levelStarted = false;
+
+        GameManager.instance.Sdk.GamePlayStopEvent();
     }
 
     void Play()
@@ -133,20 +140,28 @@ public class UIManager : MonoBehaviour
         pausePanel.SetActive(false);
         mainMenuPanel.SetActive(false);
         InGamePanel.SetActive(false);
+
+        GameManager.instance.Sdk.GamePlayStartEvent();
     }
 
     IEnumerator OpenLevel()
     {
         ProgressBar.fillAmount = 0;
+        LevelRefImage.sprite = LevelRenders[GameManager.Level_No - 1];
         yield return new WaitForSeconds(2f);
         FillColors();
         InGamePanel.SetActive(true);
         mainMenuPanel.SetActive(false);
         loading.SetActive(false);
 
-        yield return new WaitForSeconds(1f);
-        if (PlayerPrefs.GetInt(Utility.Tutorial, 0) == 0)
+        yield return new WaitForSeconds(0.5f);
+
+        if (TutorialController.TutorialStages == TutorialStages.None)
+        {
+            TutorialController.TutorialStages = TutorialStages.Select_1;
             TutorialController.InvokeNextEvent(TutorialController.colorSelect);
+        }
+
         GameManager.instance.levelManager.levelStarted = true;
         totalObjs = GameManager.instance.levelManager.objsInlevel.Count;
     }
@@ -163,10 +178,14 @@ public class UIManager : MonoBehaviour
         }
 
         StartCoroutine(AnimateStars(starGained));
+
+        GameManager.instance.Sdk.GamePlayStopEvent();
     }
 
     void NextLevel()
     {
+        GameManager.instance.Sdk.GamePlayStartEvent();
+
         AudioManager.Instance.PlayMusic();
         InGamePanel.SetActive(false);
         completePanel.SetActive(false);
@@ -255,17 +274,14 @@ public class UIManager : MonoBehaviour
                 SetColor(colorBox.paintBox);
                 colorBox.HighlightBox();
 
-                if (PlayerPrefs.GetInt(Utility.Tutorial, 0) == 0)
+                if (TutorialController.TutorialStages == TutorialStages.Select_1)
                 {
-                    if (!colorSelectDone)
-                    {
-                        colorSelectDone = true;
-                        TutorialController.InvokeNextEvent(TutorialController.cameraZoom);
-                    }
-                    else
-                    {
-                        TutorialController.InvokeNextEvent(TutorialController.tapOnObj);
-                    }
+                    TutorialController.InvokeNextEvent(TutorialController.cameraZoomIn);
+                }
+                else if (TutorialController.TutorialStages == TutorialStages.Select_2)
+                {
+                    TutorialController.TutorialStages = TutorialStages.Paint_2;
+                    TutorialController.InvokeNextEvent(TutorialController.tapOnObj);
                 }
             });
         }

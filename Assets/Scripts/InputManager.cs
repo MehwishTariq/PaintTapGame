@@ -11,6 +11,8 @@ public class InputManager : MonoBehaviour
 
     public static bool IsTouch;
     private float initialPinchDistance;
+    public static bool IsPinching;
+    private int previousTouchCount;
 
     private void Awake()
     {
@@ -22,12 +24,31 @@ public class InputManager : MonoBehaviour
 
     void Update()
     {
+        if (Input.touchSupported && Input.touchCount > 0)
+        {
+            HandleTouch();
+            return; // do not run mouse path while touching
+        }
+
+        IsPinching = false;
         HandleMouse();
-        HandleTouch();
     }
 
     private void HandleTouch()
     {
+        IsPinching = Input.touchCount >= 2;
+
+        if (previousTouchCount == 1 && Input.touchCount == 2)
+        {
+            OnReleased?.Invoke(); // stop pan when second finger lands
+        }
+
+        if (previousTouchCount == 2 && Input.touchCount == 1)
+        {
+            Touch t = Input.GetTouch(0);
+            OnPressed?.Invoke(t.position); // new pan start point
+        }
+
         if (Input.touchCount == 2)
         {
             float zoomSpeed = 0.01f;
@@ -70,7 +91,7 @@ public class InputManager : MonoBehaviour
                     break;
             }
         }
-
+        previousTouchCount = Input.touchCount;
     }
     private void HandleMouse()
     {

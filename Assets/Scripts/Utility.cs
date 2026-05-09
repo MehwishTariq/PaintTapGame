@@ -2,13 +2,16 @@ using UnityEngine;
 
 public enum TutorialStages
 {
-    None,
-    Rotate,
-    ZoomIn,
-    ZoomOut,
-    Pan,
-    Paint,
-    Done
+    None = 0,
+    Select_1 = 1,
+    ZoomIn = 2,
+    Paint_1 = 3,
+    Pan = 4,
+    Select_2 = 5,
+    Paint_2 = 6,
+    ZoomOut = 7,
+    Rotate = 8,
+    Done = 9,
 }
 
 

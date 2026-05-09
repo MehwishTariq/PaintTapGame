@@ -19,10 +19,7 @@ public class RotateObject : MonoBehaviour
 
     private void OnEnable()
     {
-        InputManager.OnPressed += ((mousePos) =>
-        {
-            lastTappedVal = mousePos;
-        });
+        InputManager.OnPressed += OnPressedInput;
         InputManager.OnHeld += RotateObjectOnAxis;
 
         EventManager.SubscribeToEvent(EventNames.OnCameraReset, ResetTransform);
@@ -35,12 +32,14 @@ public class RotateObject : MonoBehaviour
         EventManager.UnsubscribeFromEvent(EventNames.OnCameraReset, ResetTransform);
         EventManager.UnsubscribeFromEvent<bool>(EventNames.RotateStateChange, ChangeRotateState);
 
-        InputManager.OnPressed -= ((mousePos) =>
-        {
-            lastTappedVal = mousePos;
-        });
+        InputManager.OnPressed -= OnPressedInput;
         InputManager.OnHeld -= RotateObjectOnAxis;
 
+    }
+
+    private void OnPressedInput(Vector2 pos)
+    {
+        lastTappedVal = pos;
     }
 
     void ChangeRotateState(bool enable)
@@ -56,21 +55,29 @@ public class RotateObject : MonoBehaviour
     }
 
     private float yawAngle;
-    private float pitchAngle; 
+    private float pitchAngle;
     private Quaternion targetRotation = Quaternion.identity;
 
     void RotateObjectOnAxis(Vector2 rotateVal)
     {
-        if (disableRotate ||
-            TutorialController.TutorialStages != TutorialStages.Rotate &&
-            TutorialController.TutorialStages < TutorialStages.Done)
+        if (InputManager.IsPinching)
+        {
+            lastTappedVal = rotateVal;
             return;
+        }
 
+        if (disableRotate ||
+            TutorialController.TutorialStages < TutorialStages.Rotate)
+        {
+            lastTappedVal = rotateVal;
+            return;
+        }
+        
         if (RectTransformUtility.RectangleContainsScreenPoint(RotateArea, lastTappedVal))
         {
             Vector2 moveDelta = rotateVal - lastTappedVal;
 
-            yawAngle = -moveDelta.x * RotSpeedY * Time.deltaTime;  
+            yawAngle = -moveDelta.x * RotSpeedY * Time.deltaTime;
             //pitchAngle = -moveDelta.y * RotSpeedX * Time.deltaTime;  
 
             Quaternion yawRotation = Quaternion.AngleAxis(yawAngle, Vector3.up);
@@ -81,7 +88,7 @@ public class RotateObject : MonoBehaviour
             // Assign
             transform.rotation = targetRotation;
 
-            if (Mathf.Abs(moveDelta.x) > 0.01f && PlayerPrefs.GetInt(Utility.Tutorial, 0) == 0 && !rotate)
+            if (Mathf.Abs(moveDelta.x) > 0.01f && TutorialController.TutorialStages == TutorialStages.Rotate)
             {
                 rotate = true;
                 Invoke(nameof(TutorialDone), 1.5f);
@@ -90,11 +97,11 @@ public class RotateObject : MonoBehaviour
             lastTappedVal = rotateVal;
         }
     }
-    
+
 
     void TutorialDone()
     {
         TutorialController.InvokeNextEvent(TutorialController.done);
     }
-    
+
 }

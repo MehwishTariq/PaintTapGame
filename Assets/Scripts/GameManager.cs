@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,11 +17,14 @@ public class GameManager : MonoBehaviour
     public Level LevelObject { set; get; }
     [SerializeField]
     float time;
+    public SDKFunctions Sdk { get; private set;}
 
     private void Awake()
     {
         instance = this;
+        Sdk = new();
     }
+
     private void OnEnable()
     {
         EventManager.SubscribeToEvent(EventNames.OnComplete, LevelComplete);
@@ -44,6 +46,10 @@ public class GameManager : MonoBehaviour
             SaveLoadManager<LevelSaveData>.Delete("Level" + i);            
 #endif
         PlayerPrefs.DeleteAll();
+
+        if (TutorialController.TutorialStages == TutorialStages.Done)
+            PlayerPrefs.SetInt(Utility.Tutorial, 1);
+
         EventManager.TriggerEvent(EventNames.OnPlay);
     }
 
@@ -116,7 +122,7 @@ public class GameManager : MonoBehaviour
             levelObj.transform
                 .DOPunchScale(Vector3.one * 0.15f, 0.4f, 6, 0.8f)
         );
-        
+
         seq.PrependInterval(0.2f);
     }
 }

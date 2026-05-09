@@ -7,7 +7,8 @@ public class TutorialController : MonoBehaviour
     public static TutorialStages TutorialStages;
     public static Action cameraRot;
     public static Action cameraPan;
-    public static Action cameraZoom;
+    public static Action cameraZoomIn;
+    public static Action cameraZoomOut;
     public static Action colorSelect;
     public static Action tapOnObj, done;
     public GameObject canvas;
@@ -15,15 +16,23 @@ public class TutorialController : MonoBehaviour
     public GameObject panning_point, rotation_point, zoom_point, colorSelect_point, tap_point, paintImg;
     public RectTransform tutorialPanel;
     public ScrollRect ColorsScroller;
+    public bool Select, Paint;
 
     private void OnEnable()
     {
         cameraPan += CameraPanningHint;
         cameraRot += CameraRotationHint;
-        cameraZoom += CameraZoomHint;
+        cameraZoomIn += CameraZoomInHint;
+        cameraZoomOut += CameraZoomOutHint;
         colorSelect += ColorSelectHint;
         tapOnObj += TapHint;
-        done += Done;
+        done += Done;    
+    
+        EventManager.SubscribeToEvent(EventNames.OnPlay, SetTutorialStage);
+    }
+
+    void SetTutorialStage()
+    {
         if (PlayerPrefs.GetInt(Utility.Tutorial) == 1)
             TutorialStages = TutorialStages.Done;
         else
@@ -31,7 +40,6 @@ public class TutorialController : MonoBehaviour
             TutorialStages = TutorialStages.None;
             tutorialPanel.gameObject.SetActive(true);
         }
-
     }
 
     public static void InvokeNextEvent(Action _event)
@@ -57,22 +65,27 @@ public class TutorialController : MonoBehaviour
         zoom_point.SetActive(false);
     }
 
-    bool nextZoom;
-
-    void CameraZoomHint()
+    void CameraZoomInHint()
     {
         TutorialStages = TutorialStages.ZoomIn;
+        ZoomUI();
+    }
+
+    void ZoomUI()
+    {
         tap_point.SetActive(false);
         colorSelect_point.SetActive(false);
         zoom_point.SetActive(true);
-        if (nextZoom)
-        {
-            if (tempCanvas != null)
+    }
+    void CameraZoomOutHint()
+    {
+        TutorialStages = TutorialStages.ZoomOut;
+        ZoomUI();
+
+        if (tempCanvas != null)
                 Destroy(tempCanvas);
 
-            TutorialStages = TutorialStages.ZoomOut;
-            zoom_point.GetComponent<Animation>().Play("CameraZoomOut");
-        }
+        zoom_point.GetComponent<Animation>().Play("CameraZoomOut");
     }
 
     GameObject clrBox;
@@ -94,14 +107,10 @@ public class TutorialController : MonoBehaviour
 
     void TapHint()
     {
-        if(!nextZoom)
-            TutorialStages = TutorialStages.Paint;
-
         tempCanvas = Instantiate(canvas, GameManager.instance.levelManager.objsInlevel[index].transform);
         colorSelect_point.SetActive(false);
         tap_point.SetActive(true);
         zoom_point.SetActive(false);
-        nextZoom = true;
         index++;
     }
 

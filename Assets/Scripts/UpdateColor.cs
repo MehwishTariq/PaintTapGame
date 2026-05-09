@@ -46,7 +46,8 @@ public class UpdateColor : MonoBehaviour
     {
         tick.gameObject.SetActive(false);
         txt.gameObject.SetActive(true);
-        GetComponent<Button>().interactable = true;        
+        GetComponent<Button>().interactable = true;    
+        DisableHighlights();    
     }
 
     public void HighlightBox()

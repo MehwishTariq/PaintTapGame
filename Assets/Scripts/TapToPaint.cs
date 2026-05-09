@@ -30,7 +30,16 @@ public class TapToPaint : MonoBehaviour
         if (TutorialController.TutorialStages == TutorialStages.ZoomIn)
             return;
 
-        ray = cam.ScreenPointToRay(pos);
+        RectTransform rawImageRect = InputManager.GetInputArea();
+        // 1. Get the local point on the UI element
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(rawImageRect, pos, null, out var localPoint);
+
+        // 2. Convert local point to a 0-1 range (Viewport Space)
+        float x = (localPoint.x / rawImageRect.rect.width) + 0.5f;
+        float y = (localPoint.y / rawImageRect.rect.height) + 0.5f;
+
+        // 3. Cast the ray from your Render Camera
+        Ray ray = cam.ViewportPointToRay(new Vector3(x, y, 0));
 
         // Bit shift the index of the layer (8) to get a bit mask
         int layerMask = 1 << 2;
@@ -38,22 +47,19 @@ public class TapToPaint : MonoBehaviour
         // This would cast rays only against colliders in layer 8.
         // But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
         layerMask = ~layerMask;
-        if (Physics.Raycast(ray, out info, Mathf.Infinity,layerMask))
+        if (Physics.Raycast(ray, out info, Mathf.Infinity, layerMask))
         {
-            if(info.collider.GetComponent<ObjectColor>().CheckIfCorrectColor(info.point))
+            if (info.collider.GetComponent<ObjectColor>().CheckIfCorrectColor(info.point))
             {
                 AudioManager.Instance.PlayColorDone();
-                if (PlayerPrefs.GetInt(Utility.Tutorial, 0) == 0)
+                if (TutorialController.TutorialStages == TutorialStages.Paint_1)
                 {
-                    if (!panDone)
-                    {
-                        panDone = true;
-                        TutorialController.InvokeNextEvent(TutorialController.cameraPan);
-                    }
-                    else
-                    {
-                        TutorialController.InvokeNextEvent(TutorialController.cameraZoom);
-                    }
+                    TutorialController.InvokeNextEvent(TutorialController.cameraPan);
+                }
+
+                else if (TutorialController.TutorialStages == TutorialStages.Paint_2)
+                {
+                    TutorialController.InvokeNextEvent(TutorialController.cameraZoomOut);
                 }
             }
         }
